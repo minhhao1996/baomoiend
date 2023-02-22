@@ -1,0 +1,50 @@
+@font-face {
+    font-family: "baomoi-font";
+    src: url("../../fonts/baomoi-font/baomoi-font.ttf?5ff2f70882bedebb09d812961feeb5e7") format("truetype"),
+        url("../../fonts/baomoi-font/baomoi-font.woff?5ff2f70882bedebb09d812961feeb5e7") format("woff"),
+        url("../../fonts/baomoi-font/baomoi-font.woff2?5ff2f70882bedebb09d812961feeb5e7") format("woff2"),
+        url("../../fonts/baomoi-font/baomoi-font.eot?5ff2f70882bedebb09d812961feeb5e7#iefix") format("embedded-opentype"),
+        url("../../fonts/baomoi-font/baomoi-font.svg?5ff2f70882bedebb09d812961feeb5e7#baomoi-font") format("svg");
+}
+
+i[class^="baomoi-font-"]:before, i[class*=" baomoi-font-"]:before {
+    font-family: baomoi-font !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.baomoi-font-cpu:before {
+    content: "\f101";
+}
+.baomoi-font-desktop:before {
+    content: "\f102";
+}
+.baomoi-font-diamond:before {
+    content: "\f103";
+}
+.baomoi-font-dress:before {
+    content: "\f104";
+}
+.baomoi-font-high-heels:before {
+    content: "\f105";
+}
+.baomoi-font-home:before {
+    content: "\f106";
+}
+.baomoi-font-kite:before {
+    content: "\f107";
+}
+.baomoi-font-smartphone:before {
+    content: "\f108";
+}
+.baomoi-font-teddy-bear:before {
+    content: "\f109";
+}
+.baomoi-font-tshirt:before {
+    content: "\f10a";
+}

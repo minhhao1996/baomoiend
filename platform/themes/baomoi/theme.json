@@ -1,0 +1,7 @@
+{
+    "name": "baomoi",
+    "namespace": "Theme\\baomoi\\",
+    "description": "baomoi - Laravel Multipurpose eCommerce script",
+    "author": "Botble Technologies",
+    "required_plugins": []
+}
