@@ -66,7 +66,7 @@
                                                 <div class="description">
                                                     <div class="description-title">
                                                         <h4>
-                                                            <a href="" title="">
+                                                            <a href="{{ $feature_item->url }}" title="{{ $feature_item->name }}">
                                                                 {{ $feature_item->name }}
                                                             </a>
                                                         </h4>
@@ -101,7 +101,7 @@
                                                 <div class="description">
                                                     <div class="description-title">
                                                         <h4>
-                                                            <a href="" title="">
+                                                            <a href="{{ $feature_item->url }}" title="{{ $feature_item->name }}">
                                                                 {{$feature_item->name}}
                                                             </a>
                                                         </h4>
@@ -161,10 +161,21 @@
                             </section>
                             <script>
                                 $("#news-{{$category->id}}").owlCarousel({
-                                    items: 2,
-                                    itemsDesktop: [1199, 3],
-                                    itemsDesktopSmall: [980, 2],
-                                    itemsMobile: [600, 1],
+                                    responsive: {
+                                        0: {
+                                            items: 1,
+                                            stagePadding: 30
+                                        },
+                                        600: {
+                                            items: 2,
+                                            stagePadding: 50
+                                        },
+                                        1000: {
+                                            items: 2,
+                                            stagePadding: 80
+                                        }
+                                    },
+
                                     navigation: true,
                                     navigationText: ["", ""],
                                     pagination: true,
@@ -172,7 +183,7 @@
                                     loop: false,
                                     margin: 5,
                                     responsiveClass: true,
-                                    stagePadding: 80
+
                                 });
                             </script>
                         @endforeach
