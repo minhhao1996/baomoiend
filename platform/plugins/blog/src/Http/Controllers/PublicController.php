@@ -58,6 +58,7 @@ class PublicController extends Controller
 
     public function getPost(string $slug, BlogService $blogService)
     {
+
         $slug = SlugHelper::getSlug($slug, SlugHelper::getPrefix(Post::class));
 
         if (! $slug) {
@@ -78,8 +79,9 @@ class PublicController extends Controller
             ->render();
     }
 
-    public function getCategory(string $slug, BlogService $blogService)
+    public function getCategory( string $slug, BlogService $blogService)
     {
+
         $slug = SlugHelper::getSlug($slug, SlugHelper::getPrefix(Category::class));
 
         if (! $slug) {
