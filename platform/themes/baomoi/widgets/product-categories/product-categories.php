@@ -37,9 +37,9 @@ class ProductCategoriesWidget extends AbstractWidget
             'number_display' => 10,
         ]);
 
-        Theme::asset()->usePath()
-            ->add('custom-scrollbar-css', 'plugins/mcustom-scrollbar/jquery.mCustomScrollbar.css');
-        Theme::asset()->container('footer')->usePath()
-            ->add('custom-scrollbar-js', 'plugins/mcustom-scrollbar/jquery.mCustomScrollbar.js', ['jquery']);
+//        Theme::asset()->usePath()
+//            ->add('custom-scrollbar-css', 'plugins/mcustom-scrollbar/jquery.mCustomScrollbar.css');
+//        Theme::asset()->container('footer')->usePath()
+//            ->add('custom-scrollbar-js', 'plugins/mcustom-scrollbar/jquery.mCustomScrollbar.js', ['jquery']);
     }
 }
