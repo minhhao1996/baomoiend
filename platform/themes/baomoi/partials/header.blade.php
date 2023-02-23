@@ -69,14 +69,9 @@
                 <nav class="navbar navbar-expand-lg ">
                     <div class="collapse navbar-collapse container" id="navbarText">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item item-cat active">
-                                <a class="nav-link" aria-current="page" href="{{ route('public.index') }}">Hot</a>
-                            </li>
+
                             <li class="nav-item item-cat">
-                                <a class="nav-link" href="#">Mói</a>
-                            </li>
-                            <li class="nav-item item-cat">
-                                <a class="nav-link" href="#">Chủ đề</a>
+                                <a class="nav-link" href="#">TOPIC</a>
                             </li>
                             @foreach (get_popular_tags(3) as $tag)
                                 @if (!$tag->slug)
