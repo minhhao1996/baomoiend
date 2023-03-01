@@ -40,7 +40,7 @@
                                     </time>
                                     @if ($post->first_category->name)
                                         <div class="entry-meta">
-                                            <a class="entry-meta meta-2"
+                                            <a class="entry-meta meta-2" title="{{$post->first_category->name}}"
                                                href="{{ $post->first_category->url }}">{{ $post->first_category->name }}</a>
                                         </div>
                                     @endif
@@ -90,7 +90,7 @@
                                                 </time>
                                                 @if ($post->first_category->name)
                                                     <div class="entry-meta">
-                                                        <a class="entry-meta meta-2"
+                                                        <a class="entry-meta meta-2" {{$post->first_category->name}}
                                                            href="{{ $post->first_category->url }}">{{ $post->first_category->name }}</a>
                                                     </div>
                                                 @endif
@@ -118,7 +118,7 @@
                                                 </time>
                                                 @if ($post->first_category->name)
                                                     <div class="entry-meta">
-                                                        <a class="entry-meta meta-2"
+                                                        <a class="entry-meta meta-2" title="{{$post->first_category->name}}"
                                                            href="{{ $post->first_category->url }}">{{ $post->first_category->name }}</a>
                                                     </div>
                                                 @endif
@@ -195,7 +195,7 @@
                                                 </time>
                                                 @if ($post->first_category->name)
                                                     <div class="entry-meta">
-                                                        <a class="entry-meta meta-2"
+                                                        <a class="entry-meta meta-2" title="{{ $post->first_category->name}}"
                                                            href="{{ $post->first_category->url }}">{{ $post->first_category->name }}</a>
                                                     </div>
                                                 @endif

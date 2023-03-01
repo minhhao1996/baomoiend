@@ -15,13 +15,16 @@
                         <ul class="text-grey-5 ">
                             <li><strong class="mr-10">{{ __('Share this') }}:</strong></li>
                             <li class="social-facebook">
-                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($post->url) }}" target="_blgiank"><i class="fab fa-facebook-f"></i></a>
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($post->url) }}" title="facebook" target="_blgiank"><i class="fab fa-facebook-f"></i></a>
                             </li>
                             <li class="social-twitter">
-                                <a href="https://twitter.com/intent/tweet?url={{ urlencode($post->url) }}&text={{ strip_tags($post->description) }}" target="_blank"><i class="fab fa-twitter"></i></a>
+                                <a href="https://twitter.com/intent/tweet?url={{ urlencode($post->url) }}&text={{ strip_tags($post->description) }}"
+                                   title="twitter"
+                                   target="_blank"><i class="fab fa-twitter"></i></a>
                             </li>
                             <li class="social-linkedin">
-                                <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode($post->url) }}&summary={{ rawurldecode(strip_tags($post->description)) }}" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode($post->url) }}&summary={{ rawurldecode(strip_tags($post->description)) }}"
+                                   title="linkedin" target="_blank"><i class="fab fa-linkedin"></i></a>
                             </li>
                         </ul>
                     </div>
@@ -99,7 +102,7 @@
                                         </time>
                                         @if ($post1->first_category->name)
                                             <div class="entry-meta">
-                                                <a class="entry-meta meta-2"
+                                                <a class="entry-meta meta-2" title=""
                                                    href="{{ $post1->first_category->url }}">{{ $post1->first_category->name }}</a>
                                             </div>
                                         @endif
@@ -202,7 +205,7 @@
                 <div class="col-lg-4 col-md-4 col-12">
                     <article class="wow fadeIn animated hover-up mb-30">
                         <div class="post-thumb img-hover-scale">
-                            <a href="{{ $relatedItem->url }}">
+                            <a href="{{ $relatedItem->url }}" title="{{ $relatedItem->name }}">
                                 <img src="{{ RvMedia::getImageUrl($relatedItem->image, 'medium', false, RvMedia::getDefaultImage()) }}" alt="{{ $relatedItem->name }}">
                             </a>
                             @if ($relatedItem->first_category->name)
@@ -213,13 +216,13 @@
                         </div>
                         <div class="entry-content-2">
                             <h3 class="post-title mb-15">
-                                <a href="{{ $relatedItem->url }}">{{ $relatedItem->name }}</a></h3>
+                                <a href="{{ $relatedItem->url }}" title="{{ $relatedItem->name }}">{{ $relatedItem->name }}</a></h3>
                             <div class="entry-meta meta-1 font-xs color-grey mt-10 pb-10">
                                 <div>
                                     <span class="post-on has-dot"> <i class="far fa-clock"></i> {{ $relatedItem->created_at->translatedFormat('M d, Y') }}</span>
                                     <span class="hit-count has-dot">{{ __(':count Views', ['count' => number_format($relatedItem->views)]) }}</span>
                                 </div>
-                                <a href="{{ $relatedItem->url }}" class="text-brand">{{ __('Read more') }} <i class="fa fa-arrow-right fw-300 text-brand ml-5"></i></a>
+                                <a href="{{ $relatedItem->url }}"  title="{{ $relatedItem->name }}" class="text-brand">{{ __('Read more') }} <i class="fa fa-arrow-right fw-300 text-brand ml-5"></i></a>
                             </div>
                         </div>
                     </article>

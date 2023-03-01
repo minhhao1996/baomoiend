@@ -20,7 +20,7 @@
                                         <div class="first-featured col-sm-8 col-12">
                                             <div class="thumb-art">
                                                 <a href="{{ $feature_item->url }}"
-                                                   title="Không khởi tố vụ bé trai lọt vào cọc bê tông ở Đồng Tháp">
+                                                   title="{{ $feature_item->name }}">
                                                     <figure class="bm_Bh"><img
                                                             src="{{ get_object_image($feature_item->image, 'featured') }}"
                                                             alt="{{ $feature_item->name }}"></figure>
@@ -148,11 +148,11 @@
                                         </div>
                                         <div class="post-content">
                                             <h3 class="post-title">
-                                                <a href="{{ $post->url }}">{{ $post->name }}</a>
+                                                <a href="{{ $post->url }}" title="{{ $post->url }}">{{ $post->name }}</a>
                                             </h3>
                                             <p class="post-description">{{ $post->description }}</p>
                                             <span class="post-date"><i class="far fa-clock"></i>{{ date_from_database($post->created_at, 'M d, Y') }}</span>
-                                            <a href="{{ $post->url }}" class="read-more">Read more</a>
+                                            <a href="{{ $post->url }}" title="{{ $post->name }}" class="read-more">Read more</a>
                                         </div>
                                     </div>
                                 @endforeach
