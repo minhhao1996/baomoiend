@@ -29,7 +29,7 @@ Route::group([
         Route::delete('review/delete/{id}', [
             'as' => 'public.reviews.destroy',
             'uses' => 'ReviewController@destroy',
-        ])->where('id', '[0-9]+');
+        ])->where('id', BaseHelper::routeIdRegex());
 
         Route::get(SlugHelper::getPrefix(Product::class, 'products') . '/{slug}/review', [
             'uses' => 'ReviewController@getProductReview',

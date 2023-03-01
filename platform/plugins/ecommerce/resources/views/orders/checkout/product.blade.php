@@ -1,7 +1,7 @@
 <div class="row cart-item">
     <div class="col-3">
         <div class="checkout-product-img-wrapper">
-            <img class="item-thumb img-thumbnail img-rounded" src="{{ Arr::get($cartItem->options, 'image') }}" alt="{{ $product->original_product->name }}">
+            <img class="item-thumb img-thumbnail img-rounded" src="{{ RvMedia::getImageUrl(Arr::get($cartItem->options, 'image'), default: RvMedia::getDefaultImage()) }}" alt="{{ $product->original_product->name }}">
             <span class="checkout-quantity">{{ $cartItem->qty }}</span>
         </div>
     </div>
@@ -20,4 +20,4 @@
     <div class="col-4 text-end">
         <p>{{ format_price($cartItem->price) }}</p>
     </div>
-</div> <!--  /item -->
+</div>

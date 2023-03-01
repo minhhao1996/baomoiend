@@ -35,7 +35,7 @@ class InvoiceHelper
             $address = $order->billingAddress;
         }
 
-        $invoice = new Invoice([
+        $invoiceData = [
             'reference_id' => $order->id,
             'reference_type' => Order::class,
             'customer_name' => $address->name ?: $order->user->name,
@@ -45,9 +45,9 @@ class InvoiceHelper
             'customer_phone' => $address->phone,
             'customer_address' => $address->full_address,
             'customer_tax_id' => null,
-            'payment_id' => $order->payment->id,
-            'status' => $order->payment->status,
-            'paid_at' => $order->payment->status == PaymentStatusEnum::COMPLETED ? Carbon::now() : null,
+            'payment_id' => null,
+            'status' => InvoiceStatusEnum::COMPLETED,
+            'paid_at' => now(),
             'tax_amount' => $order->tax_amount,
             'shipping_amount' => $order->shipping_amount,
             'discount_amount' => $order->discount_amount,
@@ -58,7 +58,17 @@ class InvoiceHelper
             'coupon_code' => $order->coupon_code,
             'discount_description' => $order->discount_description,
             'description' => $order->description,
-        ]);
+        ];
+
+        if (is_plugin_active('payment')) {
+            $invoiceData = array_merge($invoiceData, [
+                'payment_id' => $order->payment->id,
+                'status' => $order->payment->status,
+                'paid_at' => $order->payment->status == PaymentStatusEnum::COMPLETED ? Carbon::now() : null,
+            ]);
+        }
+
+        $invoice = new Invoice($invoiceData);
 
         $invoice->save();
 

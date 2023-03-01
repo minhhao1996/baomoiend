@@ -29,7 +29,7 @@ class ReviewController extends BaseController
         return $dataTable->renderTable();
     }
 
-    public function destroy(Request $request, int $id, BaseHttpResponse $response)
+    public function destroy(int|string $id, Request $request, BaseHttpResponse $response)
     {
         try {
             $review = $this->reviewRepository->findOrFail($id);

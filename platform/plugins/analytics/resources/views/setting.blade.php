@@ -13,8 +13,8 @@
             <div class="form-group mb-3">
                 <label class="text-title-field"
                        for="google_analytics">{{ trans('plugins/analytics::analytics.settings.tracking_code') }}</label>
-                <input data-counter="120" type="text" class="next-input" name="google_analytics" id="google_analytics"
-                       value="{{ setting('google_analytics') }}" placeholder="{{ trans('plugins/analytics::analytics.settings.tracking_code_placeholder') }}">
+                <input data-counter="120" type="text" class="next-input" name="google_analytics" id="google_analytics" value="{{ setting('google_analytics') }}" placeholder="{{ trans('plugins/analytics::analytics.settings.tracking_code_placeholder') }}">
+                <div class="help-ts"><i class="fa fa-info-circle"></i> <span><a href="https://support.google.com/analytics/answer/9539598#find-G-ID" target="_blank">https://support.google.com/analytics/answer/9539598#find-G-ID</a></span></div>
             </div>
             <div class="form-group mb-3">
                 <label class="text-title-field"

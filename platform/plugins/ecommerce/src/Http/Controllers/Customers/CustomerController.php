@@ -69,7 +69,7 @@ class CustomerController extends BaseController
             ->setMessage(trans('core/base::notices.create_success_message'));
     }
 
-    public function edit(int $id, FormBuilder $formBuilder)
+    public function edit(int|string $id, FormBuilder $formBuilder)
     {
         Assets::addScriptsDirectly('vendor/core/plugins/ecommerce/js/customer.js');
 
@@ -82,7 +82,7 @@ class CustomerController extends BaseController
         return $formBuilder->create(CustomerForm::class, ['model' => $customer])->renderForm();
     }
 
-    public function update(int $id, CustomerEditRequest $request, BaseHttpResponse $response)
+    public function update(int|string $id, CustomerEditRequest $request, BaseHttpResponse $response)
     {
         $customer = $this->customerRepository->findOrFail($id);
 
@@ -103,7 +103,7 @@ class CustomerController extends BaseController
             ->setMessage(trans('core/base::notices.update_success_message'));
     }
 
-    public function destroy(Request $request, int $id, BaseHttpResponse $response)
+    public function destroy(int|string $id, Request $request, BaseHttpResponse $response)
     {
         try {
             $customer = $this->customerRepository->findOrFail($id);

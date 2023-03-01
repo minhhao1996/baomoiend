@@ -715,6 +715,10 @@ class HookServiceProvider extends ServiceProvider
             return $widgets;
         }
 
+        if (! is_plugin_active('payment')) {
+            return $widgets;
+        }
+
         Assets::addScriptsDirectly(['vendor/core/plugins/ecommerce/js/dashboard-widgets.js']);
 
         return (new DashboardWidgetInstance())

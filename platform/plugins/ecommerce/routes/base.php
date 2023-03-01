@@ -58,7 +58,7 @@ Route::group(['namespace' => 'Botble\Ecommerce\Http\Controllers', 'middleware' =
             'as' => 'ecommerce.store-locators.edit.post',
             'uses' => 'EcommerceController@postUpdateStoreLocator',
             'permission' => 'ecommerce.settings',
-        ])->where('id', '[0-9]+');
+        ])->where('id', BaseHelper::routeIdRegex());
 
         Route::post('store-locators/create', [
             'as' => 'ecommerce.store-locators.create',
@@ -70,7 +70,7 @@ Route::group(['namespace' => 'Botble\Ecommerce\Http\Controllers', 'middleware' =
             'as' => 'ecommerce.store-locators.destroy',
             'uses' => 'EcommerceController@postDeleteStoreLocator',
             'permission' => 'ecommerce.settings',
-        ])->where('id', '[0-9]+');
+        ])->where('id', BaseHelper::routeIdRegex());
 
         Route::post('store-locators/update-primary-store', [
             'as' => 'ecommerce.store-locators.update-primary-store',
@@ -285,11 +285,11 @@ Route::group(['namespace' => 'Botble\Ecommerce\Http\Controllers\Fronts', 'middle
         Route::get('product-variation/{id}', [
             'as' => 'public.web.get-variation-by-attributes',
             'uses' => 'PublicProductController@getProductVariation',
-        ])->where('id', '[0-9]+');
+        ])->where('id', BaseHelper::routeIdRegex());
 
         Route::get('orders/tracking', [
             'as' => 'public.orders.tracking',
             'uses' => 'PublicProductController@getOrderTracking',
-        ])->where('id', '[0-9]+');
+        ])->where('id', BaseHelper::routeIdRegex());
     });
 });

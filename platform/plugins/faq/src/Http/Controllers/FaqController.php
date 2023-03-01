@@ -21,11 +21,8 @@ class FaqController extends BaseController
 {
     use HasDeleteManyItemsTrait;
 
-    protected FaqInterface $faqRepository;
-
-    public function __construct(FaqInterface $faqRepository)
+    public function __construct(protected FaqInterface $faqRepository)
     {
-        $this->faqRepository = $faqRepository;
     }
 
     public function index(FaqTable $table)
@@ -54,7 +51,7 @@ class FaqController extends BaseController
             ->setMessage(trans('core/base::notices.create_success_message'));
     }
 
-    public function edit(int $id, FormBuilder $formBuilder, Request $request)
+    public function edit(int|string $id, FormBuilder $formBuilder, Request $request)
     {
         $faq = $this->faqRepository->findOrFail($id);
 
@@ -65,7 +62,7 @@ class FaqController extends BaseController
         return $formBuilder->create(FaqForm::class, ['model' => $faq])->renderForm();
     }
 
-    public function update(int $id, FaqRequest $request, BaseHttpResponse $response)
+    public function update(int|string $id, FaqRequest $request, BaseHttpResponse $response)
     {
         $faq = $this->faqRepository->findOrFail($id);
 
@@ -80,7 +77,7 @@ class FaqController extends BaseController
             ->setMessage(trans('core/base::notices.update_success_message'));
     }
 
-    public function destroy(Request $request, int $id, BaseHttpResponse $response)
+    public function destroy(int|string $id, Request $request, BaseHttpResponse $response)
     {
         try {
             $faq = $this->faqRepository->findOrFail($id);

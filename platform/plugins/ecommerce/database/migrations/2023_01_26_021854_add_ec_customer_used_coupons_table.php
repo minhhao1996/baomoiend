@@ -9,8 +9,8 @@ return new class () extends Migration {
     {
         if (! Schema::hasTable('ec_customer_used_coupons')) {
             Schema::create('ec_customer_used_coupons', function (Blueprint $table) {
-                $table->integer('discount_id')->unsigned();
-                $table->integer('customer_id')->unsigned();
+                $table->foreignId('discount_id');
+                $table->foreignId('customer_id');
                 $table->primary(['discount_id', 'customer_id']);
             });
         }

@@ -2,7 +2,6 @@ import {RecentItems} from '../Config/MediaConfig';
 import {Helpers} from '../Helpers/Helpers';
 import {MessageService} from './MessageService';
 import Cropper from 'cropperjs';
-import scrollspy from "bootstrap/js/src/scrollspy";
 
 export class ActionsService {
     static handleDropdown() {
@@ -421,6 +420,12 @@ export class ActionsService {
                 }, 1000)
             },
             success: (response, status, xhr) => {
+                if (response.error) {
+                    MessageService.showMessage('error', response.message);
+
+                    return;
+                }
+
                 const downloadUrl = URL.createObjectURL(response);
                 const a = document.createElement('a');
                 const fileName = xhr.getResponseHeader('Content-Disposition').split('filename=')[1].split(';')[0];

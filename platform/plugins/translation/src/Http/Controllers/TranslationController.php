@@ -23,11 +23,8 @@ use ZipArchive;
 
 class TranslationController extends BaseController
 {
-    protected Manager $manager;
-
-    public function __construct(Manager $manager)
+    public function __construct(protected Manager $manager)
     {
-        $this->manager = $manager;
     }
 
     public function getIndex(Request $request)

@@ -77,6 +77,7 @@ return [
         'make_phone_field_at_the_checkout_optional' => 'Make phone field at the checkout optional?',
         'disable_order_invoice_until_order_confirmed' => 'Disable order invoice until order confirmed?',
         'vat_number' => 'VAT number',
+        'tax_id' => 'Tax ID',
         'enable_recaptcha_in_register_page' => 'Enable Recaptcha in the registration page?',
         'enable_recaptcha_in_register_page_description' => 'Need to setup Captcha in Admin -> Settings -> General first.',
         'show_out_of_stock_products' => 'Show out of stock products?',

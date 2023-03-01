@@ -41,7 +41,7 @@ class OrderReturnController extends BaseController
         return $orderReturnTable->renderTable();
     }
 
-    public function edit(int $id)
+    public function edit(int|string $id)
     {
         Assets::addStylesDirectly(['vendor/core/plugins/ecommerce/css/ecommerce.css'])
             ->addScriptsDirectly([
@@ -63,7 +63,7 @@ class OrderReturnController extends BaseController
         return view('plugins/ecommerce::order-returns.edit', compact('returnRequest', 'defaultStore'));
     }
 
-    public function update(int $id, UpdateOrderReturnRequest $request, BaseHttpResponse $response)
+    public function update(int|string $id, UpdateOrderReturnRequest $request, BaseHttpResponse $response)
     {
         $returnRequest = $this->orderReturnRepository->findOrFail($id);
 
@@ -90,7 +90,7 @@ class OrderReturnController extends BaseController
             ->setMessage(trans('core/base::notices.update_success_message'));
     }
 
-    public function destroy(Request $request, int $id, BaseHttpResponse $response)
+    public function destroy(int|string $id, Request $request, BaseHttpResponse $response)
     {
         $order = $this->orderReturnRepository->findOrFail($id);
 

@@ -181,21 +181,28 @@
 <table class="invoice-info-container">
     <tr>
         <td>
-            {% if get_ecommerce_setting('store_name') %}
-                <p>{{ get_ecommerce_setting('store_name') }}</p>
+            {% if get_ecommerce_setting('company_name_for_invoicing') or get_ecommerce_setting('store_name') %}
+                <p>{{ get_ecommerce_setting('company_name_for_invoicing') ?: get_ecommerce_setting('store_name') }}</p>
             {% endif %}
-            <p>{{ get_ecommerce_setting('store_address') }}, {{ get_ecommerce_setting('store_city') }}, {{ get_ecommerce_setting('store_state') }}, {{ get_ecommerce_setting('store_country') }}</p>
 
-            {% if get_ecommerce_setting('store_phone') %}
+            {% if get_ecommerce_setting('company_address_for_invoicing') or get_ecommerce_setting('store_address') %}
+                {% if get_ecommerce_setting('company_address_for_invoicing') %}
+                    {{ get_ecommerce_setting('company_address_for_invoicing') }}
+                {% else %}
+                    <p>{{ get_ecommerce_setting('store_address') }}, {{ get_ecommerce_setting('store_city') }}, {{ get_ecommerce_setting('store_state') }}, {{ get_ecommerce_setting('store_country') }}</p>
+                {% endif %}
+            {% endif %}
+
+            {% if get_ecommerce_setting('company_phone_for_invoicing') or get_ecommerce_setting('store_phone') %}
                 <p>{{ get_ecommerce_setting('company_phone_for_invoicing') ?: get_ecommerce_setting('store_phone') }}</p>
             {% endif %}
 
-            {% if get_ecommerce_setting('store_email') %}
-                <p>{{ get_ecommerce_setting('store_email') }}</p>
+            {% if get_ecommerce_setting('company_email_for_invoicing') or get_ecommerce_setting('store_email') %}
+                <p>{{ get_ecommerce_setting('company_email_for_invoicing') ?: get_ecommerce_setting('store_email') }}</p>
             {% endif %}
 
-            {% if get_ecommerce_setting('store_vat_number') %}
-                <p>{{ 'plugins/ecommerce::ecommerce.setting.vat_number'|trans }}: {{ get_ecommerce_setting('store_vat_number') }}</p>
+            {% if get_ecommerce_setting('company_tax_id_for_invoicing') or get_ecommerce_setting('store_vat_number') %}
+                <p>{{ 'plugins/ecommerce::ecommerce.setting.tax_id'|trans }}: {{ get_ecommerce_setting('company_tax_id_for_invoicing') ?: get_ecommerce_setting('store_vat_number') }}</p>
             {% endif %}
         </td>
         <td>

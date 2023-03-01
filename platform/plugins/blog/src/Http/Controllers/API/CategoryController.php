@@ -15,11 +15,8 @@ use SlugHelper;
 
 class CategoryController extends Controller
 {
-    protected CategoryInterface $categoryRepository;
-
-    public function __construct(CategoryInterface $categoryRepository)
+    public function __construct(protected CategoryInterface $categoryRepository)
     {
-        $this->categoryRepository = $categoryRepository;
     }
 
     /**

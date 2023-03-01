@@ -35,19 +35,19 @@ Route::group(
                     'as' => 'update-email',
                     'uses' => 'CustomerController@postUpdateEmail',
                     'permission' => 'customers.edit',
-                ])->where('id', '[0-9]+');
+                ])->where('id', BaseHelper::routeIdRegex());
 
                 Route::get('get-customer-addresses/{id}', [
                     'as' => 'get-customer-addresses',
                     'uses' => 'CustomerController@getCustomerAddresses',
                     'permission' => ['customers.index', 'orders.index'],
-                ])->where('id', '[0-9]+');
+                ])->where('id', BaseHelper::routeIdRegex());
 
                 Route::get('get-customer-order-numbers/{id}', [
                     'as' => 'get-customer-order-numbers',
                     'uses' => 'CustomerController@getCustomerOrderNumbers',
                     'permission' => ['customers.index', 'orders.index'],
-                ])->where('id', '[0-9]+');
+                ])->where('id', BaseHelper::routeIdRegex());
 
                 Route::post('create-customer-when-creating-order', [
                     'as' => 'create-customer-when-creating-order',
@@ -59,7 +59,7 @@ Route::group(
                     'as' => 'verify-email',
                     'uses' => 'CustomerController@verifyEmail',
                     'permission' => 'customers.index',
-                ])->where('id', '[0-9]+');
+                ])->where('id', BaseHelper::routeIdRegex());
             });
         });
     }
@@ -144,12 +144,12 @@ if (defined('THEME_MODULE_SCREEN_NAME')) {
             Route::get('orders/view/{id}', [
                 'as' => 'orders.view',
                 'uses' => 'PublicController@getViewOrder',
-            ])->where('id', '[0-9]+');
+            ])->where('id', BaseHelper::routeIdRegex());
 
             Route::get('order/cancel/{id}', [
                 'as' => 'orders.cancel',
                 'uses' => 'PublicController@getCancelOrder',
-            ])->where('id', '[0-9]+');
+            ])->where('id', BaseHelper::routeIdRegex());
 
             Route::get('address', [
                 'as' => 'address',
@@ -169,22 +169,22 @@ if (defined('THEME_MODULE_SCREEN_NAME')) {
             Route::get('address/edit/{id}', [
                 'as' => 'address.edit',
                 'uses' => 'PublicController@getEditAddress',
-            ])->where('id', '[0-9]+');
+            ])->where('id', BaseHelper::routeIdRegex());
 
             Route::post('address/edit/{id}', [
                 'as' => 'address.edit.post',
                 'uses' => 'PublicController@postEditAddress',
-            ])->where('id', '[0-9]+');
+            ])->where('id', BaseHelper::routeIdRegex());
 
             Route::get('address/delete/{id}', [
                 'as' => 'address.destroy',
                 'uses' => 'PublicController@getDeleteAddress',
-            ])->where('id', '[0-9]+');
+            ])->where('id', BaseHelper::routeIdRegex());
 
             Route::get('orders/print/{id}', [
                 'as' => 'print-order',
                 'uses' => 'PublicController@getPrintOrder',
-            ])->where('id', '[0-9]+');
+            ])->where('id', BaseHelper::routeIdRegex());
 
             Route::post('avatar', [
                 'as' => 'avatar',
@@ -199,12 +199,12 @@ if (defined('THEME_MODULE_SCREEN_NAME')) {
             Route::get('order-returns/detail/{id}', [
                 'as' => 'order_returns.detail',
                 'uses' => 'PublicController@getDetailReturnOrder',
-            ])->where('id', '[0-9]+');
+            ])->where('id', BaseHelper::routeIdRegex());
 
             Route::get('order-returns/request/{order_id}', [
                 'as' => 'order_returns.request_view',
                 'uses' => 'PublicController@getReturnOrder',
-            ])->where('order_id', '[0-9]+');
+            ])->where('order_id', BaseHelper::routeIdRegex());
 
             Route::post('order-returns/send-request', [
                 'as' => 'order_returns.send_request',
@@ -219,7 +219,7 @@ if (defined('THEME_MODULE_SCREEN_NAME')) {
             Route::get('download/{id}', [
                 'as' => 'downloads.product',
                 'uses' => 'PublicController@getDownload',
-            ])->where('id', '[0-9]+');
+            ])->where('id', BaseHelper::routeIdRegex());
 
             Route::group([
                 'prefix' => 'invoices',
@@ -228,10 +228,10 @@ if (defined('THEME_MODULE_SCREEN_NAME')) {
                 Route::resource('', 'InvoiceController')
                     ->only('index')
                     ->parameters('invoices');
-                Route::get('{id}', 'InvoiceController@show')->name('show')->where('id', '[0-9]+');
+                Route::get('{id}', 'InvoiceController@show')->name('show')->where('id', BaseHelper::routeIdRegex());
                 Route::get('{id}/generate-invoice', 'InvoiceController@getGenerateInvoice')
                     ->name('generate_invoice')
-                    ->where('id', '[0-9]+');
+                    ->where('id', BaseHelper::routeIdRegex());
             });
 
             Route::get('product-reviews', [

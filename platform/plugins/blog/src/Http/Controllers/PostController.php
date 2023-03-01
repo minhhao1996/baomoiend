@@ -28,20 +28,11 @@ class PostController extends BaseController
 {
     use HasDeleteManyItemsTrait;
 
-    protected PostInterface $postRepository;
-
-    protected TagInterface $tagRepository;
-
-    protected CategoryInterface $categoryRepository;
-
     public function __construct(
-        PostInterface $postRepository,
-        TagInterface $tagRepository,
-        CategoryInterface $categoryRepository
+        protected PostInterface $postRepository,
+        protected TagInterface $tagRepository,
+        protected CategoryInterface $categoryRepository
     ) {
-        $this->postRepository = $postRepository;
-        $this->tagRepository = $tagRepository;
-        $this->categoryRepository = $categoryRepository;
     }
 
     public function index(PostTable $dataTable)
@@ -88,7 +79,7 @@ class PostController extends BaseController
             ->setMessage(trans('core/base::notices.create_success_message'));
     }
 
-    public function edit(int $id, FormBuilder $formBuilder, Request $request)
+    public function edit(int|string $id, FormBuilder $formBuilder, Request $request)
     {
         $post = $this->postRepository->findOrFail($id);
 
@@ -123,7 +114,7 @@ class PostController extends BaseController
             ->setMessage(trans('core/base::notices.update_success_message'));
     }
 
-    public function destroy(int $id, Request $request, BaseHttpResponse $response)
+    public function destroy(int|string $id, Request $request, BaseHttpResponse $response)
     {
         try {
             $post = $this->postRepository->findOrFail($id);

@@ -22,11 +22,8 @@ use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends BaseController
 {
-    protected CategoryInterface $categoryRepository;
-
-    public function __construct(CategoryInterface $categoryRepository)
+    public function __construct(protected CategoryInterface $categoryRepository)
     {
-        $this->categoryRepository = $categoryRepository;
     }
 
     public function index(FormBuilder $formBuilder, Request $request, BaseHttpResponse $response)
@@ -104,7 +101,7 @@ class CategoryController extends BaseController
             ->setMessage(trans('core/base::notices.create_success_message'));
     }
 
-    public function edit(int $id, FormBuilder $formBuilder, Request $request, BaseHttpResponse $response)
+    public function edit(int|string $id, FormBuilder $formBuilder, Request $request, BaseHttpResponse $response)
     {
         $category = $this->categoryRepository->findOrFail($id);
 
@@ -119,7 +116,7 @@ class CategoryController extends BaseController
         return $formBuilder->create(CategoryForm::class, ['model' => $category])->renderForm();
     }
 
-    public function update(int $id, CategoryRequest $request, BaseHttpResponse $response)
+    public function update(int|string $id, CategoryRequest $request, BaseHttpResponse $response)
     {
         $category = $this->categoryRepository->findOrFail($id);
 
@@ -152,7 +149,7 @@ class CategoryController extends BaseController
             ->setMessage(trans('core/base::notices.update_success_message'));
     }
 
-    public function destroy(Request $request, int $id, BaseHttpResponse $response)
+    public function destroy(int|string $id, Request $request, BaseHttpResponse $response)
     {
         try {
             $category = $this->categoryRepository->findOrFail($id);

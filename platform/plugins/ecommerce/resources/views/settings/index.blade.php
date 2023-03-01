@@ -95,7 +95,7 @@
                             </div>
                         @endif
                         <div class="form-group mb0">
-                            <label class="text-title-field" for="store_vat_number">{{ trans('plugins/ecommerce::ecommerce.setting.vat_number') }}</label>
+                            <label class="text-title-field" for="store_vat_number">{{ trans('plugins/ecommerce::ecommerce.setting.tax_id') }}</label>
                             <input type="text" class="next-input" name="store_vat_number" id="store_vat_number" value="{{ get_ecommerce_setting('store_vat_number') }}">
                         </div>
                     </div>

@@ -29,7 +29,7 @@ interface PostInterface extends RepositoryInterface
     public function getListPostNonInList(array $selected = [], $limit = 7, array $with = []);
 
     /**
-     * @param int|array $categoryId
+     * @param int|string|array $categoryId
      * @param int $paginate
      * @param int $limit
      * @return mixed
@@ -37,7 +37,7 @@ interface PostInterface extends RepositoryInterface
     public function getByCategory($categoryId, $paginate = 12, $limit = 0);
 
     /**
-     * @param int $authorId
+     * @param int|string $authorId
      * @param int $limit
      * @return mixed
      */
@@ -56,7 +56,7 @@ interface PostInterface extends RepositoryInterface
     public function getByTag($tag, $paginate = 12);
 
     /**
-     * @param int $id
+     * @param int|string $id
      * @param int $limit
      * @return mixed
      */
@@ -64,7 +64,7 @@ interface PostInterface extends RepositoryInterface
 
     /**
      * @param int $limit
-     * @param int $categoryId
+     * @param int|string $categoryId
      * @return mixed
      */
     public function getRecentPosts($limit = 5, $categoryId = 0);

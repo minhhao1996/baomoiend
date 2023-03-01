@@ -63,7 +63,7 @@
                             <span>{{ format_price($order->shipping_amount) }}</span>
                         </td>
                     </tr>
-                    @if ($order->payment->refunded_amount)
+                    @if (is_plugin_active('payment') && $order->payment->refunded_amount)
                         <tr>
                             <td class="text-end">{{ trans('plugins/ecommerce::order.total_refund_amount') }}:</td>
                             <td class="text-end quantity text-no-bold">
@@ -74,7 +74,7 @@
                     <tr>
                         <td class="text-end">{{ trans('plugins/ecommerce::order.total_amount_can_be_refunded') }}:</td>
                         <td class="text-end quantity text-no-bold">
-                            @if ($order->payment->status == \Botble\Payment\Enums\PaymentStatusEnum::PENDING)
+                            @if (! is_plugin_active('payment') || $order->payment->status == \Botble\Payment\Enums\PaymentStatusEnum::PENDING)
                                 <span>{{ format_price(0) }}</span>
                             @else
                                 <span>{{ format_price($order->payment->amount - $order->payment->refunded_amount) }}</span>
@@ -84,7 +84,7 @@
                     </tbody>
                 </table>
             </div>
-            @if ($order->payment->status !== \Botble\Payment\Enums\PaymentStatusEnum::PENDING && ($order->payment->amount - $order->payment->refunded_amount) > 0)
+            @if (is_plugin_active('payment') && $order->payment->status !== \Botble\Payment\Enums\PaymentStatusEnum::PENDING && ($order->payment->amount - $order->payment->refunded_amount) > 0)
                 <div class="table-wrapper p-none">
                     <table class="refund-payments">
                         <tbody>

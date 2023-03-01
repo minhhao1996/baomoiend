@@ -50,7 +50,7 @@ class ShipmentController extends BaseController
         return $dataTable->renderTable();
     }
 
-    public function edit(int $id)
+    public function edit(int|string $id)
     {
         Assets::addStylesDirectly('vendor/core/plugins/ecommerce/css/ecommerce.css')
             ->addScriptsDirectly('vendor/core/plugins/ecommerce/js/shipment.js');
@@ -126,7 +126,7 @@ class ShipmentController extends BaseController
         return $response->setMessage(trans('plugins/ecommerce::shipping.update_cod_status_success'));
     }
 
-    public function update(int $id, Request $request, BaseHttpResponse $response)
+    public function update(int|string $id, Request $request, BaseHttpResponse $response)
     {
         $shipment = $this->shipmentRepository->findOrFail($id);
 
@@ -147,7 +147,7 @@ class ShipmentController extends BaseController
             ->setMessage(trans('core/base::notices.update_success_message'));
     }
 
-    public function destroy(int $id, BaseHttpResponse $response)
+    public function destroy(int|string $id, BaseHttpResponse $response)
     {
         try {
             $review = $this->shipmentRepository->findOrFail($id);

@@ -152,7 +152,7 @@
                                             </h3>
                                             <p class="post-description">{{ $post->description }}</p>
                                             <span class="post-date"><i class="far fa-clock"></i>{{ date_from_database($post->created_at, 'M d, Y') }}</span>
-                                            <a href="#" class="read-more">read more</a>
+                                            <a href="{{ $post->url }}" class="read-more">Read more</a>
                                         </div>
                                     </div>
                                 @endforeach
@@ -184,11 +184,11 @@
                     @endforeach
                 </div>
                 <div class="right-sidebar col-md-4 col-12">
-                    <div class="most-new">
-                        <h3 class="most-new-title">Recent Posts</h3>
+                    <div class="most-new ">
+                        <h3 class="most-new-title">Popular Posts</h3>
                         @if (is_plugin_active('blog'))
                             @php
-                                $recentPosts = get_recent_posts(8);
+                                $recentPosts = get_popular_posts(8);
                             @endphp
                             @if ($recentPosts->count())
                                 @foreach($recentPosts  as $key=> $post)
@@ -262,10 +262,10 @@
                         @endif
                     </div>
                     <div class="most-new mt-5">
-                        <h3 class="most-new-title">Popular Posts</h3>
+                        <h3 class="most-new-title">Recent Posts</h3>
                         @if (is_plugin_active('blog'))
                             @php
-                                $recentPosts = get_popular_posts(8);
+                                $recentPosts = get_recent_posts(8);
                             @endphp
                             @if ($recentPosts->count())
                                 @foreach($recentPosts  as $key=> $post)

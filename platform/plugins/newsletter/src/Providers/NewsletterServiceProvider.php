@@ -10,7 +10,6 @@ use Botble\Newsletter\Repositories\Interfaces\NewsletterInterface;
 use EmailHandler;
 use Exception;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\ServiceProvider;
 use Newsletter as MailchimpNewsletter;
@@ -42,7 +41,7 @@ class NewsletterServiceProvider extends ServiceProvider
 
         $this->app->register(EventServiceProvider::class);
 
-        Event::listen(RouteMatched::class, function () {
+        $this->app['events']->listen(RouteMatched::class, function () {
             dashboard_menu()->registerItem([
                 'id' => 'cms-plugins-newsletter',
                 'priority' => 6,

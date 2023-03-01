@@ -51,7 +51,7 @@ class ProductLabelController extends BaseController
             ->setMessage(trans('core/base::notices.create_success_message'));
     }
 
-    public function edit(int $id, FormBuilder $formBuilder, Request $request)
+    public function edit(int|string $id, FormBuilder $formBuilder, Request $request)
     {
         $productLabel = $this->productLabelRepository->findOrFail($id);
 
@@ -62,7 +62,7 @@ class ProductLabelController extends BaseController
         return $formBuilder->create(ProductLabelForm::class, ['model' => $productLabel])->renderForm();
     }
 
-    public function update(int $id, ProductLabelRequest $request, BaseHttpResponse $response)
+    public function update(int|string $id, ProductLabelRequest $request, BaseHttpResponse $response)
     {
         $productLabel = $this->productLabelRepository->findOrFail($id);
 
@@ -77,7 +77,7 @@ class ProductLabelController extends BaseController
             ->setMessage(trans('core/base::notices.update_success_message'));
     }
 
-    public function destroy(Request $request, int $id, BaseHttpResponse $response)
+    public function destroy(int|string $id, Request $request, BaseHttpResponse $response)
     {
         try {
             $productLabel = $this->productLabelRepository->findOrFail($id);

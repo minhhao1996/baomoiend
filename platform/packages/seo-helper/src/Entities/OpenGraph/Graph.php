@@ -20,7 +20,7 @@ class Graph implements OpenGraphContract
     public function __construct()
     {
         $this->meta = new MetaCollection();
-        $this->setSiteName(theme_option('seo_title'));
+        $this->setSiteName(theme_option('site_title'));
     }
 
     /**

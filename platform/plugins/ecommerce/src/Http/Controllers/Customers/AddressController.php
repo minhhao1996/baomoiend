@@ -58,7 +58,7 @@ class AddressController extends BaseController
             ->setMessage(trans('core/base::notices.update_success_message'));
     }
 
-    public function destroy($id, BaseHttpResponse $response)
+    public function destroy(int|string $id, BaseHttpResponse $response)
     {
         $address = Address::findOrFail($id);
 

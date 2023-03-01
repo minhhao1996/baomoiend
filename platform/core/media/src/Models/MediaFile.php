@@ -46,7 +46,7 @@ class MediaFile extends BaseModel
 
     public function folder(): BelongsTo
     {
-        return $this->belongsTo(MediaFolder::class, 'id', 'folder_id');
+        return $this->belongsTo(MediaFolder::class, 'folder_id')->withDefault();
     }
 
     protected function type(): Attribute

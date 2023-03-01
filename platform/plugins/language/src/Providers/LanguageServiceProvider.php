@@ -29,7 +29,6 @@ use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Language;
@@ -84,7 +83,7 @@ class LanguageServiceProvider extends ServiceProvider
         if (! $this->app->runningInConsole() && is_plugin_active('language')) {
             add_filter(BASE_FILTER_GROUP_PUBLIC_ROUTE, [$this, 'addLanguageMiddlewareToPublicRoute'], 958);
 
-            Event::listen(RouteMatched::class, function () {
+            $this->app['events']->listen(RouteMatched::class, function () {
                 dashboard_menu()
                     ->registerItem([
                         'id' => 'cms-plugins-language',
@@ -171,10 +170,6 @@ class LanguageServiceProvider extends ServiceProvider
             add_filter(MENU_FILTER_NODE_URL, [$this, 'updateMenuNodeUrl'], 1);
 
             add_filter(BASE_FILTER_BEFORE_RENDER_FORM, [$this, 'changeDataBeforeRenderingForm'], 1134, 2);
-
-            add_filter('cms_site_editor_locale', function () {
-                return Language::getCurrentAdminLocale();
-            }, 1134, 0);
 
             Language::setRoutesCachePath();
         }

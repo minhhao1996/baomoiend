@@ -13,7 +13,6 @@ use Botble\Slug\Repositories\Interfaces\SlugInterface;
 use Botble\Slug\SlugHelper;
 use Botble\Slug\SlugCompiler;
 use Illuminate\Routing\Events\RouteMatched;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use MacroableModels;
 
@@ -50,7 +49,7 @@ class SlugServiceProvider extends ServiceProvider
         $this->app->register(EventServiceProvider::class);
         $this->app->register(CommandServiceProvider::class);
 
-        Event::listen(RouteMatched::class, function () {
+        $this->app['events']->listen(RouteMatched::class, function () {
             dashboard_menu()
                 ->registerItem([
                     'id' => 'cms-packages-slug-permalink',

@@ -54,7 +54,7 @@ class SortItemsWithChildrenHelper
         return $this->processSort();
     }
 
-    protected function processSort(int $parentId = 0): array
+    protected function processSort(int|string $parentId = 0): array
     {
         $result = [];
         $filtered = $this->items->where($this->parentField, $parentId);

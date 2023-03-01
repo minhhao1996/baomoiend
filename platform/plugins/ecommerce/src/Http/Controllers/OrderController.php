@@ -52,48 +52,17 @@ use RvMedia;
 
 class OrderController extends BaseController
 {
-    protected OrderInterface $orderRepository;
-
-    protected CustomerInterface $customerRepository;
-
-    protected OrderHistoryInterface $orderHistoryRepository;
-
-    protected ProductInterface $productRepository;
-
-    protected ShipmentInterface $shipmentRepository;
-
-    protected OrderAddressInterface $orderAddressRepository;
-
-    protected PaymentInterface $paymentRepository;
-
-    protected StoreLocatorInterface $storeLocatorRepository;
-
-    protected OrderProductInterface $orderProductRepository;
-
-    protected AddressInterface $addressRepository;
-
     public function __construct(
-        OrderInterface $orderRepository,
-        CustomerInterface $customerRepository,
-        OrderHistoryInterface $orderHistoryRepository,
-        ProductInterface $productRepository,
-        ShipmentInterface $shipmentRepository,
-        OrderAddressInterface $orderAddressRepository,
-        PaymentInterface $paymentRepository,
-        StoreLocatorInterface $storeLocatorRepository,
-        OrderProductInterface $orderProductRepository,
-        AddressInterface $addressRepository
+        protected OrderInterface $orderRepository,
+        protected CustomerInterface $customerRepository,
+        protected OrderHistoryInterface $orderHistoryRepository,
+        protected ProductInterface $productRepository,
+        protected ShipmentInterface $shipmentRepository,
+        protected OrderAddressInterface $orderAddressRepository,
+        protected StoreLocatorInterface $storeLocatorRepository,
+        protected OrderProductInterface $orderProductRepository,
+        protected AddressInterface $addressRepository
     ) {
-        $this->orderRepository = $orderRepository;
-        $this->customerRepository = $customerRepository;
-        $this->orderHistoryRepository = $orderHistoryRepository;
-        $this->productRepository = $productRepository;
-        $this->shipmentRepository = $shipmentRepository;
-        $this->orderAddressRepository = $orderAddressRepository;
-        $this->paymentRepository = $paymentRepository;
-        $this->storeLocatorRepository = $storeLocatorRepository;
-        $this->orderProductRepository = $orderProductRepository;
-        $this->addressRepository = $addressRepository;
     }
 
     public function index(OrderTable $dataTable)
@@ -191,29 +160,31 @@ class OrderController extends BaseController
                 'user_id' => Auth::id(),
             ]);
 
-            $payment = $this->paymentRepository->createOrUpdate([
-                'amount' => $order->amount,
-                'currency' => cms_currency()->getDefaultCurrency()->title,
-                'payment_channel' => $request->input('payment_method'),
-                'status' => $request->input('payment_status', PaymentStatusEnum::PENDING),
-                'payment_type' => 'confirm',
-                'order_id' => $order->id,
-                'charge_id' => Str::upper(Str::random(10)),
-                'user_id' => Auth::id(),
-            ]);
-
-            $order->payment_id = $payment->id;
-            $order->save();
-
-            if ($request->input('payment_status') === PaymentStatusEnum::COMPLETED) {
-                $this->orderHistoryRepository->createOrUpdate([
-                    'action' => 'confirm_payment',
-                    'description' => trans('plugins/ecommerce::order.payment_was_confirmed_by', [
-                        'money' => format_price($order->amount),
-                    ]),
+            if (is_plugin_active('payment')) {
+                $payment = app(PaymentInterface::class)->createOrUpdate([
+                    'amount' => $order->amount,
+                    'currency' => cms_currency()->getDefaultCurrency()->title,
+                    'payment_channel' => $request->input('payment_method'),
+                    'status' => $request->input('payment_status', PaymentStatusEnum::PENDING),
+                    'payment_type' => 'confirm',
                     'order_id' => $order->id,
+                    'charge_id' => Str::upper(Str::random(10)),
                     'user_id' => Auth::id(),
                 ]);
+
+                $order->payment_id = $payment->id;
+                $order->save();
+
+                if ($request->input('payment_status') === PaymentStatusEnum::COMPLETED) {
+                    $this->orderHistoryRepository->createOrUpdate([
+                        'action' => 'confirm_payment',
+                        'description' => trans('plugins/ecommerce::order.payment_was_confirmed_by', [
+                            'money' => format_price($order->amount),
+                        ]),
+                        'order_id' => $order->id,
+                        'user_id' => Auth::id(),
+                    ]);
+                }
             }
 
             if ($request->input('customer_address.name')) {
@@ -286,7 +257,7 @@ class OrderController extends BaseController
             ->setMessage(trans('core/base::notices.create_success_message'));
     }
 
-    public function edit(int $id)
+    public function edit(int|string $id)
     {
         Assets::addStylesDirectly(['vendor/core/plugins/ecommerce/css/ecommerce.css'])
             ->addScriptsDirectly([
@@ -314,7 +285,7 @@ class OrderController extends BaseController
         return view('plugins/ecommerce::orders.edit', compact('order', 'weight', 'defaultStore'));
     }
 
-    public function update(int $id, UpdateOrderRequest $request, BaseHttpResponse $response)
+    public function update(int|string $id, UpdateOrderRequest $request, BaseHttpResponse $response)
     {
         $order = $this->orderRepository->findOrFail($id);
         $order->fill($request->input());
@@ -328,7 +299,7 @@ class OrderController extends BaseController
             ->setMessage(trans('core/base::notices.update_success_message'));
     }
 
-    public function destroy(Request $request, int $id, BaseHttpResponse $response)
+    public function destroy(int|string $id, Request $request, BaseHttpResponse $response)
     {
         $order = $this->orderRepository->findOrFail($id);
 
@@ -394,7 +365,7 @@ class OrderController extends BaseController
             'user_id' => Auth::id(),
         ]);
 
-        $payment = $this->paymentRepository->getFirstBy(['order_id' => $order->id]);
+        $payment = app(PaymentInterface::class)->getFirstBy(['order_id' => $order->id]);
 
         if ($payment) {
             $payment->user_id = Auth::id();
@@ -485,7 +456,7 @@ class OrderController extends BaseController
             'user_id' => Auth::id(),
             'weight' => $order->products_weight,
             'note' => $request->input('note'),
-            'cod_amount' => $request->input('cod_amount') ?? ($order->payment->status != PaymentStatusEnum::COMPLETED ? $order->amount : 0),
+            'cod_amount' => $request->input('cod_amount') ?? (is_plugin_active('payment') && $order->payment->status != PaymentStatusEnum::COMPLETED ? $order->amount : 0),
             'cod_status' => 'pending',
             'type' => $request->input('method'),
             'status' => ShippingStatusEnum::DELIVERING,
@@ -612,7 +583,7 @@ class OrderController extends BaseController
     public function postRefund(int $id, RefundRequest $request, BaseHttpResponse $response)
     {
         $order = $this->orderRepository->findOrFail($id);
-        if ($request->input('refund_amount') > ($order->payment->amount - $order->payment->refunded_amount)) {
+        if (is_plugin_active('payment') && $request->input('refund_amount') > ($order->payment->amount - $order->payment->refunded_amount)) {
             return $response
                 ->setError()
                 ->setMessage(trans('plugins/ecommerce::order.refund_amount_invalid', [
@@ -702,7 +673,7 @@ class OrderController extends BaseController
         }
 
         $payment->refund_note = $request->input('refund_note');
-        $this->paymentRepository->createOrUpdate($payment);
+        app(PaymentInterface::class)->createOrUpdate($payment);
 
         foreach ($request->input('products', []) as $productId => $quantity) {
             $product = $this->productRepository->findById($productId);

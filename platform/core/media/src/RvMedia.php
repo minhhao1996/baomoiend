@@ -140,7 +140,7 @@ class RvMedia
         return $sizes;
     }
 
-    public function getImageUrl(?string $url, $size = null, bool $relativePath = false, $default = null)
+    public function getImageUrl(?string $url, $size = null, bool $relativePath = false, $default = null): string|null
     {
         if (empty($url)) {
             return $default;
@@ -313,7 +313,7 @@ class RvMedia
         return $this;
     }
 
-    public function uploadFromEditor(Request $request, ?int $folderId = 0, $folderName = null, string $fileInput = 'upload')
+    public function uploadFromEditor(Request $request, int|string|null $folderId = 0, $folderName = null, string $fileInput = 'upload')
     {
         $validator = Validator::make($request->all(), [
             'upload' => $this->imageValidationRule(),
@@ -347,7 +347,7 @@ class RvMedia
             ->header('Content-Type', 'text/html');
     }
 
-    public function handleUpload(?UploadedFile $fileUpload, ?int $folderId = 0, ?string $folderSlug = null, bool $skipValidation = false): array
+    public function handleUpload(?UploadedFile $fileUpload, int|string|null $folderId = 0, ?string $folderSlug = null, bool $skipValidation = false): array
     {
         $request = request();
 
@@ -521,7 +521,7 @@ class RvMedia
 
         $folderIds = json_decode(setting('media_folders_can_add_watermark', ''), true);
 
-        if (empty($folderIds) || in_array($file->folder_id, $folderIds)) {
+        if (empty($folderIds) || in_array($file->folder_id, $folderIds) || in_array($file->folder->parent_id, $folderIds)) {
             $this->insertWatermark($file->url);
         }
 
@@ -595,10 +595,12 @@ class RvMedia
 
     public function getRealPath(?string $url): string
     {
-        return match (config('filesystems.default')) {
+        $path = match (config('filesystems.default')) {
             'local', 'public' => Storage::path($url),
             default => Storage::url($url),
         };
+
+        return Arr::first(explode('?v=', $path));
     }
 
     public function isImage(string $mimeType): bool
@@ -611,7 +613,7 @@ class RvMedia
         return ! in_array(config('filesystems.default'), ['local', 'public']);
     }
 
-    public function uploadFromUrl(string $url, int $folderId = 0, ?string $folderSlug = null, ?string $defaultMimetype = null): ?array
+    public function uploadFromUrl(string $url, int|string $folderId = 0, ?string $folderSlug = null, ?string $defaultMimetype = null): ?array
     {
         if (empty($url)) {
             return [
@@ -666,7 +668,7 @@ class RvMedia
         return $result;
     }
 
-    public function uploadFromPath(string $path, int $folderId = 0, ?string $folderSlug = null, ?string $defaultMimetype = null): array
+    public function uploadFromPath(string $path, int|string $folderId = 0, ?string $folderSlug = null, ?string $defaultMimetype = null): array
     {
         if (empty($path)) {
             return [
@@ -738,7 +740,7 @@ class RvMedia
         return RvMedia::isImage($mimeType) && ! in_array($mimeType, ['image/svg+xml', 'image/x-icon']);
     }
 
-    public function createFolder(string $folderSlug, ?int $parentId = 0): int
+    public function createFolder(string $folderSlug, int|string|null $parentId = 0): int|string
     {
         $folder = $this->folderRepository->getFirstBy([
             'slug' => $folderSlug,
@@ -757,7 +759,7 @@ class RvMedia
         return $folder->id;
     }
 
-    public function handleTargetFolder(?int $folderId = 0, string $filePath = ''): string
+    public function handleTargetFolder(int|string|null $folderId = 0, string $filePath = ''): string
     {
         if (str_contains($filePath, '/')) {
             $paths = array_filter(explode('/', $filePath));

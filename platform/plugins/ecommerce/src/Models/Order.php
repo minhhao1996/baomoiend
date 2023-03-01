@@ -57,7 +57,10 @@ class Order extends BaseModel
             OrderHistory::where('order_id', $order->id)->delete();
             OrderProduct::where('order_id', $order->id)->delete();
             OrderAddress::where('order_id', $order->id)->delete();
-            app(PaymentInterface::class)->deleteBy(['order_id' => $order->id]);
+
+            if (is_plugin_active('payment')) {
+                app(PaymentInterface::class)->deleteBy(['order_id' => $order->id]);
+            }
         });
 
         static::creating(function (Order $order) {
@@ -245,7 +248,7 @@ class Order extends BaseModel
 
     public static function generateUniqueCode(): string
     {
-        $nextInsertId = static::query()->max('id') + 1;
+        $nextInsertId = BaseModel::determineIfUsingUuidsForId() ? static::query()->count() + 1 : static::query()->max('id') + 1;
 
         do {
             $code = get_order_code($nextInsertId);

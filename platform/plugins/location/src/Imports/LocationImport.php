@@ -355,7 +355,7 @@ class LocationImport implements
         return $row;
     }
 
-    public function getCountryId(int|string|null $value): ?int
+    public function getCountryId(int|string|null $value): int|string|null
     {
         $country = $this->countries->where('keyword', $value)->first();
 

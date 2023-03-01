@@ -48,12 +48,12 @@ return [
 
             /*import vendors*/
 
-            $theme->asset()->usePath()->add('bootstrap-css', 'css/vendors/bootstrap.min.css');
-            $theme->asset()->usePath()->add('fontawesome-css', 'css/vendors/fontawesome-all.min.css');
+            $theme->asset()->add('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css');
+            $theme->asset()->add('fontawesome-css', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css');
             $theme->asset()->usePath()->add('baomoi-font-css', 'css/vendors/baomoi-font.css');
             $theme->asset()->add('baomoi-font-css', 'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css');
             /*import plugins*/
-//            $theme->asset()->usePath()->add('animate-css', 'css/plugins/animate.css');
+           $theme->asset()->usePath()->add('animate-css', 'css/plugins/animate.css');
 
 
             $theme->asset()->usePath()->add('style-css', 'css/style.css', [], [], $version);

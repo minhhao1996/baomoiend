@@ -21,7 +21,7 @@ class PostRepository extends RepositoriesAbstract implements PostInterface
             ])
             ->limit($limit)
             ->with(array_merge(['slugable'], $with))
-            ->orderBy('id', 'desc');
+            ->orderBy('created_at', 'desc');
 
         return $this->applyBeforeExecuteQuery($data)->get();
     }

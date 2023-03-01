@@ -22,10 +22,12 @@
                     <strong class="text-info">{{ $order->shipment->status->label() }}</strong>
                 </p>
             @endif
-            <p>
-                <span>{{ __('Payment status') }}: </span>
-                <strong class="text-info">{{ $order->payment->status->label() }}</strong>
-            </p>
+            @if (is_plugin_active('payment'))
+                <p>
+                    <span>{{ __('Payment status') }}: </span>
+                    <strong class="text-info">{{ $order->payment->status->label() }}</strong>
+                </p>
+            @endif
         </div>
     </div>
     <br/>
@@ -106,7 +108,7 @@
                                         <td class="product-quantity product-md d-md-table-cell d-block" data-title="Quantity">
                                             @php
                                                 $qtyChooses = [];
-                                                for ($i = 1; $i <= $orderProduct->qty; $i++) { 
+                                                for ($i = 1; $i <= $orderProduct->qty; $i++) {
                                                     $qtyChooses[$i] = [
                                                         'data-qty' => $i,
                                                         'data-amount' => format_price($ratio == 0 ? 0 : ($orderProduct->price_with_tax * $i / $ratio)),

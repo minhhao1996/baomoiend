@@ -1,3 +1,4 @@
+@php $relatedPosts = get_related_posts($post->id, 3); @endphp
 <div class="row">
     <div class="main-content col-md-8 col-12">
         <div class="single-page">
@@ -41,11 +42,11 @@
                     $recentPosts = get_recent_posts(8);
                 @endphp
                 @if ($recentPosts->count())
-                    @foreach($recentPosts  as $key=> $post)
+                    @foreach($recentPosts  as $key=> $post1)
                         @if($key ===0)
                             <div class="new-first">
                                 <div class="thumb-art">
-                                    <a href="{{$post->url}}" title="{{$post->name}}">
+                                    <a href="{{$post1->url}}" title="{{$post1->name}}">
                                         <figure class="bm_Bh"><img
                                                 src="{{ get_object_image($post->image, 'product-thumb') }}"
                                                 alt="{{$post->name}}"></figure>
@@ -54,19 +55,19 @@
                                 <div class="description">
                                     <div class="description-title">
                                         <h4>
-                                            <a href="{{$post->url}}" title="{{$post->name}}">
-                                                {{$post->name}}
+                                            <a href="{{$post1->url}}" title="{{$post1->name}}">
+                                                {{$post1->name}}
                                             </a>
                                         </h4>
                                     </div>
                                     <div class="description-content">
-                                        {{$post->description}}
+                                        {{$post1->description}}
                                     </div>
                                     <div class="meta-news">
-                                        <time datetime="{{$post->created_at}}"><i class="far fa-clock"></i>
+                                        <time datetime="{{$post1->created_at}}"><i class="far fa-clock"></i>
                                             &nbsp;{{ date_from_database($post->created_at, 'M d, Y') }}
                                             <span
-                                                class="hit-count has-dot">  {{ __(':count Views', ['count' => number_format($post->views)]) }}</span>
+                                                class="hit-count has-dot">  {{ __(':count Views', ['count' => number_format($post1->views)]) }}</span>
                                         </time>
                                         @if ($post->first_category->name)
                                             <div class="entry-meta">
@@ -80,26 +81,26 @@
                         @else
                             <div class="news-item">
                                 <div class="thumb-art">
-                                    <a href="{{$post->url}}" title="{{$post->name}}">
+                                    <a href="{{$post1->url}}" title="{{$post1->name}}">
                                         <figure class="bm_Bh">
-                                            <img src="{{ get_object_image($post->image, 'thumb') }}"
-                                                 alt="{{$post->name}}"></figure>
+                                            <img src="{{ get_object_image($post1->image, 'thumb') }}"
+                                                 alt="{{$post1->name}}"></figure>
                                     </a>
                                 </div>
                                 <div class="description">
                                     <div class="description-title">
                                         <h4>
-                                            {{$post->name}}
+                                            {{$post1->name}}
                                         </h4>
                                     </div>
                                     <div class="meta-news">
-                                        <time datetime="{{$post->created_at}}"><i class="far fa-clock"></i>
-                                            &nbsp;{{ date_from_database($post->created_at, 'M d, Y') }}
+                                        <time datetime="{{$post1->created_at}}"><i class="far fa-clock"></i>
+                                            &nbsp;{{ date_from_database($post1->created_at, 'M d, Y') }}
                                         </time>
-                                        @if ($post->first_category->name)
+                                        @if ($post1->first_category->name)
                                             <div class="entry-meta">
                                                 <a class="entry-meta meta-2"
-                                                   href="{{ $post->first_category->url }}">{{ $post->first_category->name }}</a>
+                                                   href="{{ $post1->first_category->url }}">{{ $post1->first_category->name }}</a>
                                             </div>
                                         @endif
                                     </div>
@@ -118,37 +119,37 @@
                     $recentPosts = get_popular_posts(8);
                 @endphp
                 @if ($recentPosts->count())
-                    @foreach($recentPosts  as $key=> $post)
+                    @foreach($recentPosts  as $key=> $post2)
                         @if($key ===0)
                             <div class="new-first">
                                 <div class="thumb-art">
-                                    <a href="{{$post->url}}" title="{{$post->name}}">
+                                    <a href="{{$post2->url}}" title="{{$post2->name}}">
                                         <figure class="bm_Bh"><img
-                                                src="{{ get_object_image($post->image, 'product-thumb') }}"
-                                                alt="{{$post->name}}"></figure>
+                                                src="{{ get_object_image($post2->image, 'product-thumb') }}"
+                                                alt="{{$post2->name}}"></figure>
                                     </a>
                                 </div>
                                 <div class="description">
                                     <div class="description-title">
                                         <h4>
-                                            <a href="{{$post->url}}" title="{{$post->name}}">
-                                                {{$post->name}}
+                                            <a href="{{$post2->url}}" title="{{$post2->name}}">
+                                                {{$post2->name}}
                                             </a>
                                         </h4>
                                     </div>
                                     <div class="description-content">
-                                        {{$post->description}}
+                                        {{$post2->description}}
                                     </div>
                                     <div class="meta-news">
-                                        <time datetime="{{$post->created_at}}"><i class="far fa-clock"></i>
-                                            &nbsp;{{ date_from_database($post->created_at, 'M d, Y') }}
+                                        <time datetime="{{$post2->created_at}}"><i class="far fa-clock"></i>
+                                            &nbsp;{{ date_from_database($post2->created_at, 'M d, Y') }}
                                             <span
                                                 class="hit-count has-dot">  {{ __(':count Views', ['count' => number_format($post->views)]) }}</span>
                                         </time>
-                                        @if ($post->first_category->name)
+                                        @if ($post2->first_category->name)
                                             <div class="entry-meta">
                                                 <a class="entry-meta meta-2"
-                                                   href="{{ $post->first_category->url }}">{{ $post->first_category->name }}</a>
+                                                   href="{{ $post2->first_category->url }}">{{ $post2->first_category->name }}</a>
                                             </div>
                                         @endif
                                     </div>
@@ -157,26 +158,26 @@
                         @else
                             <div class="news-item">
                                 <div class="thumb-art">
-                                    <a href="{{$post->url}}" title="{{$post->name}}">
+                                    <a href="{{$post2->url}}" title="{{$post2->name}}">
                                         <figure class="bm_Bh">
-                                            <img src="{{ get_object_image($post->image, 'thumb') }}"
-                                                 alt="{{$post->name}}"></figure>
+                                            <img src="{{ get_object_image($post2->image, 'thumb') }}"
+                                                 alt="{{$post2->name}}"></figure>
                                     </a>
                                 </div>
                                 <div class="description">
                                     <div class="description-title">
                                         <h4>
-                                            {{$post->name}}
+                                            {{$post2->name}}
                                         </h4>
                                     </div>
                                     <div class="meta-news">
-                                        <time datetime="{{$post->created_at}}"><i class="far fa-clock"></i>
-                                            &nbsp;{{ date_from_database($post->created_at, 'M d, Y') }}
+                                        <time datetime="{{$post2->created_at}}"><i class="far fa-clock"></i>
+                                            &nbsp;{{ date_from_database($post2->created_at, 'M d, Y') }}
                                         </time>
-                                        @if ($post->first_category->name)
+                                        @if ($post2->first_category->name)
                                             <div class="entry-meta">
                                                 <a class="entry-meta meta-2"
-                                                   href="{{ $post->first_category->url }}">{{ $post->first_category->name }}</a>
+                                                   href="{{ $post2->first_category->url }}">{{ $post2->first_category->name }}</a>
                                             </div>
                                         @endif
                                     </div>
@@ -192,7 +193,7 @@
 </div>
 
 
-@php $relatedPosts = get_related_posts($post->id, 3); @endphp
+
 @if ($relatedPosts->count())
     <div class="loop-grid pr-30">
         <h4 class="mb-20">{{ __('Related Articles') }}</h4>

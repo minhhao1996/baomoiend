@@ -147,7 +147,12 @@ class PublicCheckoutController
 
         $sessionCheckoutData = $this->processOrderData($token, $sessionCheckoutData, $request);
 
-        $paymentMethod = $request->input('payment_method', session('selected_payment_method') ?: PaymentHelper::defaultPaymentMethod());
+        $paymentMethod = null;
+
+        if (is_plugin_active('payment')) {
+            $paymentMethod = $request->input('payment_method', session('selected_payment_method') ?: PaymentHelper::defaultPaymentMethod());
+        }
+
         if ($paymentMethod) {
             session()->put('selected_payment_method', $paymentMethod);
         }
@@ -690,7 +695,7 @@ class PublicCheckoutController
                 'order_id' => $order->id,
                 'user_id' => 0,
                 'weight' => $shippingData ? Arr::get($shippingData, 'weight') : 0,
-                'cod_amount' => ($order->payment->id && $order->payment->status != PaymentStatusEnum::COMPLETED) ? $order->amount : 0,
+                'cod_amount' => (is_plugin_active('payment') && $order->payment->id && $order->payment->status != PaymentStatusEnum::COMPLETED) ? $order->amount : 0,
                 'cod_status' => ShippingCodStatusEnum::PENDING,
                 'type' => $order->shipping_method,
                 'status' => ShippingStatusEnum::PENDING,
@@ -733,6 +738,10 @@ class PublicCheckoutController
         $request->merge([
             'order_id' => $order->id,
         ]);
+
+        if (! is_plugin_active('payment')) {
+            return redirect()->to(route('public.checkout.success', OrderHelper::getOrderSessionToken()));
+        }
 
         $paymentData = [
             'error' => false,
@@ -784,7 +793,7 @@ class PublicCheckoutController
             abort(404);
         }
 
-        if (! $order->payment_id) {
+        if (is_plugin_active('payment') && ! $order->payment_id) {
             return $response
                 ->setError()
                 ->setNextUrl(PaymentHelper::getCancelURL())

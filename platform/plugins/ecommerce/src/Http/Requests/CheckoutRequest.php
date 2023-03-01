@@ -14,14 +14,17 @@ class CheckoutRequest extends Request
 {
     public function rules(): array
     {
-        $paymentMethods = Arr::where(PaymentMethodEnum::values(), function ($value) {
-            return get_payment_setting('status', $value) == 1;
-        });
-
         $rules = [
-            'payment_method' => 'required|' . Rule::in($paymentMethods),
             'amount' => 'required|min:0',
         ];
+
+        if (is_plugin_active('payment')) {
+            $paymentMethods = Arr::where(PaymentMethodEnum::values(), function ($value) {
+                return get_payment_setting('status', $value) == 1;
+            });
+
+            $rules['payment_method'] = 'required|' . Rule::in($paymentMethods);
+        }
 
         $addressId = $this->input('address.address_id');
 

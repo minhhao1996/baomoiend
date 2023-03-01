@@ -33,7 +33,7 @@ class PublicController extends Controller
         return $response->setMessage(__('Subscribe to newsletter successfully!'));
     }
 
-    public function getUnsubscribe(int $id, Request $request, BaseHttpResponse $response)
+    public function getUnsubscribe(int|string $id, Request $request, BaseHttpResponse $response)
     {
         if (! URL::hasValidSignature($request)) {
             abort(404);

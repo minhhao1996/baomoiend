@@ -5,6 +5,7 @@ namespace Botble\Table\Abstracts;
 use Assets;
 use BaseHelper;
 use Botble\Base\Events\UpdatedContentEvent;
+use Botble\Base\Models\BaseModel;
 use Botble\Support\Repositories\Interfaces\RepositoryInterface;
 use Botble\Table\Supports\Builder as CustomTableBuilder;
 use Botble\Table\Supports\TableExportHandler;
@@ -305,7 +306,7 @@ abstract class TableAbstract extends DataTable
         ];
     }
 
-    protected function getCheckbox(int $id): string
+    protected function getCheckbox(int|string $id): string
     {
         return view('core/table::partials.checkbox', compact('id'))->render();
     }
@@ -821,6 +822,12 @@ abstract class TableAbstract extends DataTable
     {
         if ($this->repository && $this->repository->getModel()) {
             $data = apply_filters(BASE_FILTER_GET_LIST_DATA, $data, $this->repository->getModel());
+        }
+
+        if (BaseModel::determineIfUsingUuidsForId()) {
+            $data = $data->editColumn('id', function ($item) {
+                return Str::limit($item->id, 5);
+            });
         }
 
         return $data

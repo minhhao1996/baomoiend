@@ -15,14 +15,16 @@
                     <span>{{ __('Order status') }}: </span>
                     <strong class="text-info">{{ $order->status->label() }}</strong>
                 </p>
-                <p>
-                    <span>{{ __('Payment method') }}: </span>
-                    <strong class="text-info">{{ $order->payment->payment_channel->label() }}</strong>
-                </p>
-                <p>
-                    <span>{{ __('Payment status') }}: </span>
-                    <strong class="text-info">{{ $order->payment->status->label() }}</strong>
-                </p>
+                @if (is_plugin_active('payment'))
+                    <p>
+                        <span>{{ __('Payment method') }}: </span>
+                        <strong class="text-info">{{ $order->payment->payment_channel->label() }}</strong>
+                    </p>
+                    <p>
+                        <span>{{ __('Payment status') }}: </span>
+                        <strong class="text-info">{{ $order->payment->status->label() }}</strong>
+                    </p>
+                @endif
                 @if ($order->description)
                     <p>
                         <span>{{ __('Note') }}: </span>

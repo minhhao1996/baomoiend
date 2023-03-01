@@ -5,7 +5,9 @@
 @section('content')
 
     @if (Cart::instance('cart')->count() > 0)
-        @include('plugins/payment::partials.header')
+        @if (is_plugin_active('payment'))
+            @include('plugins/payment::partials.header')
+        @endif
 
         {!! Form::open(['route' => ['public.checkout.process', $token], 'class' => 'checkout-form payment-checkout-form', 'id' => 'checkout-form']) !!}
             <input type="hidden" name="checkout-token" id="checkout-token" value="{{ $token }}">
@@ -171,66 +173,38 @@
                                 @endif
                             @endif
 
-                            <div class="position-relative">
-                                <div class="payment-info-loading" style="display: none;">
-                                    <div class="payment-info-loading-content">
-                                        <i class="fas fa-spinner fa-spin"></i>
+                            @if (is_plugin_active('payment'))
+                                <div class="position-relative">
+                                    <div class="payment-info-loading" style="display: none;">
+                                        <div class="payment-info-loading-content">
+                                            <i class="fas fa-spinner fa-spin"></i>
+                                        </div>
                                     </div>
-                                </div>
-                                <h5 class="checkout-payment-title">{{ __('Payment method') }}</h5>
-                                <input type="hidden" name="amount" value="{{ format_price($orderAmount, null, true) }}">
-                                <input type="hidden" name="currency" value="{{ strtoupper(get_application_currency()->title) }}">
-                                {!! apply_filters(PAYMENT_FILTER_PAYMENT_PARAMETERS, null) !!}
-                                <ul class="list-group list_payment_method">
-                                    @php
-                                        $selected = session('selected_payment_method');
-                                        $default = \Botble\Payment\Supports\PaymentHelper::defaultPaymentMethod();
-                                        $selecting = $selected ?: $default;
-                                    @endphp
-                                    @if ($orderAmount)
-                                        {!! apply_filters(PAYMENT_FILTER_ADDITIONAL_PAYMENT_METHODS, null, [
-                                                'amount'    => format_price($orderAmount, null, true),
-                                                'currency'  => strtoupper(get_application_currency()->title),
-                                                'name'      => null,
-                                                'selected'  => $selected,
-                                                'default'   => $default,
-                                                'selecting' => $selecting,
+                                    <h5 class="checkout-payment-title">{{ __('Payment method') }}</h5>
+                                    <input type="hidden" name="amount" value="{{ format_price($orderAmount, null, true) }}">
+                                    <input type="hidden" name="currency" value="{{ strtoupper(get_application_currency()->title) }}">
+                                    @if (is_plugin_active('payment'))
+                                        {!! apply_filters(PAYMENT_FILTER_PAYMENT_PARAMETERS, null) !!}
+                                    @endif
+                                    <ul class="list-group list_payment_method">
+                                        @if ($orderAmount)
+                                            {!! apply_filters(PAYMENT_FILTER_ADDITIONAL_PAYMENT_METHODS, null, [
+                                                'amount' => format_price($orderAmount, null, true),
+                                                'currency' => strtoupper(get_application_currency()->title),
+                                                'name' => null,
+                                                'selected' => PaymentMethods::getSelectedMethod(),
+                                                'default' => PaymentMethods::getDefaultMethod(),
+                                                'selecting' => PaymentMethods::getSelectingMethod(),
                                             ]) !!}
-                                    @endif
-                                    @if (get_payment_setting('status', 'cod') == 1)
-                                        <li class="list-group-item">
-                                            <input class="magic-radio js_payment_method" type="radio" name="payment_method" id="payment_cod"
-                                                @if ($selecting == \Botble\Payment\Enums\PaymentMethodEnum::COD) checked @endif
-                                                value="cod" data-bs-toggle="collapse" data-bs-target=".payment_cod_wrap" data-parent=".list_payment_method">
-                                            <label for="payment_cod" class="text-start">{{ setting('payment_cod_name', trans('plugins/payment::payment.payment_via_cod')) }}</label>
-                                            <div class="payment_cod_wrap payment_collapse_wrap collapse @if ($selecting == \Botble\Payment\Enums\PaymentMethodEnum::COD) show @endif" style="padding: 15px 0;">
-                                                {!! BaseHelper::clean(setting('payment_cod_description')) !!}
 
-                                                @php $minimumOrderAmount = setting('payment_cod_minimum_amount', 0); @endphp
-                                                @if ($minimumOrderAmount > Cart::instance('cart')->rawSubTotal())
-                                                    <div class="alert alert-warning" style="margin-top: 15px;">
-                                                        {{ __('Minimum order amount to use COD (Cash On Delivery) payment method is :amount, you need to buy more :more to place an order!', ['amount' => format_price($minimumOrderAmount), 'more' => format_price($minimumOrderAmount - Cart::instance('cart')->rawSubTotal())]) }}
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </li>
-                                    @endif
-
-                                    @if (get_payment_setting('status', 'bank_transfer') == 1)
-                                        <li class="list-group-item">
-                                            <input class="magic-radio js_payment_method" type="radio" name="payment_method" id="payment_bank_transfer"
-                                                @if ($selecting == \Botble\Payment\Enums\PaymentMethodEnum::BANK_TRANSFER) checked @endif
-                                                value="bank_transfer"
-                                                data-bs-toggle="collapse" data-bs-target=".payment_bank_transfer_wrap" data-parent=".list_payment_method">
-                                            <label for="payment_bank_transfer" class="text-start">{{ setting('payment_bank_transfer_name', trans('plugins/payment::payment.payment_via_bank_transfer')) }}</label>
-                                            <div class="payment_bank_transfer_wrap payment_collapse_wrap collapse @if ($selecting == \Botble\Payment\Enums\PaymentMethodEnum::BANK_TRANSFER) show @endif" style="padding: 15px 0;">
-                                                {!! BaseHelper::clean(setting('payment_bank_transfer_description')) !!}
-                                            </div>
-                                        </li>
-                                    @endif
-                                </ul>
-                            </div>
-                            <br>
+                                            {!! PaymentMethods::render() !!}
+                                        @endif
+                                    </ul>
+                                </div>
+                                <br>
+                            @else
+                                <input type="hidden" name="amount" value="{{ format_price($orderAmount, null, true) }}">
+                            @endif
 
                             <div class="form-group mb-3 @if ($errors->has('description')) has-error @endif">
                                 <label for="description" class="control-label">{{ __('Order notes') }}</label>
@@ -276,7 +250,9 @@
             </div>
         {!! Form::close() !!}
 
-        @include('plugins/payment::partials.footer')
+        @if (is_plugin_active('payment'))
+            @include('plugins/payment::partials.footer')
+        @endif
     @else
         <div class="container">
             <div class="row">

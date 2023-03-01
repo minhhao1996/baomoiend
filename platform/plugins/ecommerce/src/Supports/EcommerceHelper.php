@@ -870,7 +870,7 @@ class EcommerceHelper
             'payment_method' => $paymentMethod,
         ];
 
-        if ($paymentMethod == PaymentMethodEnum::COD) {
+        if (is_plugin_active('payment') && $paymentMethod == PaymentMethodEnum::COD) {
             $data['extra']['COD'] = [
                 'amount' => max($orderTotal, 0),
                 'currency' => get_application_currency()->title,

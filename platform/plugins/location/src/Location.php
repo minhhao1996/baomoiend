@@ -254,7 +254,7 @@ class Location
         ];
     }
 
-    public function filter($model, int $cityId = null, string $location = null)
+    public function filter($model, int|string $cityId = null, string $location = null)
     {
         $className = get_class($model);
         if ($className == BaseQueryBuilder::class) {

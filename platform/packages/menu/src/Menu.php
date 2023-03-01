@@ -57,7 +57,7 @@ class Menu
         return $this->menuRepository->findBySlug($slug, $active);
     }
 
-    public function recursiveSaveMenu(array $menuNodes, int $menuId, int $parentId): array
+    public function recursiveSaveMenu(array $menuNodes, int|string $menuId, int|string $parentId): array
     {
         try {
             foreach ($menuNodes as &$row) {
@@ -82,7 +82,7 @@ class Menu
         }
     }
 
-    protected function saveMenuNode(array $menuItem, int $menuId, int $parentId, bool $hasChild = false): array
+    protected function saveMenuNode(array $menuItem, int|string $menuId, int|string $parentId, bool $hasChild = false): array
     {
         $item = $this->menuNodeRepository->findById(Arr::get($menuItem, 'id'));
 

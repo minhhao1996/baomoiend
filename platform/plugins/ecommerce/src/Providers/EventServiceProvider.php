@@ -20,6 +20,7 @@ use Botble\Ecommerce\Listeners\OrderCancelledNotification;
 use Botble\Ecommerce\Listeners\OrderCreatedNotification;
 use Botble\Ecommerce\Listeners\OrderPaymentConfirmedNotification;
 use Botble\Ecommerce\Listeners\OrderReturnedNotification;
+use Botble\Ecommerce\Listeners\RegisterCodPaymentMethod;
 use Botble\Ecommerce\Listeners\RegisterEcommerceWidget;
 use Botble\Ecommerce\Listeners\RenderingSiteMapListener;
 use Botble\Ecommerce\Listeners\SendMailsAfterCustomerRegistered;
@@ -28,6 +29,7 @@ use Botble\Ecommerce\Listeners\SendShippingStatusChangedNotification;
 use Botble\Ecommerce\Listeners\SendWebhookWhenOrderPlaced;
 use Botble\Ecommerce\Listeners\UpdateProductStockStatus;
 use Botble\Ecommerce\Listeners\UpdateProductView;
+use Botble\Payment\Events\RenderingPaymentMethods;
 use Botble\Theme\Events\RenderingSiteMapEvent;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -79,6 +81,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         OrderReturnedEvent::class => [
             OrderReturnedNotification::class,
+        ],
+        RenderingPaymentMethods::class => [
+            RegisterCodPaymentMethod::class,
         ],
     ];
 }

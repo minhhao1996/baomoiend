@@ -22,11 +22,8 @@ class PageController extends BaseController
 {
     use HasDeleteManyItemsTrait;
 
-    protected PageInterface $pageRepository;
-
-    public function __construct(PageInterface $pageRepository)
+    public function __construct(protected PageInterface $pageRepository)
     {
-        $this->pageRepository = $pageRepository;
     }
 
     public function index(PageTable $dataTable)
@@ -56,7 +53,7 @@ class PageController extends BaseController
             ->setMessage(trans('core/base::notices.create_success_message'));
     }
 
-    public function edit(int $id, FormBuilder $formBuilder, Request $request)
+    public function edit(int|string $id, FormBuilder $formBuilder, Request $request)
     {
         $page = $this->pageRepository->findOrFail($id);
 
@@ -67,7 +64,7 @@ class PageController extends BaseController
         return $formBuilder->create(PageForm::class, ['model' => $page])->renderForm();
     }
 
-    public function update(int $id, PageRequest $request, BaseHttpResponse $response)
+    public function update(int|string $id, PageRequest $request, BaseHttpResponse $response)
     {
         $page = $this->pageRepository->findOrFail($id);
         $page->fill($request->input());
@@ -81,7 +78,7 @@ class PageController extends BaseController
             ->setMessage(trans('core/base::notices.update_success_message'));
     }
 
-    public function destroy(Request $request, int $id, BaseHttpResponse $response)
+    public function destroy(int|string $id, Request $request, BaseHttpResponse $response)
     {
         try {
             $page = $this->pageRepository->findOrFail($id);

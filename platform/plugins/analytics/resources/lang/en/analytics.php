@@ -19,8 +19,8 @@ return [
     'settings' => [
         'title' => 'Google Analytics',
         'description' => 'Config Credentials for Google Analytics',
-        'tracking_code' => 'Tracking ID',
-        'tracking_code_placeholder' => 'Example: GA-12586526-8',
+        'tracking_code' => 'Measurement ID / Tracking ID',
+        'tracking_code_placeholder' => 'Example: G-76NX8HY29D',
         'view_id' => 'View ID for UA',
         'view_id_description' => 'Google Analytics View ID (UA)',
         'analytics_property_id' => 'Property ID for GA4',

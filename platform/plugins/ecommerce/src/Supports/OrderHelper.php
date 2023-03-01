@@ -70,7 +70,7 @@ class OrderHelper
             }
         }
 
-        if ($chargeId) {
+        if (is_plugin_active('payment') && $chargeId) {
             $payments = app(PaymentInterface::class)->allBy([
                 ['charge_id', '=', $chargeId],
                 ['order_id', 'IN', $orderIds],
@@ -117,8 +117,8 @@ class OrderHelper
                 'order_id' => $order->id,
             ]);
 
-            if ($order->payment && $order->payment->status == PaymentStatusEnum::COMPLETED) {
-                $this->sendEmailForDigitalPrdoucts($order);
+            if (is_plugin_active('payment') && $order->payment && $order->payment->status == PaymentStatusEnum::COMPLETED) {
+                $this->sendEmailForDigitalProducts($order);
             }
         }
 
@@ -147,12 +147,16 @@ class OrderHelper
 
     public function setEmailVariables(Order $order): EmailHandlerSupport
     {
-        $paymentMethod = $order->payment->payment_channel->label();
+        $paymentMethod = '&mdash;';
 
-        if ($order->payment->payment_channel == PaymentMethodEnum::BANK_TRANSFER && $order->payment->status == PaymentStatusEnum::PENDING) {
-            $paymentMethod .= '<div>' . trans('plugins/ecommerce::order.payment_info') . ': <strong>' .
-                BaseHelper::clean(get_payment_setting('description', $order->payment->payment_channel)) .
-                '</strong</div>';
+        if (is_plugin_active('payment')) {
+            $paymentMethod = $order->payment->payment_channel->label();
+
+            if ($order->payment->payment_channel == PaymentMethodEnum::BANK_TRANSFER && $order->payment->status == PaymentStatusEnum::PENDING) {
+                $paymentMethod .= '<div>' . trans('plugins/ecommerce::order.payment_info') . ': <strong>' .
+                    BaseHelper::clean(get_payment_setting('description', $order->payment->payment_channel)) .
+                    '</strong</div>';
+            }
         }
 
         return EmailHandler::setModule(ECOMMERCE_MODULE_SCREEN_NAME)
@@ -394,7 +398,7 @@ class OrderHelper
             $request->input('qty', 1),
             $product->original_price,
             [
-                'image' => RvMedia::getImageUrl($image, 'thumb', false, RvMedia::getDefaultImage()),
+                'image' => $image,
                 'attributes' => $product->is_variation ? $product->variation_attributes : '',
                 'taxRate' => $parentProduct->total_taxes_percentage,
                 'options' => $options,
@@ -752,6 +756,10 @@ class OrderHelper
 
     public function confirmPayment(Order $order): bool
     {
+        if (! is_plugin_active('payment')) {
+            return false;
+        }
+
         $payment = $order->payment;
 
         if (! $payment) {
@@ -784,19 +792,19 @@ class OrderHelper
             'user_id' => Auth::id(),
         ]);
 
-        $this->sendEmailForDigitalPrdoucts($order);
+        $this->sendEmailForDigitalProducts($order);
 
         return true;
     }
 
-    public function sendEmailForDigitalPrdoucts(Order $order): void
+    public function sendEmailForDigitalProducts(Order $order): void
     {
         if (EcommerceHelperFacade::canCheckoutForDigitalProducts($order->products)) {
             $mailer = EmailHandler::setModule(ECOMMERCE_MODULE_SCREEN_NAME);
             $view = view('plugins/ecommerce::emails.partials.digital-product-list', compact('order'))->render();
             $mailer->setVariableValues([
                 'customer_name' => BaseHelper::clean($order->user->name ?: $order->address->name),
-                'payment_method' => $order->payment->payment_channel->label(),
+                'payment_method' => is_plugin_active('payment') ? $order->payment->payment_channel->label() : '&mdash;',
                 'digital_product_list' => $view,
             ]);
             $mailer->sendUsingTemplate('download_digital_products', $order->user->email ?: $order->address->email);

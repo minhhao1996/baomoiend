@@ -15,11 +15,8 @@ use SlugHelper;
 
 class PostController extends Controller
 {
-    protected PostInterface $postRepository;
-
-    public function __construct(PostInterface $postRepository)
+    public function __construct(protected PostInterface $postRepository)
     {
-        $this->postRepository = $postRepository;
     }
 
     /**

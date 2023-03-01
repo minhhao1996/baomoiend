@@ -50,11 +50,19 @@ class OrderTable extends TableAbstract
                 return BaseHelper::clean($item->status->toHtml());
             })
             ->editColumn('payment_status', function ($item) {
+                if (! is_plugin_active('payment')) {
+                    return '&mdash;';
+                }
+
                 return $item->payment->status->label() ? BaseHelper::clean(
                     $item->payment->status->toHtml()
                 ) : '&mdash;';
             })
             ->editColumn('payment_method', function ($item) {
+                if (! is_plugin_active('payment')) {
+                    return '&mdash;';
+                }
+
                 return BaseHelper::clean($item->payment->payment_channel->label() ?: '&mdash;');
             })
             ->editColumn('amount', function ($item) {
@@ -101,8 +109,14 @@ class OrderTable extends TableAbstract
 
     public function query(): Relation|Builder|QueryBuilder
     {
+        $with = ['user'];
+
+        if (is_plugin_active('payment')) {
+            $with[] = 'payment';
+        }
+
         $query = $this->repository->getModel()
-            ->with(['user', 'payment'])
+            ->with($with)
             ->select([
                 'id',
                 'status',

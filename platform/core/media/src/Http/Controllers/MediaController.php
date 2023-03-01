@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use RvMedia;
 use Storage;
 
@@ -28,24 +29,12 @@ use Storage;
  */
 class MediaController extends Controller
 {
-    protected MediaFileInterface $fileRepository;
-
-    protected MediaFolderInterface $folderRepository;
-
-    protected UploadsManager $uploadManager;
-
-    protected MediaSettingInterface $mediaSettingRepository;
-
     public function __construct(
-        MediaFileInterface $fileRepository,
-        MediaFolderInterface $folderRepository,
-        MediaSettingInterface $mediaSettingRepository,
-        UploadsManager $uploadManager
+        protected MediaFileInterface $fileRepository,
+        protected MediaFolderInterface $folderRepository,
+        protected MediaSettingInterface $mediaSettingRepository,
+        protected UploadsManager $uploadManager
     ) {
-        $this->fileRepository = $fileRepository;
-        $this->folderRepository = $folderRepository;
-        $this->uploadManager = $uploadManager;
-        $this->mediaSettingRepository = $mediaSettingRepository;
     }
 
     public function getMedia()
@@ -502,7 +491,7 @@ class MediaController extends Controller
 
             case 'crop':
                 $validated = Validator::validate($request->input(), [
-                    'imageId' => ['required', 'numeric', 'exists:media_files,id'],
+                    'imageId' => ['required', 'string', 'exists:media_files,id'],
                     'cropData' => ['required', 'json'],
                 ]);
 
@@ -605,7 +594,7 @@ class MediaController extends Controller
         return $response;
     }
 
-    protected function copyFile(MediaFile $file, ?int $newFolderId = null)
+    protected function copyFile(MediaFile $file, int|string|null $newFolderId = null)
     {
         $file = $file->replicate();
         $file->user_id = Auth::id();
@@ -656,12 +645,13 @@ class MediaController extends Controller
             $file = $this->fileRepository->getFirstByWithTrash(['id' => $items[0]['id']]);
             if (! empty($file) && $file->type != 'video') {
                 $filePath = RvMedia::getRealPath($file->url);
+
                 if (! RvMedia::isUsingCloud()) {
                     if (! File::exists($filePath)) {
                         return RvMedia::responseError(trans('core/media::media.file_not_exists'));
                     }
 
-                    return response()->download($filePath, $file->name);
+                    return response()->download($filePath, Str::slug($file->name));
                 }
 
                 return response()->make(file_get_contents(str_replace('https://', 'http://', $filePath)), 200, [

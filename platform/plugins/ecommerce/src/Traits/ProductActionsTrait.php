@@ -229,7 +229,7 @@ trait ProductActionsTrait
      * @param BaseHttpResponse $response
      * @return BaseHttpResponse
      */
-    public function destroy($id, Request $request, BaseHttpResponse $response)
+    public function destroy(int|string $id, Request $request, BaseHttpResponse $response)
     {
         $product = $this->productRepository->findOrFail($id);
 

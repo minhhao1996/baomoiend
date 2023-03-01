@@ -35,19 +35,19 @@
                                     </div>
                                 </div>
                                 <div class="mt20">
-                                    @if ($order->shipment->id)
+                                    @if ($order->completed_at)
                                         <svg
-                                            class="svg-next-icon svg-next-icon-size-16 next-icon--right-spacing-quartered">
+                                            class="svg-next-icon svg-next-icon-size-16 next-icon--right-spacing-quartered text-info">
                                             <use xmlns:xlink="http://www.w3.org/1999/xlink"
                                                  xlink:href="#next-orders"></use>
                                         </svg>
-                                        <strong class="ml5">{{ trans('plugins/ecommerce::order.completed') }}</strong>
+                                        <strong class="ml5 text-info">{{ trans('plugins/ecommerce::order.completed') }}</strong>
                                     @else
-                                        <svg class="svg-next-icon svg-next-icon-size-16 svg-next-icon-gray">
+                                        <svg class="svg-next-icon svg-next-icon-size-16 text-warning">
                                             <use xmlns:xlink="http://www.w3.org/1999/xlink"
                                                  xlink:href="#next-order-unfulfilled-16"></use>
                                         </svg>
-                                        <strong class="ml5">{{ trans('plugins/ecommerce::order.completed') }}</strong>
+                                        <strong class="ml5 text-warning">{{ trans('plugins/ecommerce::order.uncompleted') }}</strong>
                                     @endif
                                 </div>
                             </div>
@@ -188,7 +188,7 @@
                                                 <tr>
                                                     <td class="text-end mt10">
                                                         <p class="mb0 color-subtext">{{ trans('plugins/ecommerce::order.total_amount') }}</p>
-                                                        @if ($order->payment->id)
+                                                        @if (is_plugin_active('payment') && $order->payment->id)
                                                             <p class="mb0  font-size-12px"><a
                                                                     href="{{ route('payment.show', $order->payment->id) }}"
                                                                     target="_blank">{{ $order->payment->payment_channel->label() }}</a>
@@ -196,7 +196,7 @@
                                                         @endif
                                                     </td>
                                                     <td class="text-end text-no-bold p-none-t pl10">
-                                                        @if ($order->payment->id)
+                                                        @if (is_plugin_active('payment') && $order->payment->id)
                                                             <a href="{{ route('payment.show', $order->payment->id) }}"
                                                                target="_blank">
                                                                 <span>{{ format_price($order->amount) }}</span>
@@ -213,17 +213,17 @@
                                                 <tr>
                                                     <td class="text-end color-subtext">{{ trans('plugins/ecommerce::order.paid_amount') }}</td>
                                                     <td class="text-end color-subtext pl10">
-                                                        @if ($order->payment->id)
+                                                        @if (is_plugin_active('payment') && $order->payment->id)
                                                             <a href="{{ route('payment.show', $order->payment->id) }}"
                                                                target="_blank">
                                                                 <span>{{ format_price($order->payment->status == \Botble\Payment\Enums\PaymentStatusEnum::COMPLETED ? $order->payment->amount : 0) }}</span>
                                                             </a>
                                                         @else
-                                                            <span>{{ format_price($order->payment->status == \Botble\Payment\Enums\PaymentStatusEnum::COMPLETED ? $order->payment->amount : 0) }}</span>
+                                                            <span>{{ format_price(is_plugin_active('payment') && $order->payment->status == \Botble\Payment\Enums\PaymentStatusEnum::COMPLETED ? $order->payment->amount : 0) }}</span>
                                                         @endif
                                                     </td>
                                                 </tr>
-                                                @if ($order->payment->status == \Botble\Payment\Enums\PaymentStatusEnum::REFUNDED)
+                                                @if (is_plugin_active('payment') && $order->payment->status == \Botble\Payment\Enums\PaymentStatusEnum::REFUNDED)
                                                     <tr class="hidden">
                                                         <td class="text-end color-subtext">{{ trans('plugins/ecommerce::order.refunded_amount') }}</td>
                                                         <td class="text-end pl10">
@@ -234,7 +234,7 @@
                                                 <tr class="hidden">
                                                     <td class="text-end color-subtext">{{ trans('plugins/ecommerce::order.amount_received') }}</td>
                                                     <td class="text-end pl10">
-                                                        <span>{{ format_price($order->payment->status == \Botble\Payment\Enums\PaymentStatusEnum::COMPLETED ? $order->amount : 0) }}</span>
+                                                        <span>{{ format_price(is_plugin_active('payment') && $order->payment->status == \Botble\Payment\Enums\PaymentStatusEnum::COMPLETED ? $order->amount : 0) }}</span>
                                                     </td>
                                                 </tr>
                                                 </tbody>
@@ -310,7 +310,7 @@
                                         <div class="flexbox-auto-content ml15 mr15 text-upper">
                                             <span>{{ trans('plugins/ecommerce::order.order_was_canceled') }}</span>
                                         </div>
-                                    @elseif ($order->payment->id)
+                                    @elseif (is_plugin_active('payment') && $order->payment->id)
                                         <div class="flexbox-auto-left">
                                             @if (!$order->payment->status || $order->payment->status == \Botble\Payment\Enums\PaymentStatusEnum::PENDING)
                                                 <svg class="svg-next-icon svg-next-icon-size-24 svg-next-icon-gray">
@@ -477,7 +477,7 @@
                                                                     </table>
                                                                 </div>
                                                             @endif
-                                                            @if ($history->action == 'confirm_payment' && $order->payment)
+                                                            @if (is_plugin_active('payment') && $history->action == 'confirm_payment' && $order->payment)
                                                                 <div class="timeline-dropdown"
                                                                      id="history-line-{{ $history->id }}">
                                                                     <table>
@@ -696,8 +696,10 @@
             {!! Form::modalAction('cancel-shipment-modal', trans('plugins/ecommerce::order.cancel_shipping_confirmation'), 'info', trans('plugins/ecommerce::order.cancel_shipping_confirmation_description'), 'confirm-cancel-shipment-button', trans('plugins/ecommerce::order.confirm')) !!}
             {!! Form::modalAction('update-shipping-address-modal', trans('plugins/ecommerce::order.update_address'), 'info', view('plugins/ecommerce::orders.shipping-address.form', ['address' => $order->address, 'orderId' => $order->id, 'url' => route('orders.update-shipping-address', $order->address->id ?? 0)])->render(), 'confirm-update-shipping-address-button', trans('plugins/ecommerce::order.update'), 'modal-md') !!}
             {!! Form::modalAction('cancel-order-modal', trans('plugins/ecommerce::order.cancel_order_confirmation'), 'info', trans('plugins/ecommerce::order.cancel_order_confirmation_description'), 'confirm-cancel-order-button', trans('plugins/ecommerce::order.cancel_order')) !!}
-            {!! Form::modalAction('confirm-payment-modal', trans('plugins/ecommerce::order.confirm_payment'), 'info', trans('plugins/ecommerce::order.confirm_payment_confirmation_description', ['method' => $order->payment->payment_channel->label()]), 'confirm-payment-order-button', trans('plugins/ecommerce::order.confirm_payment')) !!}
-            {!! Form::modalAction('confirm-refund-modal', trans('plugins/ecommerce::order.refund'), 'info', view('plugins/ecommerce::orders.refund.modal', ['order' => $order, 'url' => route('orders.refund', $order->id)])->render(), 'confirm-refund-payment-button', trans('plugins/ecommerce::order.refund') . ' <span class="refund-amount-text">' . format_price($order->payment->amount - $order->payment->refunded_amount) . '</span>') !!}
+            @if (is_plugin_active('payment'))
+                {!! Form::modalAction('confirm-payment-modal', trans('plugins/ecommerce::order.confirm_payment'), 'info', trans('plugins/ecommerce::order.confirm_payment_confirmation_description', ['method' => $order->payment->payment_channel->label()]), 'confirm-payment-order-button', trans('plugins/ecommerce::order.confirm_payment')) !!}
+                {!! Form::modalAction('confirm-refund-modal', trans('plugins/ecommerce::order.refund'), 'info', view('plugins/ecommerce::orders.refund.modal', ['order' => $order, 'url' => route('orders.refund', $order->id)])->render(), 'confirm-refund-payment-button', trans('plugins/ecommerce::order.refund') . ' <span class="refund-amount-text">' . format_price($order->payment->amount - $order->payment->refunded_amount) . '</span>') !!}
+            @endif
             @if ($order->shipment && $order->shipment->id)
                 {!! Form::modalAction('update-shipping-status-modal', trans('plugins/ecommerce::shipping.update_shipping_status'), 'info', view('plugins/ecommerce::orders.shipping-status-modal', ['shipment' => $order->shipment, 'url' => route('ecommerce.shipments.update-status', $order->shipment->id)])->render(), 'confirm-update-shipping-status-button', trans('plugins/ecommerce::order.update'), 'modal-xs') !!}
             @endif

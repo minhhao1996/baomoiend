@@ -63,7 +63,7 @@ class ReviewController extends Controller
         return $response->setMessage(__('Added review successfully!'));
     }
 
-    public function destroy(int $id, BaseHttpResponse $response)
+    public function destroy(int|string $id, BaseHttpResponse $response)
     {
         if (! EcommerceHelper::isReviewEnabled()) {
             abort(404);

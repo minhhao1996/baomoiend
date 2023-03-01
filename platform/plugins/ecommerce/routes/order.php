@@ -21,7 +21,7 @@ Route::group(['namespace' => 'Botble\Ecommerce\Http\Controllers', 'middleware' =
                 'as' => 'generate-invoice',
                 'uses' => 'OrderController@getGenerateInvoice',
                 'permission' => 'orders.edit',
-            ])->where('id', '[0-9]+');
+            ])->where('id', BaseHelper::routeIdRegex());
 
             Route::post('confirm', [
                 'as' => 'confirm',
@@ -33,55 +33,55 @@ Route::group(['namespace' => 'Botble\Ecommerce\Http\Controllers', 'middleware' =
                 'as' => 'send-order-confirmation-email',
                 'uses' => 'OrderController@postResendOrderConfirmationEmail',
                 'permission' => 'orders.edit',
-            ])->where('id', '[0-9]+');
+            ])->where('id', BaseHelper::routeIdRegex());
 
             Route::post('create-shipment/{id}', [
                 'as' => 'create-shipment',
                 'uses' => 'OrderController@postCreateShipment',
                 'permission' => 'orders.edit',
-            ])->where('id', '[0-9]+');
+            ])->where('id', BaseHelper::routeIdRegex());
 
             Route::post('cancel-shipment/{id}', [
                 'as' => 'cancel-shipment',
                 'uses' => 'OrderController@postCancelShipment',
                 'permission' => 'orders.edit',
-            ])->where('id', '[0-9]+');
+            ])->where('id', BaseHelper::routeIdRegex());
 
             Route::post('update-shipping-address/{id}', [
                 'as' => 'update-shipping-address',
                 'uses' => 'OrderController@postUpdateShippingAddress',
                 'permission' => 'orders.edit',
-            ])->where('id', '[0-9]+');
+            ])->where('id', BaseHelper::routeIdRegex());
 
             Route::post('cancel-order/{id}', [
                 'as' => 'cancel',
                 'uses' => 'OrderController@postCancelOrder',
                 'permission' => 'orders.edit',
-            ])->where('id', '[0-9]+');
+            ])->where('id', BaseHelper::routeIdRegex());
 
             Route::get('print-shipping-order/{id}', [
                 'as' => 'print-shipping-order',
                 'uses' => 'OrderController@getPrintShippingOrder',
                 'permission' => 'orders.edit',
-            ])->where('id', '[0-9]+');
+            ])->where('id', BaseHelper::routeIdRegex());
 
             Route::post('confirm-payment/{id}', [
                 'as' => 'confirm-payment',
                 'uses' => 'OrderController@postConfirmPayment',
                 'permission' => 'orders.edit',
-            ])->where('id', '[0-9]+');
+            ])->where('id', BaseHelper::routeIdRegex());
 
             Route::get('get-shipment-form/{id}', [
                 'as' => 'get-shipment-form',
                 'uses' => 'OrderController@getShipmentForm',
                 'permission' => 'orders.edit',
-            ])->where('id', '[0-9]+');
+            ])->where('id', BaseHelper::routeIdRegex());
 
             Route::post('refund/{id}', [
                 'as' => 'refund',
                 'uses' => 'OrderController@postRefund',
                 'permission' => 'orders.edit',
-            ])->where('id', '[0-9]+');
+            ])->where('id', BaseHelper::routeIdRegex());
 
             Route::get('get-available-shipping-methods', [
                 'as' => 'get-available-shipping-methods',
@@ -107,13 +107,13 @@ Route::group(['namespace' => 'Botble\Ecommerce\Http\Controllers', 'middleware' =
                 'as' => 'view-incomplete-order',
                 'uses' => 'OrderController@getViewIncompleteOrder',
                 'permission' => 'orders.index',
-            ])->where('id', '[0-9]+');
+            ])->where('id', BaseHelper::routeIdRegex());
 
             Route::post('send-order-recover-email/{id}', [
                 'as' => 'send-order-recover-email',
                 'uses' => 'OrderController@postSendOrderRecoverEmail',
                 'permission' => 'orders.index',
-            ])->where('id', '[0-9]+');
+            ])->where('id', BaseHelper::routeIdRegex());
         });
 
         Route::group(['prefix' => 'order-returns', 'as' => 'order_returns.'], function () {

@@ -662,8 +662,11 @@ class ProductRepository extends RepositoriesAbstract implements ProductInterface
                         FROM ec_product_variation_items
 
                         INNER JOIN ec_product_variations ON ec_product_variations.id = ec_product_variation_items.variation_id
+                        JOIN ec_products ON ec_products.id = ec_product_variations.product_id
 
                         WHERE ec_product_variation_items.attribute_id IN (' . implode(',', $filters['attributes']) . ')
+
+                        AND (ec_products.quantity > 0 OR (ec_products.with_storehouse_management = 0 AND ec_products.stock_status = "in_stock"))
 
                         GROUP BY
                             ec_product_variations.id,

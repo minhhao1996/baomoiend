@@ -176,7 +176,7 @@ class LanguageManager
         return $text;
     }
 
-    public function getRelatedLanguageItem(int $id, ?string $uniqueKey): array
+    public function getRelatedLanguageItem(int|string $id, ?string $uniqueKey): array
     {
         /**
          * @var Builder $meta
