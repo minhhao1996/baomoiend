@@ -144,15 +144,15 @@
                                         <div class="post-img">
                                             <img src="{{ get_object_image($post->image, 'medium') }}"
                                                  alt="{{ $post->name }}">
-                                            <a href="{{ $post->url }}" class="over-layer" title="{{ $post->name }}"><i class="fa fa-link"></i></a>
                                         </div>
                                         <div class="post-content">
                                             <h3 class="post-title">
-                                                <a href="{{ $post->url }}" title="{{ $post->url }}">{{ $post->name }}</a>
+                                                <a href="{{ $post->url }}" title="{{ $post->url }}">
+                                                    {{ $post->name }}
+                                                </a>
                                             </h3>
                                             <p class="post-description">{{ $post->description }}</p>
                                             <span class="post-date"><i class="far fa-clock"></i>{{ date_from_database($post->created_at, 'M d, Y') }}</span>
-                                            <a href="{{ $post->url }}" title="{{ $post->name }}" class="read-more">Read more</a>
                                         </div>
                                     </div>
                                 @endforeach
@@ -239,7 +239,9 @@
                                             <div class="description">
                                                 <div class="description-title">
                                                     <h4>
-                                                        {{$post->name}}
+                                                        <a href="{{$post->url}}" title="{{$post->name}}">
+                                                            {{$post->name}}
+                                                        </a>
                                                     </h4>
                                                 </div>
                                                 <div class="meta-news">
@@ -316,7 +318,9 @@
                                             <div class="description">
                                                 <div class="description-title">
                                                     <h4>
-                                                        {{$post->name}}
+                                                        <a href="{{$post->url}}" title="{{$post->name}}">
+                                                            {{$post->name}}
+                                                        </a>
                                                     </h4>
                                                 </div>
                                                 <div class="meta-news">
@@ -338,6 +342,8 @@
                             @endif
                         @endif
                     </div>
+                    <script src="https://apps.elfsight.com/p/platform.js" defer></script>
+                    <div class="elfsight-app-6025168f-507d-432d-91db-384c6ba77ddb w-100"></div>
                 </div>
             </div>
         </div>
