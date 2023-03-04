@@ -342,8 +342,6 @@
                             @endif
                         @endif
                     </div>
-                    <script src="https://apps.elfsight.com/p/platform.js" defer></script>
-                    <div class="elfsight-app-6025168f-507d-432d-91db-384c6ba77ddb w-100"></div>
                 </div>
             </div>
         </div>
