@@ -126,8 +126,6 @@
                                     @endif
                                 @endforeach
                             </div>
-
-
                         </section>
                     @endif
 
@@ -337,7 +335,6 @@
                                             </div>
                                         </div>
                                     @endif
-
                                 @endforeach
                             @endif
                         @endif
