@@ -147,7 +147,7 @@
                                         <time datetime="{{$post2->created_at}}"><i class="far fa-clock"></i>
                                             &nbsp;{{ date_from_database($post2->created_at, 'M d, Y') }}
                                             <span
-                                                class="hit-count has-dot">  {{ __(':count Views', ['count' => number_format($post->views)]) }}</span>
+                                                class="hit-count has-dot">  {{ __(':count Views', ['count' => number_format($post2->views)]) }}</span>
                                         </time>
                                         @if ($post2->first_category->name)
                                             <div class="entry-meta">
