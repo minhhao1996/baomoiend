@@ -51,8 +51,8 @@
                                 <div class="thumb-art">
                                     <a href="{{$post1->url}}" title="{{$post1->name}}">
                                         <figure class="bm_Bh"><img
-                                                src="{{ get_object_image($post->image, 'product-thumb') }}"
-                                                alt="{{$post->name}}"></figure>
+                                                src="{{ get_object_image($post1->image, 'product-thumb') }}"
+                                                alt="{{$post1->name}}"></figure>
                                     </a>
                                 </div>
                                 <div class="description">
@@ -68,14 +68,14 @@
                                     </div>
                                     <div class="meta-news">
                                         <time datetime="{{$post1->created_at}}"><i class="far fa-clock"></i>
-                                            &nbsp;{{ date_from_database($post->created_at, 'M d, Y') }}
+                                            &nbsp;{{ date_from_database($post1->created_at, 'M d, Y') }}
                                             <span
                                                 class="hit-count has-dot">  {{ __(':count Views', ['count' => number_format($post1->views)]) }}</span>
                                         </time>
-                                        @if ($post->first_category->name)
+                                        @if ($post1->first_category->name)
                                             <div class="entry-meta">
                                                 <a class="entry-meta meta-2"
-                                                   href="{{ $post->first_category->url }}">{{ $post->first_category->name }}</a>
+                                                   href="{{ $post1->first_category->url }}">{{ $post1->first_category->name }}</a>
                                             </div>
                                         @endif
                                     </div>
