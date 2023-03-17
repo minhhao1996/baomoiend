@@ -5,7 +5,7 @@
             <span class="checkout-quantity">{{ $cartItem->qty }}</span>
         </div>
     </div>
-    <div class="col-5">
+    <div class="col">
         <p class="mb-0">{{ $product->original_product->name }} @if ($product->isOutOfStock()) <span class="stock-status-label">({!! $product->stock_status_html !!})</span> @endif</p>
         <p class="mb-0">
             <small>{{ $product->variation_attributes }}</small>
@@ -14,10 +14,10 @@
         @include('plugins/ecommerce::themes.includes.cart-item-options-extras', ['options' => $cartItem->options])
 
         @if (! empty($cartItem->options['options']))
-            {!! render_product_options_html($cartItem->options['options'], $product->original_product->front_sale_price_with_taxes) !!}
+            {!! render_product_options_html($cartItem->options['options'], $product->original_price) !!}
         @endif
     </div>
-    <div class="col-4 text-end">
+    <div class="col-auto text-end">
         <p>{{ format_price($cartItem->price) }}</p>
     </div>
 </div>

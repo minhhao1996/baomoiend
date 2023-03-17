@@ -21,14 +21,8 @@ use ZipArchive;
 
 class Location
 {
-    protected StateInterface $stateRepository;
-
-    protected CityInterface $cityRepository;
-
-    public function __construct(StateInterface $stateRepository, CityInterface $cityRepository)
+    public function __construct(protected StateInterface $stateRepository, protected CityInterface $cityRepository)
     {
-        $this->stateRepository = $stateRepository;
-        $this->cityRepository = $cityRepository;
     }
 
     public function getStates(): array

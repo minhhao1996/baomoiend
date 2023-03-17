@@ -93,7 +93,7 @@ if (! function_exists('human_price_text')) {
         }
 
         $price = number_format(
-            $price,
+            (float)$price,
             (int)$numberAfterDot,
             $decimalSeparator,
             $thousandSeparator

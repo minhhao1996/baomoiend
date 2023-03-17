@@ -21,6 +21,7 @@ use Botble\Ecommerce\Repositories\Interfaces\ProductTagInterface;
 use Botble\Ecommerce\Repositories\Interfaces\ProductVariationInterface;
 use Botble\Ecommerce\Repositories\Interfaces\ProductVariationItemInterface;
 use Botble\Ecommerce\Services\Products\GetProductService;
+use Botble\SeoHelper\Entities\Twitter\Card;
 use Botble\SeoHelper\SeoOpenGraph;
 use Carbon\Carbon;
 use EcommerceHelper;
@@ -157,6 +158,16 @@ class PublicProductController
         SeoHelper::setSeoOpenGraph($meta);
 
         SeoHelper::meta()->setUrl($product->url);
+
+        $card = new Card();
+        $card->setType(Card::TYPE_PRODUCT);
+        $card->addMeta('label1', 'Price');
+        $card->addMeta('data1', format_price($product->front_sale_price_with_taxes) . ' ' . strtoupper(get_application_currency()->title));
+        $card->addMeta('label2', 'Website');
+        $card->addMeta('data2', SeoHelper::openGraph()->getProperty('site_name'));
+        $card->addMeta('domain', url(''));
+
+        SeoHelper::twitter()->setCard($card);
 
         if (Helper::handleViewCount($product, 'viewed_product')) {
             event(new ProductViewed($product, Carbon::now()));

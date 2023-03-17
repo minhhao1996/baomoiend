@@ -20,11 +20,8 @@ use Illuminate\Support\Arr;
 
 class FlashSaleController extends BaseController
 {
-    protected FlashSaleInterface $flashSaleRepository;
-
-    public function __construct(FlashSaleInterface $flashSaleRepository)
+    public function __construct(protected FlashSaleInterface $flashSaleRepository)
     {
-        $this->flashSaleRepository = $flashSaleRepository;
     }
 
     public function index(FlashSaleTable $table)

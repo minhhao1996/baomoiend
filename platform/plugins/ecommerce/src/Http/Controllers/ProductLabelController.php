@@ -18,11 +18,8 @@ use Illuminate\Http\Request;
 
 class ProductLabelController extends BaseController
 {
-    protected ProductLabelInterface $productLabelRepository;
-
-    public function __construct(ProductLabelInterface $productLabelRepository)
+    public function __construct(protected ProductLabelInterface $productLabelRepository)
     {
-        $this->productLabelRepository = $productLabelRepository;
     }
 
     public function index(ProductLabelTable $table)

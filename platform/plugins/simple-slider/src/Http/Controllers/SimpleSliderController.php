@@ -67,7 +67,7 @@ class SimpleSliderController extends BaseController
 
         event(new BeforeEditContentEvent($request, $simpleSlider));
 
-        page_title()->setTitle(trans('plugins/simple-slider::simple-slider.edit') . ' "' . $simpleSlider->name . '"');
+        page_title()->setTitle(trans('core/base::forms.edit_item', ['name' => $simpleSlider->name]));
 
         return $formBuilder
             ->create(SimpleSliderForm::class, ['model' => $simpleSlider])

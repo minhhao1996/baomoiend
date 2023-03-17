@@ -17,16 +17,10 @@ use Illuminate\Http\Request;
 
 class ProductAttributeSetsController extends BaseController
 {
-    protected ProductAttributeSetInterface $productAttributeSetRepository;
-
-    protected ProductCategoryInterface $productCategoryRepository;
-
     public function __construct(
-        ProductAttributeSetInterface $productAttributeSetRepository,
-        ProductCategoryInterface $productCategoryRepository
+        protected ProductAttributeSetInterface $productAttributeSetRepository,
+        protected ProductCategoryInterface $productCategoryRepository
     ) {
-        $this->productAttributeSetRepository = $productAttributeSetRepository;
-        $this->productCategoryRepository = $productCategoryRepository;
     }
 
     public function index(ProductAttributeSetsTable $dataTable)
@@ -88,7 +82,7 @@ class ProductAttributeSetsController extends BaseController
     }
 
     public function update(
-        int $id,
+        int|string $id,
         ProductAttributeSetsRequest $request,
         StoreAttributeSetService $service,
         BaseHttpResponse $response

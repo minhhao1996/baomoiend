@@ -9,7 +9,6 @@ use Botble\Payment\Enums\PaymentMethodEnum;
 use Botble\Shippo\Shippo;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
-use Throwable;
 
 class HookServiceProvider extends ServiceProvider
 {
@@ -43,14 +42,7 @@ class HookServiceProvider extends ServiceProvider
         }, 1, 2);
     }
 
-    /**
-     * @param array $result
-     * @param array $data
-     * @return array
-     *
-     * @throws Throwable
-     */
-    public function handleShippingFee($result, $data): array
+    public function handleShippingFee(array $result, array $data): array
     {
         if (! $this->app->runningInConsole() && setting('shipping_shippo_status') == 1) {
             if (Arr::get($data, 'payment_method') != PaymentMethodEnum::COD) {
@@ -62,12 +54,6 @@ class HookServiceProvider extends ServiceProvider
         return $result;
     }
 
-    /**
-     * @param string|null $settings
-     * @return string
-     *
-     * @throws Throwable
-     */
     public function addSettings(?string $settings): string
     {
         return $settings . view('plugins/shippo::settings')->render();

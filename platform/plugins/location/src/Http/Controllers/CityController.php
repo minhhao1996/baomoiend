@@ -58,7 +58,7 @@ class CityController extends BaseController
 
         event(new BeforeEditContentEvent($request, $city));
 
-        page_title()->setTitle(trans('plugins/location::city.edit') . ' "' . $city->name . '"');
+        page_title()->setTitle(trans('core/base::forms.edit_item', ['name' => $city->name]));
 
         return $formBuilder->create(CityForm::class, ['model' => $city])->renderForm();
     }

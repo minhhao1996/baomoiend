@@ -43,10 +43,6 @@ class LocationImport implements
     use SkipsErrors;
     use ImportTrait;
 
-    protected CityInterface $cityRepository;
-
-    protected Request $request;
-
     protected string|null $validatorClass;
 
     protected string $importType = 'all';
@@ -55,24 +51,16 @@ class LocationImport implements
 
     protected array|Collection $getActiveLanguage;
 
-    protected StateInterface $stateRepository;
-
-    protected CountryInterface $countryRepository;
-
     protected Collection $countries;
 
     protected Collection $states;
 
     public function __construct(
-        CityInterface $cityRepository,
-        StateInterface $stateRepository,
-        CountryInterface $countryRepository,
-        Request $request
+        protected CityInterface $cityRepository,
+        protected StateInterface $stateRepository,
+        protected CountryInterface $countryRepository,
+        protected Request $request
     ) {
-        $this->cityRepository = $cityRepository;
-        $this->stateRepository = $stateRepository;
-        $this->countryRepository = $countryRepository;
-        $this->request = $request;
         $this->countries = collect();
         $this->states = collect();
 

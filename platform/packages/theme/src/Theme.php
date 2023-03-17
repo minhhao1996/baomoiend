@@ -792,7 +792,7 @@ class Theme implements ThemeContract
 
     public function routes()
     {
-        return File::requireOnce(package_path('theme/routes/public.php'));
+        require package_path('theme/routes/public.php');
     }
 
     public function loadView(string $view): string

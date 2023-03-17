@@ -18,6 +18,12 @@ Route::group(['namespace' => 'Botble\Ecommerce\Http\Controllers', 'middleware' =
             'permission' => 'ecommerce.settings',
         ]);
 
+        Route::post('update-currencies-from-exchange-api', [
+            'as' => 'ecommerce.setting.update-currencies-from-exchange-api',
+            'uses' => 'EcommerceController@updateCurrenciesFromExchangeApi',
+            'permission' => 'ecommerce.settings',
+        ]);
+
         Route::get('advanced-settings', [
             'as' => 'ecommerce.advanced-settings',
             'uses' => 'EcommerceController@getAdvancedSettings',

@@ -7,6 +7,7 @@ use Botble\Base\Supports\BaseSeeder;
 use Botble\Ecommerce\Models\Customer;
 use Botble\Ecommerce\Models\Product;
 use Botble\Ecommerce\Models\Review;
+use Carbon\Carbon;
 use File;
 
 class ReviewSeeder extends BaseSeeder
@@ -56,7 +57,7 @@ class ReviewSeeder extends BaseSeeder
                 'products/' . rand(8, $totalProducts) . '.jpg',
             ];
 
-            Review::create([
+            Review::insertOrIgnore([
                 'product_id' => rand(1, $totalProducts),
                 'customer_id' => rand(1, $totalCustomers),
                 'star' => rand(1, 5),
@@ -66,7 +67,9 @@ class ReviewSeeder extends BaseSeeder
                     ->filter(function ($item, $key) {
                         return $key <= rand(0, 2);
                     })
-                    ->toArray(),
+                    ->toJson(),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
         }
     }

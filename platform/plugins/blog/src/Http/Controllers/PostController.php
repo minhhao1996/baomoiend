@@ -4,6 +4,7 @@ namespace Botble\Blog\Http\Controllers;
 
 use Botble\ACL\Models\User;
 use Botble\Base\Events\BeforeEditContentEvent;
+use Botble\Base\Events\BeforeUpdateContentEvent;
 use Botble\Base\Events\CreatedContentEvent;
 use Botble\Base\Events\DeletedContentEvent;
 use Botble\Base\Events\UpdatedContentEvent;
@@ -85,7 +86,7 @@ class PostController extends BaseController
 
         event(new BeforeEditContentEvent($request, $post));
 
-        page_title()->setTitle(trans('plugins/blog::posts.edit') . ' "' . $post->name . '"');
+        page_title()->setTitle(trans('core/base::forms.edit_item', ['name' => $post->name]));
 
         return $formBuilder->create(PostForm::class, ['model' => $post])->renderForm();
     }
@@ -98,6 +99,8 @@ class PostController extends BaseController
         BaseHttpResponse $response
     ) {
         $post = $this->postRepository->findOrFail($id);
+
+        event(new BeforeUpdateContentEvent($request, $post));
 
         $post->fill($request->input());
 

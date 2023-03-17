@@ -20,18 +20,12 @@ use Symfony\Component\Console\Input\InputArgument;
 #[AsCommand('cms:ecommerce:products:import', 'Bulk import products command')]
 class BulkImportProductCommand extends Command
 {
-    protected ProductImport $productImport;
-
-    protected ProductImport|ValidateProductImport $validateProductImport;
-
     protected bool $deleteFileAfter = false;
     protected string $path;
 
-    public function __construct(ProductImport $productImport, ValidateProductImport $validateProductImport)
+    public function __construct(protected ProductImport $productImport, protected ValidateProductImport $validateProductImport)
     {
         parent::__construct();
-        $this->productImport = $productImport;
-        $this->validateProductImport = $validateProductImport;
     }
 
     public function handle(): int
@@ -124,7 +118,7 @@ class BulkImportProductCommand extends Command
         $this->addOption('type', 'T', InputArgument::OPTIONAL, 'type of products', 'all');
     }
 
-    protected function getFile(string $pathToFile): UploadedFile|null
+    protected function getFile(string $pathToFile): UploadedFile|array|null
     {
         $info = pathinfo($pathToFile);
 
@@ -134,7 +128,7 @@ class BulkImportProductCommand extends Command
             try {
                 $contents = file_get_contents($pathToFile);
                 $this->info('File downloaded successfully');
-            } catch (Exception $ex) {
+            } catch (Exception) {
                 return [
                     'error' => true,
                     'message' => 'Cannot get contents in file',

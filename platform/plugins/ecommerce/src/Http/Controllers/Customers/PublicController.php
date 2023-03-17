@@ -40,41 +40,16 @@ use Theme;
 
 class PublicController extends Controller
 {
-    protected CustomerInterface $customerRepository;
-
-    protected ProductInterface $productRepository;
-
-    protected AddressInterface $addressRepository;
-
-    protected OrderInterface $orderRepository;
-
-    protected OrderHistoryInterface $orderHistoryRepository;
-
-    protected OrderReturnInterface $orderReturnRepository;
-
-    protected OrderProductInterface $orderProductRepository;
-
-    protected ReviewInterface $reviewRepository;
-
     public function __construct(
-        CustomerInterface $customerRepository,
-        ProductInterface $productRepository,
-        AddressInterface $addressRepository,
-        OrderInterface $orderRepository,
-        OrderHistoryInterface $orderHistoryRepository,
-        OrderReturnInterface $orderReturnRepository,
-        OrderProductInterface $orderProductRepository,
-        ReviewInterface $reviewRepository
+        protected CustomerInterface $customerRepository,
+        protected ProductInterface $productRepository,
+        protected AddressInterface $addressRepository,
+        protected OrderInterface $orderRepository,
+        protected OrderHistoryInterface $orderHistoryRepository,
+        protected OrderReturnInterface $orderReturnRepository,
+        protected OrderProductInterface $orderProductRepository,
+        protected ReviewInterface $reviewRepository
     ) {
-        $this->customerRepository = $customerRepository;
-        $this->productRepository = $productRepository;
-        $this->addressRepository = $addressRepository;
-        $this->orderRepository = $orderRepository;
-        $this->orderHistoryRepository = $orderHistoryRepository;
-        $this->orderReturnRepository = $orderReturnRepository;
-        $this->orderProductRepository = $orderProductRepository;
-        $this->reviewRepository = $reviewRepository;
-
         Theme::asset()
             ->add('customer-style', 'vendor/core/plugins/ecommerce/css/customer.css');
 
@@ -202,7 +177,7 @@ class PublicController extends Controller
         )->render();
     }
 
-    public function getViewOrder(int $id)
+    public function getViewOrder(int|string $id)
     {
         $order = $this->orderRepository->getFirstBy(
             [
@@ -232,7 +207,7 @@ class PublicController extends Controller
         )->render();
     }
 
-    public function getCancelOrder(int $id, BaseHttpResponse $response)
+    public function getCancelOrder(int|string $id, BaseHttpResponse $response)
     {
         $order = $this->orderRepository->getFirstBy([
             'id' => $id,
@@ -332,7 +307,7 @@ class PublicController extends Controller
             ->setMessage(trans('core/base::notices.create_success_message'));
     }
 
-    public function getEditAddress(int $id)
+    public function getEditAddress(int|string $id)
     {
         SeoHelper::setTitle(__('Edit Address #:id', ['id' => $id]));
 
@@ -355,7 +330,7 @@ class PublicController extends Controller
         )->render();
     }
 
-    public function getDeleteAddress(int $id, BaseHttpResponse $response)
+    public function getDeleteAddress(int|string $id, BaseHttpResponse $response)
     {
         $this->addressRepository->deleteBy([
             'id' => $id,
@@ -366,7 +341,7 @@ class PublicController extends Controller
             ->setMessage(trans('core/base::notices.delete_success_message'));
     }
 
-    public function postEditAddress(int $id, AddressRequest $request, BaseHttpResponse $response)
+    public function postEditAddress(int|string $id, AddressRequest $request, BaseHttpResponse $response)
     {
         if ($request->input('is_default')) {
             $this->addressRepository->update([
@@ -389,7 +364,7 @@ class PublicController extends Controller
             ->setMessage(trans('core/base::notices.update_success_message'));
     }
 
-    public function getPrintOrder(int $id, Request $request)
+    public function getPrintOrder(int|string $id, Request $request)
     {
         $order = $this->orderRepository->getFirstBy([
             'id' => $id,
@@ -412,7 +387,7 @@ class PublicController extends Controller
         try {
             $account = auth('customer')->user();
 
-            $result = RvMedia::handleUpload($request->file('avatar_file'), 0, 'customers');
+            $result = RvMedia::handleUpload($request->file('avatar_file'), 0, $account->upload_folder);
 
             if ($result['error']) {
                 return $response->setError()->setMessage($result['message']);
@@ -444,8 +419,12 @@ class PublicController extends Controller
         }
     }
 
-    public function getReturnOrder(int $orderId)
+    public function getReturnOrder(int|string $orderId)
     {
+        if (! EcommerceHelper::isOrderReturnEnabled()) {
+            abort(404);
+        }
+
         $order = $this->orderRepository->getFirstBy(
             [
                 'id' => $orderId,
@@ -484,6 +463,10 @@ class PublicController extends Controller
 
     public function postReturnOrder(OrderReturnRequest $request, BaseHttpResponse $response)
     {
+        if (! EcommerceHelper::isOrderReturnEnabled()) {
+            abort(404);
+        }
+
         $order = $this->orderRepository->getFirstBy([
             'id' => $request->input('order_id'),
             'user_id' => auth('customer')->id(),
@@ -558,6 +541,10 @@ class PublicController extends Controller
 
     public function getListReturnOrders(Request $request)
     {
+        if (! EcommerceHelper::isOrderReturnEnabled()) {
+            abort(404);
+        }
+
         SeoHelper::setTitle(__('Order Return Requests'));
 
         $requests = $this->orderReturnRepository->advancedGet([
@@ -583,8 +570,12 @@ class PublicController extends Controller
         )->render();
     }
 
-    public function getDetailReturnOrder(int $id)
+    public function getDetailReturnOrder(int|string $id)
     {
+        if (! EcommerceHelper::isOrderReturnEnabled()) {
+            abort(404);
+        }
+
         SeoHelper::setTitle(__('Order Return Requests'));
 
         $orderReturn = $this->orderReturnRepository->getFirstBy([
@@ -645,7 +636,7 @@ class PublicController extends Controller
         )->render();
     }
 
-    public function getDownload(int $id, Request $request, BaseHttpResponse $response)
+    public function getDownload(int|string $id, Request $request, BaseHttpResponse $response)
     {
         if (! EcommerceHelper::isEnabledSupportDigitalProducts()) {
             abort(404);
@@ -669,10 +660,13 @@ class PublicController extends Controller
         if (! $orderProduct) {
             abort(404);
         }
+
         $order = $orderProduct->order;
 
-        if (auth('customer')->check() && $order->user_id != auth('customer')->id()) {
-            abort(404);
+        if (auth('customer')->check()) {
+            if ($order->user_id != auth('customer')->id()) {
+                abort(404);
+            }
         } elseif (($hash = $request->input('hash'))) {
             $response->setNextUrl(route('public.index'));
             if (! $orderProduct->download_token || ! Hash::check($orderProduct->download_token, $hash)) {
@@ -682,7 +676,7 @@ class PublicController extends Controller
             abort(404);
         }
 
-        $zipName = 'digital-product-' . Str::slug($orderProduct->product_name) . Str::random(5) . '-' . Carbon::now(
+        $zipName = Str::slug($orderProduct->product_name) . Str::random(5) . '-' . Carbon::now(
         )->format('Y-m-d-h-i-s') . '.zip';
         $fileName = RvMedia::getRealPath($zipName);
         $zip = new Zipper();

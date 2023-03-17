@@ -27,24 +27,12 @@ use Maatwebsite\Excel\Excel;
 
 class ShippingRuleItemController extends BaseController
 {
-    protected ShippingRuleInterface $ruleRepository;
-
-    protected ShippingRuleItemInterface $itemRepository;
-
-    protected ShippingRuleItemImport $itemImport;
-
-    protected ValidateShippingRuleItemImport $validateItemImport;
-
     public function __construct(
-        ShippingRuleInterface $ruleRepository,
-        ShippingRuleItemInterface $itemRepository,
-        ShippingRuleItemImport $itemImport,
-        ValidateShippingRuleItemImport $validateItemImport
+        protected ShippingRuleInterface $ruleRepository,
+        protected ShippingRuleItemInterface $itemRepository,
+        protected ShippingRuleItemImport $itemImport,
+        protected ValidateShippingRuleItemImport $validateItemImport
     ) {
-        $this->ruleRepository = $ruleRepository;
-        $this->itemRepository = $itemRepository;
-        $this->itemImport = $itemImport;
-        $this->validateItemImport = $validateItemImport;
     }
 
     public function index(ShippingRuleItemTable $dataTable)

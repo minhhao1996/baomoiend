@@ -33,7 +33,7 @@ class AdminNotification extends BaseModel
         ]);
     }
 
-    public function prunable(): Builder
+    public function prunable(): Builder|BaseQueryBuilder
     {
         return $this->whereDate('created_at', '>', Carbon::now()->subDays(30)->toDateString());
     }

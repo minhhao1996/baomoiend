@@ -20,11 +20,8 @@ use Illuminate\Support\Str;
 
 class DiscountController extends BaseController
 {
-    protected DiscountInterface $discountRepository;
-
-    public function __construct(DiscountInterface $discountRepository)
+    public function __construct(protected DiscountInterface $discountRepository)
     {
-        $this->discountRepository = $discountRepository;
     }
 
     public function index(DiscountTable $dataTable)

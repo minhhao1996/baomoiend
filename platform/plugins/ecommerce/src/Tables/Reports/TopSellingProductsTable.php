@@ -69,7 +69,8 @@ class TopSellingProductsTable extends TableAbstract
                 ->where('payments.status', PaymentStatusEnum::COMPLETED);
         }
 
-        $query = $query->whereDate('ec_orders.created_at', '>=', $startDate)
+        $query = $query
+            ->whereDate('ec_orders.created_at', '>=', $startDate)
             ->whereDate('ec_orders.created_at', '<=', $endDate)
             ->select([
                 'ec_products.id as id',

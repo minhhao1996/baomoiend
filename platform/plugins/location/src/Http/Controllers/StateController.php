@@ -58,7 +58,7 @@ class StateController extends BaseController
 
         event(new BeforeEditContentEvent($request, $state));
 
-        page_title()->setTitle(trans('plugins/location::state.edit') . ' "' . $state->name . '"');
+        page_title()->setTitle(trans('core/base::forms.edit_item', ['name' => $state->name]));
 
         return $formBuilder->create(StateForm::class, ['model' => $state])->renderForm();
     }

@@ -18,11 +18,8 @@ use Illuminate\Http\Request;
 
 class ProductOptionController extends BaseController
 {
-    protected GlobalOptionInterface $globalOptionRepository;
-
-    public function __construct(GlobalOptionInterface $globalOptionRepository)
+    public function __construct(protected GlobalOptionInterface $globalOptionRepository)
     {
-        $this->globalOptionRepository = $globalOptionRepository;
     }
 
     public function index(GlobalOptionTable $table)

@@ -227,6 +227,10 @@ class Order extends BaseModel
 
     public function canBeReturned(): bool
     {
+        if (! EcommerceHelper::isOrderReturnEnabled()) {
+            return false;
+        }
+
         if ($this->status != OrderStatusEnum::COMPLETED || ! $this->completed_at) {
             return false;
         }

@@ -233,7 +233,22 @@
                                 </div>
                             </div>
                         </div>
-
+                    <div class="form-group mb-3">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="text-title-field" for="add_space_between_price_and_currency">{{ trans('plugins/ecommerce::currency.api_key') }}</label>
+                                <input name="currencies_api_key" class="form-control" value="{{ get_ecommerce_setting('currencies_api_key') }}">
+                            </div>
+                            @if (get_ecommerce_setting('currencies_api_key'))
+                                <div class="col-sm-6">
+                                    <button id="btn-update-currencies" data-url="{{ route('ecommerce.setting.update-currencies-from-exchange-api') }}" class="btn btn-primary">
+                                        <i class="fa fa-download"></i>
+                                        {{ trans('plugins/ecommerce::currency.update_currency_rates') }}
+                                    </button>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
                     <textarea name="currencies"
                               id="currencies"
                               class="hidden">{!! json_encode($currencies) !!}</textarea>
@@ -263,7 +278,10 @@
                                 <div class="remove-item">{{ trans('plugins/ecommerce::currency.remove') }}</div>
                             </div>
                             <ul class="swatches-list">
-
+                                <div id="loading-update-currencies" style="display: none;">
+                                    <div class="currency-loading-backdrop"></div>
+                                    <div class="currency-loading-loader"></div>
+                                </div>
                             </ul>
                             <div class="clearfix"></div>
                             {!! Form::helper(trans('plugins/ecommerce::currency.instruction')) !!}
@@ -360,6 +378,10 @@
     {!! Form::modalAction('delete-store-locator-modal', trans('plugins/ecommerce::ecommerce.setting.delete_location'), 'info', trans('plugins/ecommerce::ecommerce.setting.delete_location_confirmation'), 'delete-store-locator-button', trans('plugins/ecommerce::ecommerce.setting.accept')) !!}
     {!! Form::modalAction('change-primary-store-locator-modal', trans('plugins/ecommerce::ecommerce.setting.change_primary_location'), 'info', view('plugins/ecommerce::settings.store-locator-change-primary', compact('storeLocators'))->render(), 'change-primary-store-locator-button', trans('plugins/ecommerce::ecommerce.setting.accept'), 'modal-sm') !!}
     <script id="currency_template" type="text/x-custom-template">
+        <div id="loading-update-currencies" style="display: none;">
+            <div class="currency-loading-backdrop"></div>
+            <div class="currency-loading-loader"></div>
+        </div>
         <li data-id="__id__" class="clearfix">
             <div class="swatch-item" data-type="title">
                 <input type="text" class="form-control" value="__title__">

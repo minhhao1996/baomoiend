@@ -303,10 +303,12 @@ class Botble {
 
     static initDatePicker(element) {
         if (jQuery().flatpickr) {
-            let format = $(document).find(element).data('date-format');
-            if (!format) {
+            let format = $(document).find(element).find('input').data('date-format');
+
+            if (! format) {
                 format = 'Y-m-d';
             }
+
             $(document).find(element).flatpickr({
                 dateFormat: format,
                 wrap: true
@@ -566,6 +568,10 @@ class Botble {
                 $(obj).select2(options);
             }
         });
+
+        $(document).on('submit', '.js-base-form', (event) => {
+            $(event.currentTarget).find('button[type=submit]').prop('disabled', true);
+        })
 
         document.dispatchEvent(new CustomEvent('core-init-resources'));
     }

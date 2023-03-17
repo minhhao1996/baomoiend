@@ -323,13 +323,7 @@ class Product extends BaseModel
                     return $this->getComparePrice($price, $this->sale_price ?: $this->price);
                 }
 
-                $price = $this->getFlashSalePrice();
-
-                if ($price != $this->price) {
-                    return $this->getComparePrice($price, $this->sale_price ?: $this->price);
-                }
-
-                return $this->getComparePrice($this->price, $this->sale_price);
+                return $this->original_price;
             }
         );
     }
@@ -338,7 +332,13 @@ class Product extends BaseModel
     {
         return Attribute::make(
             get: function (): float|false|null {
-                return $this->front_sale_price ?? $this->price ?? 0;
+                $price = $this->getFlashSalePrice();
+
+                if ($price != $this->price) {
+                    return $this->getComparePrice($price, $this->sale_price ?: $this->price);
+                }
+
+                return $this->getComparePrice($this->price, $this->sale_price);
             }
         );
     }

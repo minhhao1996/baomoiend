@@ -21,15 +21,7 @@ use Theme;
 
 class Menu
 {
-    protected MenuInterface $menuRepository;
-
-    protected HtmlBuilder $html;
-
-    protected MenuNodeInterface $menuNodeRepository;
-
     protected Cache $cache;
-
-    protected Repository $config;
 
     protected array $menuOptionModels = [];
 
@@ -38,16 +30,12 @@ class Menu
     protected bool $loaded = false;
 
     public function __construct(
-        MenuInterface $menuRepository,
-        HtmlBuilder $html,
-        MenuNodeInterface $menuNodeRepository,
+        protected MenuInterface $menuRepository,
+        protected HtmlBuilder $html,
+        protected MenuNodeInterface $menuNodeRepository,
         CacheManager $cache,
-        Repository $config
+        protected Repository $config
     ) {
-        $this->config = $config;
-        $this->menuRepository = $menuRepository;
-        $this->html = $html;
-        $this->menuNodeRepository = $menuNodeRepository;
         $this->cache = new Cache($cache, MenuRepository::class);
         $this->data = collect();
     }

@@ -6,6 +6,7 @@ use Botble\Location\Models\City;
 use Botble\Location\Models\Country;
 use Botble\Location\Models\State;
 use EcommerceHelper;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @mixin \Eloquent
@@ -31,17 +32,17 @@ trait LocationTrait
         return $value;
     }
 
-    public function locationCountry()
+    public function locationCountry(): BelongsTo
     {
         return $this->belongsTo(Country::class, 'country')->withDefault();
     }
 
-    public function locationState()
+    public function locationState(): BelongsTo
     {
         return $this->belongsTo(State::class, 'state')->withDefault();
     }
 
-    public function locationCity()
+    public function locationCity(): BelongsTo
     {
         return $this->belongsTo(City::class, 'city')->withDefault();
     }

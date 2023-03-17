@@ -38,9 +38,6 @@ if (! function_exists('render_product_options')) {
 }
 
 if (! function_exists('render_product_options_info')) {
-    /**
-     * @deprecated
-     */
     function render_product_options_info(array $productOptions, ?Product $product, bool $displayBasePrice = false): string
     {
         $view = Theme::getThemeNamespace('views.ecommerce.options.render-options-info');

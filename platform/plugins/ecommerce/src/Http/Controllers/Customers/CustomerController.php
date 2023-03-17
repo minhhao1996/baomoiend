@@ -26,14 +26,8 @@ use Illuminate\Support\Str;
 
 class CustomerController extends BaseController
 {
-    protected CustomerInterface $customerRepository;
-
-    protected AddressInterface $addressRepository;
-
-    public function __construct(CustomerInterface $customerRepository, AddressInterface $addressRepository)
+    public function __construct(protected CustomerInterface $customerRepository, protected AddressInterface $addressRepository)
     {
-        $this->customerRepository = $customerRepository;
-        $this->addressRepository = $addressRepository;
     }
 
     public function index(CustomerTable $dataTable)
@@ -136,7 +130,7 @@ class CustomerController extends BaseController
         return $response->setMessage(trans('core/base::notices.delete_success_message'));
     }
 
-    public function verifyEmail(int $id, Request $request, BaseHttpResponse $response)
+    public function verifyEmail(int|string $id, Request $request, BaseHttpResponse $response)
     {
         $customer = $this->customerRepository->getFirstBy([
             'id' => $id,

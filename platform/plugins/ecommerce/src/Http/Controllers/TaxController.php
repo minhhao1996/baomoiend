@@ -17,11 +17,8 @@ use Illuminate\Http\Request;
 
 class TaxController extends BaseController
 {
-    protected TaxInterface $taxRepository;
-
-    public function __construct(TaxInterface $taxRepository)
+    public function __construct(protected TaxInterface $taxRepository)
     {
-        $this->taxRepository = $taxRepository;
     }
 
     public function index(TaxTable $dataTable)

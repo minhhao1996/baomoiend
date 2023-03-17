@@ -267,8 +267,8 @@ return new class () extends Migration {
         });
 
         Schema::create('ec_cart', function (Blueprint $table) {
-            $table->string('identifier');
-            $table->string('instance');
+            $table->string('identifier', 60);
+            $table->string('instance', 60);
             $table->longText('content');
             $table->nullableTimestamps();
 

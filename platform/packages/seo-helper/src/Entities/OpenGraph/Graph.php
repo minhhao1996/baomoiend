@@ -7,16 +7,8 @@ use Botble\SeoHelper\Contracts\Entities\OpenGraphContract;
 
 class Graph implements OpenGraphContract
 {
-    /**
-     * The Open Graph meta collection.
-     *
-     * @var MetaCollectionContract
-     */
-    protected $meta;
+    protected MetaCollectionContract $meta;
 
-    /**
-     * Make Graph instance.
-     */
     public function __construct()
     {
         $this->meta = new MetaCollection();
@@ -144,6 +136,17 @@ class Graph implements OpenGraphContract
         $this->meta->add(compact('name', 'content'));
 
         return $this;
+    }
+
+    public function getProperty(string $name): string|null
+    {
+        if (! $this->meta->has($name)) {
+            return null;
+        }
+
+        $meta = $this->meta->get($name);
+
+        return (string)$meta?->getContent();
     }
 
     /**

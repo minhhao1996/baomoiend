@@ -95,8 +95,6 @@ class MenuController extends BaseController
 
     public function edit(int|string $id, FormBuilder $formBuilder, Request $request)
     {
-        page_title()->setTitle(trans('packages/menu::menu.edit'));
-
         $oldInputs = old();
         if ($oldInputs && $id == 0) {
             $oldObject = new stdClass();
@@ -108,12 +106,14 @@ class MenuController extends BaseController
             $menu = $this->menuRepository->findOrFail($id);
         }
 
+        page_title()->setTitle(trans('core/base::forms.edit_item', ['name' => $menu->name]));
+
         event(new BeforeEditContentEvent($request, $menu));
 
         return $formBuilder->create(MenuForm::class, ['model' => $menu])->renderForm();
     }
 
-    public function update(Menuint|string $id, Request $request, BaseHttpResponse $response)
+    public function update(int|string $id, Request $request, BaseHttpResponse $response)
     {
         $menu = $this->menuRepository->firstOrNew(compact('id'));
 

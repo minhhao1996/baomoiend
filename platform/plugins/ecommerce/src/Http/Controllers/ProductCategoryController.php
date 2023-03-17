@@ -21,11 +21,8 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductCategoryController extends BaseController
 {
-    protected ProductCategoryInterface $productCategoryRepository;
-
-    public function __construct(ProductCategoryInterface $productCategoryRepository)
+    public function __construct(protected ProductCategoryInterface $productCategoryRepository)
     {
-        $this->productCategoryRepository = $productCategoryRepository;
     }
 
     public function index(FormBuilder $formBuilder, Request $request, BaseHttpResponse $response)

@@ -24,6 +24,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 use RvMedia;
 use MacroableModels;
@@ -137,6 +139,13 @@ class Customer extends BaseModel implements
                 VendorInfo::where('customer_id', $customer->id)->delete();
             }
         });
+
+        static::deleted(function (Customer $customer) {
+            $folder = Storage::path($customer->upload_folder);
+            if (File::isDirectory($folder) && Str::endsWith($customer->upload_folder, '/' . $customer->id)) {
+                File::deleteDirectory($folder);
+            }
+        });
     }
 
     public function __get($key)
@@ -179,5 +188,16 @@ class Customer extends BaseModel implements
     public function usedCoupons(): BelongsToMany
     {
         return $this->belongsToMany(Discount::class, 'ec_customer_used_coupons');
+    }
+
+    protected function uploadFolder(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $folder = $this->id ? 'customers/' . $this->id : 'customers';
+
+                return apply_filters('ecommerce_customer_upload_folder', $folder, $this);
+            }
+        );
     }
 }

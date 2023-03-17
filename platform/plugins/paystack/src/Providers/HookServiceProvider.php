@@ -107,7 +107,7 @@ class HookServiceProvider extends ServiceProvider
         return $html;
     }
 
-    public function checkoutWithPaystack(array $data, Request $request)
+    public function checkoutWithPaystack(array $data, Request $request): array
     {
         if ($request->input('payment_method') == PAYSTACK_PAYMENT_METHOD_NAME) {
             $supportedCurrencies = (new PaystackPaymentService())->supportedCurrencyCodes();

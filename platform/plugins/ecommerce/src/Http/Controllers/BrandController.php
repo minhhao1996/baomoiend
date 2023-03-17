@@ -17,11 +17,8 @@ use Illuminate\Http\Request;
 
 class BrandController extends BaseController
 {
-    protected BrandInterface $brandRepository;
-
-    public function __construct(BrandInterface $brandRepository)
+    public function __construct(protected BrandInterface $brandRepository)
     {
-        $this->brandRepository = $brandRepository;
     }
 
     public function index(BrandTable $dataTable)

@@ -20,6 +20,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
 use RvMedia;
+use Throwable;
 
 class InvoiceHelper
 {
@@ -107,13 +108,17 @@ class InvoiceHelper
             $twigCompiler = (new TwigCompiler())->addExtension(new TwigExtension());
             $content = $twigCompiler->compile($content, $this->getDataForInvoiceTemplate($invoice));
 
-            if (setting('job_board_invoice_support_arabic_language', 0) == 1) {
+            if (get_ecommerce_setting('invoice_support_arabic_language', 0) == 1) {
                 $arabic = new Arabic();
                 $p = $arabic->arIdentify($content);
 
                 for ($i = count($p) - 1; $i >= 0; $i -= 2) {
-                    $utf8ar = $arabic->utf8Glyphs(substr($content, $p[$i - 1], $p[$i] - $p[$i - 1]));
-                    $content = substr_replace($content, $utf8ar, $p[$i - 1], $p[$i] - $p[$i - 1]);
+                    try {
+                        $utf8ar = $arabic->utf8Glyphs(substr($content, $p[$i - 1], $p[$i] - $p[$i - 1]));
+                        $content = substr_replace($content, $utf8ar, $p[$i - 1], $p[$i] - $p[$i - 1]);
+                    } catch (Throwable) {
+                        continue;
+                    }
                 }
             }
         }
@@ -190,8 +195,8 @@ class InvoiceHelper
             'is_tax_enabled' => EcommerceHelperFacade::isTaxEnabled(),
             'settings' => [
                 'using_custom_font_for_invoice' => (bool) get_ecommerce_setting('using_custom_font_for_invoice'),
-                'custom_font_family' => get_ecommerce_setting('invoice_font_family'),
-                'font_family' => get_ecommerce_setting('invoice_font_family', 0) == 1
+                'custom_font_family' => get_ecommerce_setting('invoice_font_family', 'DejaVu Sans'),
+                'font_family' => get_ecommerce_setting('using_custom_font_for_invoice', 0) == 1
                     ? get_ecommerce_setting('invoice_font_family', 'DejaVu Sans')
                     : 'DejaVu Sans',
                 'enable_invoice_stamp' => get_ecommerce_setting('enable_invoice_stamp'),

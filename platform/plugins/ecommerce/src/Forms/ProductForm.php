@@ -281,7 +281,7 @@ class ProductForm extends FormAbstract
         }
     }
 
-    public function getProductAttributes(?int $attributeSetId): Collection
+    public function getProductAttributes(int|string|null $attributeSetId): Collection
     {
         $params = ['order_by' => ['order' => 'ASC']];
 

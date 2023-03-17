@@ -132,7 +132,7 @@ class ProductController extends BaseController
     }
 
     public function update(
-        int $id,
+        int|string $id,
         ProductRequest $request,
         StoreProductService $service,
         GroupedProductInterface $groupedProductRepository,

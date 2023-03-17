@@ -3,8 +3,10 @@
         <div class="flexbox-content">
             <div class="wrapper-content">
                 <div class="pd-all-20 ws-nm">
-                    <label class="title-product-main text-no-bold"><span
-                            v-if="!is_promotion">{{ __('discount.create_coupon_code')}}</span><span v-if="is_promotion">{{ __('discount.create_discount_promotion') }}</span></label>
+                    <label class="title-product-main text-no-bold">
+                        <span v-if="!is_promotion">{{ __('discount.create_coupon_code')}}</span>
+                        <span v-if="is_promotion">{{ __('discount.create_discount_promotion') }}</span>
+                    </label>
                     <a href="#" class="btn-change-link float-end" v-on:click="generateCouponCode($event)"
                        v-show="!is_promotion">{{ __('discount.generate_coupon_code')}}</a>
                     <div class="form-group mt15 mb0">
@@ -622,8 +624,8 @@
             handleChangeTypeOption: function () {
                 let context = this;
 
-                context.discountUnit = this.currency;
-                context.value_label = __('discount.discount');
+                context.discountUnit = context.currency;
+                context.value_label = context.__('discount.discount');
 
                 switch (context.type_option) {
                     case 'amount':
@@ -634,11 +636,11 @@
                         context.discountUnit = '%';
                         break;
                     case 'shipping':
-                        context.value_label = __('discount.when_shipping_fee_less_than');
+                        context.value_label = context.__('discount.when_shipping_fee_less_than');
                         break;
                     case 'same-price':
                         context.target = 'group-products';
-                        context.value_label = __('discount.is');
+                        context.value_label = context.__('discount.is');
                         context.getListProductCollections();
                         break;
                 }

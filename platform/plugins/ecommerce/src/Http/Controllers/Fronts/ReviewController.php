@@ -133,7 +133,7 @@ class ReviewController extends Controller
             ->render();
     }
 
-    protected function check(int $productId)
+    protected function check(int|string $productId)
     {
         $customerId = auth('customer')->id();
 

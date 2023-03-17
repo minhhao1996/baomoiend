@@ -8,7 +8,7 @@ if (! function_exists('render_cart_form')) {
 }
 
 if (! function_exists('get_order_code')) {
-    function get_order_code(int $orderId): string
+    function get_order_code(int|string $orderId): string
     {
         $prefix = get_ecommerce_setting('store_order_prefix') ? get_ecommerce_setting('store_order_prefix') . '-' : '';
         $suffix = get_ecommerce_setting('store_order_suffix') ? '-' . get_ecommerce_setting('store_order_suffix') : '';

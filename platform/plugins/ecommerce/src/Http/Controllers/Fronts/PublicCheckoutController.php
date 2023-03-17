@@ -47,49 +47,18 @@ use Validator;
 
 class PublicCheckoutController
 {
-    protected TaxInterface $taxRepository;
-
-    protected OrderInterface $orderRepository;
-
-    protected OrderProductInterface $orderProductRepository;
-
-    protected OrderAddressInterface $orderAddressRepository;
-
-    protected AddressInterface $addressRepository;
-
-    protected CustomerInterface $customerRepository;
-
-    protected ShippingInterface $shippingRepository;
-
-    protected OrderHistoryInterface $orderHistoryRepository;
-
-    protected ProductInterface $productRepository;
-
-    protected DiscountInterface $discountRepository;
-
     public function __construct(
-        TaxInterface $taxRepository,
-        OrderInterface $orderRepository,
-        OrderProductInterface $orderProductRepository,
-        OrderAddressInterface $orderAddressRepository,
-        AddressInterface $addressRepository,
-        CustomerInterface $customerRepository,
-        ShippingInterface $shippingRepository,
-        OrderHistoryInterface $orderHistoryRepository,
-        ProductInterface $productRepository,
-        DiscountInterface $discountRepository
+        protected TaxInterface $taxRepository,
+        protected OrderInterface $orderRepository,
+        protected OrderProductInterface $orderProductRepository,
+        protected OrderAddressInterface $orderAddressRepository,
+        protected AddressInterface $addressRepository,
+        protected CustomerInterface $customerRepository,
+        protected ShippingInterface $shippingRepository,
+        protected OrderHistoryInterface $orderHistoryRepository,
+        protected ProductInterface $productRepository,
+        protected DiscountInterface $discountRepository
     ) {
-        $this->taxRepository = $taxRepository;
-        $this->orderRepository = $orderRepository;
-        $this->orderProductRepository = $orderProductRepository;
-        $this->orderAddressRepository = $orderAddressRepository;
-        $this->addressRepository = $addressRepository;
-        $this->customerRepository = $customerRepository;
-        $this->shippingRepository = $shippingRepository;
-        $this->orderHistoryRepository = $orderHistoryRepository;
-        $this->productRepository = $productRepository;
-        $this->discountRepository = $discountRepository;
-
         OptimizerHelper::disable();
     }
 

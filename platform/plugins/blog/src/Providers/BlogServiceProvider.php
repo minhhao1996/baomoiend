@@ -23,6 +23,7 @@ use Botble\Blog\Repositories\Interfaces\TagInterface;
 use Language;
 use Note;
 use SeoHelper;
+use SiteMapManager;
 use SlugHelper;
 
 /**
@@ -71,6 +72,7 @@ class BlogServiceProvider extends ServiceProvider
         }
 
         $this->app->register(EventServiceProvider::class);
+        SiteMapManager::registerKey(['blog-posts', 'blog-categories', 'blog-tags']);
 
         $this->app['events']->listen(RouteMatched::class, function () {
             dashboard_menu()

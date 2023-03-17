@@ -80,9 +80,11 @@ class LanguageServiceProvider extends ServiceProvider
         $this->app->register(CommandServiceProvider::class);
         $this->app->register(EventServiceProvider::class);
 
-        if (! $this->app->runningInConsole() && is_plugin_active('language')) {
+        if (is_plugin_active('language')) {
             add_filter(BASE_FILTER_GROUP_PUBLIC_ROUTE, [$this, 'addLanguageMiddlewareToPublicRoute'], 958);
+        }
 
+        if (! $this->app->runningInConsole() && is_plugin_active('language')) {
             $this->app['events']->listen(RouteMatched::class, function () {
                 dashboard_menu()
                     ->registerItem([

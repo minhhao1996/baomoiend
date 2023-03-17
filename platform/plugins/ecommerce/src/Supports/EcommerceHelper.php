@@ -90,7 +90,7 @@ class EcommerceHelper
         return $number;
     }
 
-    public function getReviewsGroupedByProductId(int $productId, int $reviewsCount = 0): Collection
+    public function getReviewsGroupedByProductId(int|string $productId, int $reviewsCount = 0): Collection
     {
         if ($reviewsCount) {
             $reviews = app(ReviewInterface::class)->getGroupedByProductId($productId);
@@ -727,9 +727,14 @@ class EcommerceHelper
         return $this->allowPartialReturn();
     }
 
-    public function allowPartialReturn(): int
+    public function isOrderReturnEnabled(): bool
     {
-        return get_ecommerce_setting('can_custom_return_product_quantity', 0);
+        return get_ecommerce_setting('is_enabled_order_return', 1) == 1;
+    }
+
+    public function allowPartialReturn(): bool
+    {
+        return get_ecommerce_setting('can_custom_return_product_quantity', 0) == 1;
     }
 
     public function isAvailableShipping(Collection $products): bool
@@ -755,7 +760,12 @@ class EcommerceHelper
     public function canCheckoutForDigitalProducts(Collection $products): bool
     {
         $digitalProducts = $this->countDigitalProducts($products);
-        if ($digitalProducts && ! auth('customer')->check() && ! $this->allowGuestCheckoutForDigitalProducts()) {
+
+        if (! $digitalProducts) {
+            return false;
+        }
+
+        if (! auth('customer')->check() && ! $this->allowGuestCheckoutForDigitalProducts()) {
             return false;
         }
 

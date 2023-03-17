@@ -94,6 +94,12 @@ Route::group(['namespace' => 'Botble\Ecommerce\Http\Controllers', 'middleware' =
                 'uses' => 'OrderController@postApplyCoupon',
                 'permission' => 'orders.create',
             ]);
+
+            Route::post('check-data-before-create-order', [
+                'as' => 'check-data-before-create-order',
+                'uses' => 'OrderController@checkDataBeforeCreateOrder',
+                'permission' => 'orders.create',
+            ]);
         });
 
         Route::group(['prefix' => 'incomplete-orders', 'as' => 'orders.'], function () {

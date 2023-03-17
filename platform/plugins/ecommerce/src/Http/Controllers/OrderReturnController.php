@@ -18,20 +18,11 @@ use OrderReturnHelper;
 
 class OrderReturnController extends BaseController
 {
-    protected OrderReturnInterface $orderReturnRepository;
-
-    protected OrderReturnInterface $orderReturnItemRepository;
-
-    protected ProductInterface $productRepository;
-
     public function __construct(
-        OrderReturnInterface $orderReturnRepository,
-        OrderReturnInterface $orderReturnItemRepository,
-        ProductInterface $productRepository
+        protected OrderReturnInterface $orderReturnRepository,
+        protected OrderReturnInterface $orderReturnItemRepository,
+        protected ProductInterface $productRepository
     ) {
-        $this->orderReturnRepository = $orderReturnRepository;
-        $this->orderReturnItemRepository = $orderReturnItemRepository;
-        $this->productRepository = $productRepository;
     }
 
     public function index(OrderReturnTable $orderReturnTable)

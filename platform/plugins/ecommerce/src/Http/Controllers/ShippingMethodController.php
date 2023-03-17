@@ -19,24 +19,12 @@ use Illuminate\Support\Arr;
 
 class ShippingMethodController extends BaseController
 {
-    protected ShippingInterface $shippingRepository;
-
-    protected ShippingRuleInterface $shippingRuleRepository;
-
-    protected OrderInterface $orderRepository;
-
-    protected ShippingRuleItemInterface $shippingRuleItemRepository;
-
     public function __construct(
-        ShippingInterface $shippingRepository,
-        ShippingRuleInterface $shippingRuleRepository,
-        OrderInterface $orderRepository,
-        ShippingRuleItemInterface $shippingRuleItemRepository
+        protected ShippingInterface $shippingRepository,
+        protected ShippingRuleInterface $shippingRuleRepository,
+        protected OrderInterface $orderRepository,
+        protected ShippingRuleItemInterface $shippingRuleItemRepository
     ) {
-        $this->shippingRepository = $shippingRepository;
-        $this->shippingRuleRepository = $shippingRuleRepository;
-        $this->orderRepository = $orderRepository;
-        $this->shippingRuleItemRepository = $shippingRuleItemRepository;
     }
 
     public function index()
@@ -135,7 +123,7 @@ class ShippingMethodController extends BaseController
         ]);
     }
 
-    public function putUpdateRule(int $id, ShippingRuleRequest $request, BaseHttpResponse $response)
+    public function putUpdateRule(int|string $id, ShippingRuleRequest $request, BaseHttpResponse $response)
     {
         $rule = $this->shippingRuleRepository->findOrFail($id);
 

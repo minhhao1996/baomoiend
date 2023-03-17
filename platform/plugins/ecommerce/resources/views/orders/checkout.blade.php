@@ -43,6 +43,16 @@
                                         <p class="price-text sub-total-text text-end"> {{ format_price(Cart::instance('cart')->rawSubTotal()) }} </p>
                                     </div>
                                 </div>
+                                @if (EcommerceHelper::isTaxEnabled())
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <p>{{ __('Tax') }}:</p>
+                                        </div>
+                                        <div class="col-6 float-end">
+                                            <p class="price-text tax-price-text">{{ format_price(Cart::instance('cart')->rawTax()) }}</p>
+                                        </div>
+                                    </div>
+                                @endif
                                 @if (session('applied_coupon_code'))
                                     <div class="row coupon-information">
                                         <div class="col-6">
@@ -80,17 +90,6 @@
                                         </div>
                                         <div class="col-6 float-end">
                                             <p class="price-text shipping-price-text">{{ format_price($shippingAmount) }}</p>
-                                        </div>
-                                    </div>
-                                @endif
-
-                                @if (EcommerceHelper::isTaxEnabled())
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <p>{{ __('Tax') }}:</p>
-                                        </div>
-                                        <div class="col-6 float-end">
-                                            <p class="price-text tax-price-text">{{ format_price(Cart::instance('cart')->rawTax()) }}</p>
                                         </div>
                                     </div>
                                 @endif

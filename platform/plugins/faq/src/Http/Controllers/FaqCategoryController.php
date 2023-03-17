@@ -54,7 +54,7 @@ class FaqCategoryController extends BaseController
 
         event(new BeforeEditContentEvent($request, $faqCategory));
 
-        page_title()->setTitle(trans('plugins/faq::faq-category.edit') . ' "' . $faqCategory->name . '"');
+        page_title()->setTitle(trans('core/base::forms.edit_item', ['name' => $faqCategory->name]));
 
         return $formBuilder->create(FaqCategoryForm::class, ['model' => $faqCategory])->renderForm();
     }

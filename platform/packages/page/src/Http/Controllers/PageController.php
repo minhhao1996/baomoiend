@@ -3,6 +3,7 @@
 namespace Botble\Page\Http\Controllers;
 
 use Botble\Base\Events\BeforeEditContentEvent;
+use Botble\Base\Events\BeforeUpdateContentEvent;
 use Botble\Base\Events\CreatedContentEvent;
 use Botble\Base\Events\DeletedContentEvent;
 use Botble\Base\Events\UpdatedContentEvent;
@@ -57,7 +58,7 @@ class PageController extends BaseController
     {
         $page = $this->pageRepository->findOrFail($id);
 
-        page_title()->setTitle(trans('packages/page::pages.edit') . ' "' . $page->name . '"');
+        page_title()->setTitle(trans('core/base::forms.edit_item', ['name' => $page->name]));
 
         event(new BeforeEditContentEvent($request, $page));
 
@@ -67,6 +68,9 @@ class PageController extends BaseController
     public function update(int|string $id, PageRequest $request, BaseHttpResponse $response)
     {
         $page = $this->pageRepository->findOrFail($id);
+
+        event(new BeforeUpdateContentEvent($request, $page));
+
         $page->fill($request->input());
 
         $page = $this->pageRepository->createOrUpdate($page);

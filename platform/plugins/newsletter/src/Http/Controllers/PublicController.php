@@ -14,11 +14,8 @@ use Illuminate\Support\Facades\URL;
 
 class PublicController extends Controller
 {
-    protected NewsletterInterface $newsletterRepository;
-
-    public function __construct(NewsletterInterface $newsletterRepository)
+    public function __construct(protected NewsletterInterface $newsletterRepository)
     {
-        $this->newsletterRepository = $newsletterRepository;
     }
 
     public function postSubscribe(NewsletterRequest $request, BaseHttpResponse $response)

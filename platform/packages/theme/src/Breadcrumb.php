@@ -8,7 +8,7 @@ class Breadcrumb
 {
     public array $crumbs = [];
 
-    public function add(string|array $label, ?string $url = ''): self
+    public function add(string|array|null $label, string|null $url = ''): self
     {
         if (is_array($label)) {
             if (count($label) > 0) {

@@ -722,7 +722,7 @@ class ProductRepository extends RepositoriesAbstract implements ProductInterface
         return $this->advancedGet($params);
     }
 
-    public function getProductsWishlist(int $customerId, array $params = [])
+    public function getProductsWishlist(int|string $customerId, array $params = [])
     {
         $this->model = $this->originalModel;
 
@@ -747,7 +747,7 @@ class ProductRepository extends RepositoriesAbstract implements ProductInterface
         return $this->advancedGet($params);
     }
 
-    public function getProductsRecentlyViewed(int $customerId, array $params = [])
+    public function getProductsRecentlyViewed(int|string $customerId, array $params = [])
     {
         $this->model = $this->originalModel;
 
@@ -836,7 +836,7 @@ class ProductRepository extends RepositoriesAbstract implements ProductInterface
         return $values;
     }
 
-    public function productsNeedToReviewByCustomer(int $customerId, int $limit = 12, array $orderIds = [])
+    public function productsNeedToReviewByCustomer(int|string $customerId, int $limit = 12, array $orderIds = [])
     {
         $data = $this->model
             ->select([

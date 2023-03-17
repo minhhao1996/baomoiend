@@ -7,7 +7,6 @@ use Botble\Base\Events\UpdatedContentEvent;
 use Botble\Ecommerce\Enums\ProductTypeEnum;
 use Botble\Ecommerce\Events\ProductQuantityUpdatedEvent;
 use Botble\Ecommerce\Models\Product;
-use Botble\Ecommerce\Repositories\Eloquent\ProductRepository;
 use Botble\Ecommerce\Repositories\Interfaces\ProductInterface;
 use Botble\Media\Repositories\Interfaces\MediaFileInterface;
 use Botble\Media\Services\UploadsManager;
@@ -20,11 +19,8 @@ use Storage;
 
 class StoreProductService
 {
-    protected ProductRepository|ProductInterface $productRepository;
-
-    public function __construct(ProductInterface $product)
+    public function __construct(protected ProductInterface $productRepository)
     {
-        $this->productRepository = $product;
     }
 
     public function execute(Request $request, Product $product, bool $forceUpdateAll = false): Product

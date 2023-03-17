@@ -49,7 +49,6 @@ use Illuminate\Support\Str;
 use InvoiceHelper as InvoiceHelperFacade;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use RvMedia;
 use Validator;
 
 class OrderHelper
@@ -430,6 +429,9 @@ class OrderHelper
                 }
 
                 $result['optionCartValue'][$key] = $optionValue->get()->toArray();
+                foreach ($result['optionCartValue'][$key] as &$item) {
+                    $item['option_type'] = $option['option_type'];
+                }
 
                 if ($option['option_type'] == 'field' && isset($option['values']) && count($result['optionCartValue']) > 0) {
                     $result['optionCartValue'][$key][0]['option_value'] = $option['values'];
@@ -442,7 +444,7 @@ class OrderHelper
         return $result;
     }
 
-    public function processAddressOrder(int $currentUserId, array $sessionData, Request $request): array
+    public function processAddressOrder(int|string $currentUserId, array $sessionData, Request $request): array
     {
         $address = null;
 
@@ -728,13 +730,13 @@ class OrderHelper
 
     /**
      * @param Request $request
-     * @param int $currentUserId
+     * @param int|string $currentUserId
      * @param string $token
      * @param CartItem[] $cartItems
      *
      * @return mixed
      */
-    public function createOrder(Request $request, int $currentUserId, string $token, array $cartItems)
+    public function createOrder(Request $request, int|string $currentUserId, string $token, array $cartItems)
     {
         $request->merge([
             'amount' => Cart::instance('cart')->rawTotalByItems($cartItems),
@@ -799,6 +801,10 @@ class OrderHelper
 
     public function sendEmailForDigitalProducts(Order $order): void
     {
+        if (! EcommerceHelperFacade::isEnabledSupportDigitalProducts()) {
+            return;
+        }
+
         if (EcommerceHelperFacade::canCheckoutForDigitalProducts($order->products)) {
             $mailer = EmailHandler::setModule(ECOMMERCE_MODULE_SCREEN_NAME);
             $view = view('plugins/ecommerce::emails.partials.digital-product-list', compact('order'))->render();
@@ -874,12 +880,12 @@ class OrderHelper
         return true;
     }
 
-    public function shippingStatusDelivered(Shipment $shipment, Request $request, int $userId = 0): Order
+    public function shippingStatusDelivered(Shipment $shipment, Request $request, int|string $userId = 0): Order
     {
         return $this->setOrderCompleted($shipment->order_id, $request, $userId);
     }
 
-    public function setOrderCompleted(int $orderId, Request $request, int $userId = 0): Order
+    public function setOrderCompleted(int|string $orderId, Request $request, int|string $userId = 0): Order
     {
         // Update status and time order complete
         $order = app(OrderInterface::class)->createOrUpdate(

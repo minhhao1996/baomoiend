@@ -18,11 +18,8 @@ use Illuminate\Http\Request;
 
 class ProductCollectionController extends BaseController
 {
-    protected ProductCollectionInterface $productCollectionRepository;
-
-    public function __construct(ProductCollectionInterface $productCollectionRepository)
+    public function __construct(protected ProductCollectionInterface $productCollectionRepository)
     {
-        $this->productCollectionRepository = $productCollectionRepository;
     }
 
     public function index(ProductCollectionTable $dataTable)

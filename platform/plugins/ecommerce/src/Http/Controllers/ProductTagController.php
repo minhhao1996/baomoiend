@@ -18,11 +18,8 @@ use Illuminate\Http\Request;
 
 class ProductTagController extends BaseController
 {
-    protected ProductTagInterface $productTagRepository;
-
-    public function __construct(ProductTagInterface $productTagRepository)
+    public function __construct(protected ProductTagInterface $productTagRepository)
     {
-        $this->productTagRepository = $productTagRepository;
     }
 
     public function index(ProductTagTable $table)

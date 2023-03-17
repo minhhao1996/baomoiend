@@ -168,11 +168,13 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use SeoHelper;
+use SiteMapManager;
 use SlugHelper;
 use SocialService;
 
@@ -445,6 +447,8 @@ class EcommerceServiceProvider extends ServiceProvider
         SlugHelper::setPrefix(ProductTag::class, 'product-tags');
         SlugHelper::setPrefix(ProductCategory::class, 'product-categories');
 
+        SiteMapManager::registerKey(['product-categories', 'product-tags', 'product-brands', 'products-((?:19|20|21|22)\d{2})-(0?[1-9]|1[012])']);
+
         $this
             ->loadAndPublishConfigurations(['permissions'])
             ->loadAndPublishTranslations()
@@ -694,8 +698,6 @@ class EcommerceServiceProvider extends ServiceProvider
                 }
             }, 1234, 2);
         }
-
-        EmailHandler::addTemplateSettings(ECOMMERCE_MODULE_SCREEN_NAME, config('plugins.ecommerce.email', []));
 
         $this->app->register(HookServiceProvider::class);
 
@@ -961,6 +963,18 @@ class EcommerceServiceProvider extends ServiceProvider
                     'url' => route('ecommerce.export.products.index'),
                     'permissions' => ['ecommerce.export.products.index'],
                 ]);
+
+            $emailConfig = config('plugins.ecommerce.email', []);
+
+            if (! EcommerceHelper::isEnabledSupportDigitalProducts()) {
+                Arr::forget($emailConfig, 'templates.download_digital_products');
+            }
+
+            if (! EcommerceHelper::isReviewEnabled()) {
+                Arr::forget($emailConfig, 'templates.review_products');
+            }
+
+            EmailHandler::addTemplateSettings(ECOMMERCE_MODULE_SCREEN_NAME, $emailConfig);
         });
 
         $this->app->booted(function () {
@@ -979,7 +993,7 @@ class EcommerceServiceProvider extends ServiceProvider
                 });
             }
 
-            if (defined('SOCIAL_LOGIN_MODULE_SCREEN_NAME') && Route::has('customer.login')) {
+            if (defined('SOCIAL_LOGIN_MODULE_SCREEN_NAME') && Route::has('customer.login') && Route::has('public.index')) {
                 SocialService::registerModule([
                     'guard' => 'customer',
                     'model' => Customer::class,

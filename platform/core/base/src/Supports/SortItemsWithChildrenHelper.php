@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 
 class SortItemsWithChildrenHelper
 {
-    protected Collection $items;
+    protected array|Collection $items;
 
     protected string $parentField = 'parent_id';
 

@@ -61,7 +61,7 @@ class TagController extends BaseController
 
         event(new BeforeEditContentEvent($request, $tag));
 
-        page_title()->setTitle(trans('plugins/blog::tags.edit') . ' "' . $tag->name . '"');
+        page_title()->setTitle(trans('core/base::forms.edit_item', ['name' => $tag->name]));
 
         return $formBuilder->create(TagForm::class, ['model' => $tag])->renderForm();
     }

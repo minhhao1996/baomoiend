@@ -57,7 +57,7 @@ class CountryController extends BaseController
 
         event(new BeforeEditContentEvent($request, $country));
 
-        page_title()->setTitle(trans('plugins/location::country.edit') . ' "' . $country->name . '"');
+        page_title()->setTitle(trans('core/base::forms.edit_item', ['name' => $country->name]));
 
         return $formBuilder->create(CountryForm::class, ['model' => $country])->renderForm();
     }

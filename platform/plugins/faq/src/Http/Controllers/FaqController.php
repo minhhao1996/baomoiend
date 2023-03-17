@@ -57,7 +57,7 @@ class FaqController extends BaseController
 
         event(new BeforeEditContentEvent($request, $faq));
 
-        page_title()->setTitle(trans('plugins/faq::faq.edit') . ' "' . $faq->question . '"');
+        page_title()->setTitle(trans('core/base::forms.edit_item', ['name' => $faq->question]));
 
         return $formBuilder->create(FaqForm::class, ['model' => $faq])->renderForm();
     }

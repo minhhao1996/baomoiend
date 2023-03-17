@@ -13,11 +13,8 @@ use Illuminate\Http\Request;
 
 class ReviewController extends BaseController
 {
-    protected ReviewInterface $reviewRepository;
-
-    public function __construct(ReviewInterface $reviewRepository)
+    public function __construct(protected ReviewInterface $reviewRepository)
     {
-        $this->reviewRepository = $reviewRepository;
     }
 
     public function index(ReviewTable $dataTable)

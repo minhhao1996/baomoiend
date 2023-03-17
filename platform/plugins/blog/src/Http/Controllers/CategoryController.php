@@ -111,7 +111,7 @@ class CategoryController extends BaseController
             return $response->setData($this->getForm($category));
         }
 
-        page_title()->setTitle(trans('plugins/blog::categories.edit') . ' "' . $category->name . '"');
+        page_title()->setTitle(trans('core/base::forms.edit_item', ['name' => $category->name]));
 
         return $formBuilder->create(CategoryForm::class, ['model' => $category])->renderForm();
     }

@@ -23,12 +23,9 @@ class RegisterController extends Controller
 
     protected string $redirectTo = '/';
 
-    protected CustomerInterface $customerRepository;
-
-    public function __construct(CustomerInterface $customerRepository)
+    public function __construct(protected CustomerInterface $customerRepository)
     {
         $this->middleware('customer.guest');
-        $this->customerRepository = $customerRepository;
     }
 
     public function showRegistrationForm()
@@ -118,7 +115,7 @@ class RegisterController extends Controller
         return auth('customer');
     }
 
-    public function confirm(int $id, Request $request, BaseHttpResponse $response, CustomerInterface $customerRepository)
+    public function confirm(int|string $id, Request $request, BaseHttpResponse $response, CustomerInterface $customerRepository)
     {
         if (! URL::hasValidSignature($request)) {
             abort(404);

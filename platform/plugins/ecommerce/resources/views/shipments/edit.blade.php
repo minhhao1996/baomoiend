@@ -106,7 +106,7 @@
                             </div>
                             <div class="form-group mb-3">
                                 <label for="estimate_date_shipped" class="control-label">{{ trans('plugins/ecommerce::shipping.estimate_date_shipped') }}</label>
-                                <input type="text" name="estimate_date_shipped" id="estimate_date_shipped" value="{{ $shipment->estimate_date_shipped }}" class="form-control datepicker" data-date-format="yyyy/mm/dd" placeholder="yyyy/mm/dd">
+                                {!! Form::datePicker('estimate_date_shipped', $shipment->estimate_date_shipped) !!}
                             </div>
                             <div class="form-group mb-3">
                                 <label class="control-label">{{ trans('plugins/ecommerce::shipping.note') }}</label>

@@ -23,24 +23,12 @@ use OrderHelper;
 
 class ShipmentController extends BaseController
 {
-    protected OrderInterface $orderRepository;
-
-    protected ShipmentInterface $shipmentRepository;
-
-    protected OrderHistoryInterface $orderHistoryRepository;
-
-    protected ShipmentHistoryInterface $shipmentHistoryRepository;
-
     public function __construct(
-        OrderInterface $orderRepository,
-        ShipmentInterface $shipmentRepository,
-        OrderHistoryInterface $orderHistoryRepository,
-        ShipmentHistoryInterface $shipmentHistoryRepository
+        protected OrderInterface $orderRepository,
+        protected ShipmentInterface $shipmentRepository,
+        protected OrderHistoryInterface $orderHistoryRepository,
+        protected ShipmentHistoryInterface $shipmentHistoryRepository
     ) {
-        $this->orderRepository = $orderRepository;
-        $this->shipmentRepository = $shipmentRepository;
-        $this->orderHistoryRepository = $orderHistoryRepository;
-        $this->shipmentHistoryRepository = $shipmentHistoryRepository;
     }
 
     public function index(ShipmentTable $dataTable)
@@ -61,7 +49,7 @@ class ShipmentController extends BaseController
         return view('plugins/ecommerce::shipments.edit', compact('shipment'));
     }
 
-    public function postUpdateStatus(int $id, UpdateShipmentStatusRequest $request, BaseHttpResponse $response)
+    public function postUpdateStatus(int|string $id, UpdateShipmentStatusRequest $request, BaseHttpResponse $response)
     {
         $shipment = $this->shipmentRepository->findOrFail($id);
         $previousShipment = $shipment->toArray();
@@ -103,7 +91,7 @@ class ShipmentController extends BaseController
         return $response->setMessage(trans('plugins/ecommerce::shipping.update_shipping_status_success'));
     }
 
-    public function postUpdateCodStatus(int $id, UpdateShipmentCodStatusRequest $request, BaseHttpResponse $response)
+    public function postUpdateCodStatus(int|string $id, UpdateShipmentCodStatusRequest $request, BaseHttpResponse $response)
     {
         $shipment = $this->shipmentRepository->findOrFail($id);
         $shipment->cod_status = $request->input('status');

@@ -6,11 +6,7 @@ use Botble\Ecommerce\Models\DiscountProduct;
 use Botble\Ecommerce\Models\DiscountProductCollection;
 
 if (! function_exists('get_discount_description')) {
-    /**
-     * @param Discount $discount
-     * @return string
-     */
-    function get_discount_description(Discount $discount)
+    function get_discount_description(Discount $discount): string|null
     {
         switch ($discount->type_option) {
             case 'shipping':

@@ -13,7 +13,7 @@ trait HasUuidsOrIntegerIds
                 return;
             }
 
-            $model->{$model->getKeyName()} = $model->newUniqueId();
+            $model->{$model->getKeyName()} = $model::newUniqueId();
         });
     }
 

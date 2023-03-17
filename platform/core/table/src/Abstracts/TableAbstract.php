@@ -241,16 +241,16 @@ abstract class TableAbstract extends DataTable
             $column['class'] = Arr::get($column, 'class') . ' column-key-' . $key;
         }
 
+        if ($this->hasCheckbox) {
+            $columns = array_merge($this->getCheckboxColumnHeading(), $columns);
+        }
+
         if ($this->repository) {
             $columns = apply_filters(BASE_FILTER_TABLE_HEADINGS, $columns, $this->repository->getModel());
         }
 
         if ($this->hasOperations) {
             $columns = array_merge($columns, $this->getOperationsHeading());
-        }
-
-        if ($this->hasCheckbox) {
-            $columns = array_merge($this->getCheckboxColumnHeading(), $columns);
         }
 
         return $columns;

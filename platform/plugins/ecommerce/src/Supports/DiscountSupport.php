@@ -11,6 +11,26 @@ use Illuminate\Support\Collection;
 class DiscountSupport
 {
     protected Collection|array $promotions = [];
+    public int|string $customerId = 0;
+
+    public function __construct()
+    {
+        if (! is_in_admin() && auth('customer')->check()) {
+            $this->setCustomerId(auth('customer')->id());
+        }
+    }
+
+    public function setCustomerId(int|string $customerId): self
+    {
+        $this->customerId = $customerId;
+
+        return $this;
+    }
+
+    public function getCustomerId(): int|string
+    {
+        return $this->customerId;
+    }
 
     public function promotionForProduct(array $productIds, array $productCollectionIds): ?Discount
     {
@@ -40,9 +60,11 @@ class DiscountSupport
                     break;
 
                 case 'customer':
-                    foreach ($promotion->customers as $customer) {
-                        if ($customer->id == (auth('customer')->check() ? auth('customer')->id() : -1)) {
-                            return $promotion;
+                    if ($this->customerId) {
+                        foreach ($promotion->customers as $customer) {
+                            if ($customer->id == $this->customerId) {
+                                return $promotion;
+                            }
                         }
                     }
 
@@ -67,7 +89,7 @@ class DiscountSupport
         return $this->promotions;
     }
 
-    public function afterOrderPlaced(string $couponCode, ?int $customerId = 0): void
+    public function afterOrderPlaced(string $couponCode, int|string|null $customerId = 0): void
     {
         $now = Carbon::now();
 
@@ -97,7 +119,7 @@ class DiscountSupport
         }
     }
 
-    public function afterOrderCancelled(string $couponCode, ?int $customerId = 0): void
+    public function afterOrderCancelled(string $couponCode, int|string|null $customerId = 0): void
     {
         $discount = app(DiscountInterface::class)
             ->getModel()

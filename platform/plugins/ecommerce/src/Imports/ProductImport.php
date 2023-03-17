@@ -61,28 +61,6 @@ class ProductImport implements
     use SkipsErrors;
     use ImportTrait;
 
-    protected ProductInterface $productRepository;
-
-    protected ProductCategoryInterface $productCategoryRepository;
-
-    protected ProductTagInterface $productTagRepository;
-
-    protected ProductLabelInterface $productLabelRepository;
-
-    protected TaxInterface $taxRepository;
-
-    protected ProductCollectionInterface $productCollectionRepository;
-
-    protected ProductAttributeInterface $productAttributeRepository;
-
-    protected ProductVariationInterface $productVariationRepository;
-
-    protected BrandInterface $brandRepository;
-
-    protected StoreProductTagService $storeProductTagService;
-
-    protected Request $request;
-
     protected Request $validatorClass;
 
     protected Collection $brands;
@@ -107,34 +85,24 @@ class ProductImport implements
 
     protected int $rowCurrent = 1; // include header
 
-    protected ProductAttributeSetInterface $productAttributeSetRepository;
-
     protected Collection $allTaxes;
 
+    protected Collection $barcodes;
+
     public function __construct(
-        ProductInterface $productRepository,
-        ProductCategoryInterface $productCategoryRepository,
-        ProductTagInterface $productTagRepository,
-        ProductLabelInterface $productLabelRepository,
-        TaxInterface $taxRepository,
-        ProductCollectionInterface $productCollectionRepository,
-        ProductAttributeSetInterface $productAttributeSetRepository,
-        ProductAttributeInterface $productAttributeRepository,
-        ProductVariationInterface $productVariationRepository,
-        BrandInterface $brandRepository,
-        StoreProductTagService $storeProductTagService,
-        Request $request
+        protected ProductInterface $productRepository,
+        protected ProductCategoryInterface $productCategoryRepository,
+        protected ProductTagInterface $productTagRepository,
+        protected ProductLabelInterface $productLabelRepository,
+        protected TaxInterface $taxRepository,
+        protected ProductCollectionInterface $productCollectionRepository,
+        protected ProductAttributeSetInterface $productAttributeSetRepository,
+        protected ProductAttributeInterface $productAttributeRepository,
+        protected ProductVariationInterface $productVariationRepository,
+        protected BrandInterface $brandRepository,
+        protected StoreProductTagService $storeProductTagService,
+        protected Request $request
     ) {
-        $this->productRepository = $productRepository;
-        $this->productCategoryRepository = $productCategoryRepository;
-        $this->productTagRepository = $productTagRepository;
-        $this->productLabelRepository = $productLabelRepository;
-        $this->taxRepository = $taxRepository;
-        $this->productCollectionRepository = $productCollectionRepository;
-        $this->storeProductTagService = $storeProductTagService;
-        $this->brandRepository = $brandRepository;
-        $this->productAttributeSetRepository = $productAttributeSetRepository;
-        $this->request = $request;
         $this->categories = collect();
         $this->brands = collect();
         $this->taxes = collect();
@@ -142,9 +110,10 @@ class ProductImport implements
         $this->productCollections = collect();
         $this->productLabels = collect();
         $this->productAttributeSets = $this->productAttributeSetRepository->all(['attributes']);
-        $this->productAttributeRepository = $productAttributeRepository;
-        $this->productVariationRepository = $productVariationRepository;
         $this->allTaxes = $this->taxRepository->all();
+        $this->barcodes = collect();
+
+        config(['excel.imports.ignore_empty' => true]);
     }
 
     public function setImportType(string $importType): self
@@ -679,6 +648,8 @@ class ProductImport implements
             ['key' => 'length', 'type' => 'number'],
             ['key' => 'wide', 'type' => 'number'],
             ['key' => 'height', 'type' => 'number'],
+            ['key' => 'cost_per_item', 'type' => 'number'],
+            ['key' => 'barcode', 'type' => 'string'],
             ['key' => 'is_featured', 'type' => 'bool'],
             ['key' => 'product_labels'],
             ['key' => 'labels'],
@@ -799,6 +770,22 @@ class ProductImport implements
         }
 
         Arr::set($row, $key, $value);
+
+        if ($value && $key == 'barcode') {
+            if ($barcode = $this->barcodes->firstWhere('value', $value)) {
+                if (method_exists($this, 'onFailure')) {
+                    $failures[] = new Failure(
+                        $this->rowCurrent,
+                        'Barcode',
+                        [__('Barcode ":value" has been duplicated on row #:row', ['value' => $value, 'row' => Arr::get($barcode, 'row')])],
+                        [$value]
+                    );
+                    $this->onFailure(...$failures);
+                }
+            } else {
+                $this->barcodes->push(['row' => $this->rowCurrent, 'value' => $value]);
+            }
+        }
 
         return $this;
     }
