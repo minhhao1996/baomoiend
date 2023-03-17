@@ -1,6 +1,6 @@
 <?php
 
-namespace Theme\Wowy\Http\Controllers;
+namespace Theme\baomoi\Http\Controllers;
 
 use Botble\Base\Enums\BaseStatusEnum;
 use Botble\Base\Http\Responses\BaseHttpResponse;
@@ -12,12 +12,12 @@ use Cart;
 use EcommerceHelper;
 use Illuminate\Http\Request;
 use Theme;
-use Theme\Wowy\Http\Resources\BrandResource;
-use Theme\Wowy\Http\Resources\PostResource;
-use Theme\Wowy\Http\Resources\ProductCategoryResource;
-use Theme\Wowy\Http\Resources\ReviewResource;
+use Theme\baomoi\Http\Resources\BrandResource;
+use Theme\BaoMoi\Http\Resources\PostResource;
+use Theme\BaoMoi\Http\Resources\ProductCategoryResource;
+use Theme\BaoMoi\Http\Resources\ReviewResource;
 
-class WowyController extends PublicController
+class BaoMoiController extends PublicController
 {
     public function ajaxCart(Request $request, BaseHttpResponse $response)
     {

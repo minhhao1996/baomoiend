@@ -1,6 +1,6 @@
 <?php
 
-namespace Theme\Wowy\Http\Resources;
+namespace Theme\baomoi\Http\Resources;
 
 use Carbon\Carbon;
 use RvMedia;

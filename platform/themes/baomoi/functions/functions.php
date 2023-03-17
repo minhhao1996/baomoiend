@@ -12,7 +12,7 @@ use Botble\Page\Models\Page;
 use Botble\SimpleSlider\Models\SimpleSlider;
 use Botble\SimpleSlider\Models\SimpleSliderItem;
 use Kris\LaravelFormBuilder\FormHelper;
-use Theme\Wowy\Fields\ThemeIconField;
+use Theme\baomoi\Fields\ThemeIconField;
 
 register_page_template([
     'full-width' => __('Full width'),

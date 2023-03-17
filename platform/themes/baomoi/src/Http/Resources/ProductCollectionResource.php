@@ -1,6 +1,6 @@
 <?php
 
-namespace Theme\Wowy\Http\Resources;
+namespace Theme\baomoi\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 

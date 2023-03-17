@@ -8,7 +8,7 @@ use Botble\Ecommerce\Repositories\Interfaces\ProductCategoryInterface;
 use Botble\Faq\Repositories\Interfaces\FaqCategoryInterface;
 use Botble\Theme\Supports\ThemeSupport;
 use Illuminate\Support\Collection;
-use Theme\Wowy\Http\Resources\ProductCollectionResource;
+use Theme\baomoi\Http\Resources\ProductCollectionResource;
 
 app()->booted(function () {
     ThemeSupport::registerGoogleMapsShortcode();

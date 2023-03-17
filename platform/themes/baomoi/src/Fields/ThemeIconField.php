@@ -1,6 +1,6 @@
 <?php
 
-namespace Theme\Wowy\Fields;
+namespace Theme\baomoi\Fields;
 
 use Assets;
 use Kris\LaravelFormBuilder\Fields\FormField;
