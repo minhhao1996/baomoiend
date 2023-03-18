@@ -55,7 +55,7 @@ return [
             $theme->asset()->usePath()->add('baomoi-font-css', 'css/vendors/baomoi-font.css');
             $theme->asset()->add('baomoi-font-css', 'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css');
             /*import plugins*/
-            $theme->asset()->usePath()->add('animate-css', 'css/plugins/animate.css');
+//            $theme->asset()->usePath()->add('animate-css', 'css/plugins/animate.css');
             $theme->asset()->usePath()->add('style-css', 'css/style.css', [], [], $version);
 
             if (BaseHelper::siteLanguageDirection() == 'rtl') {
