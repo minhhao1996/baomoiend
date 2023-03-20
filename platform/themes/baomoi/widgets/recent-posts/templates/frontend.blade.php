@@ -13,21 +13,10 @@
                         <div class="widget__header"><h3 class="widget__title">Recent Posts</h3></div>
                         <div class="widget__content">
                             <ul class="list list--light list--fadeIn">
-                                <li><a href="https://cms.botble.com/the-top-2020-handbag-trends-to-know"
-                                       title="The Top 2020 Handbag Trends to Know" data-number-line="2">The Top 2020 Handbag
-                                        Trends to Know</a></li>
-                                <li><a href="https://cms.botble.com/top-search-engine-optimization-strategies"
-                                       title="Top Search Engine Optimization Strategies!" data-number-line="2">Top Search
-                                        Engine Optimization Strategies!</a></li>
-                                <li><a href="https://cms.botble.com/which-company-would-you-choose"
-                                       title="Which Company Would You Choose?" data-number-line="2">Which Company Would You
-                                        Choose?</a></li>
-                                <li><a href="https://cms.botble.com/used-car-dealer-sales-tricks-exposed"
-                                       title="Used Car Dealer Sales Tricks Exposed" data-number-line="2">Used Car Dealer
-                                        Sales Tricks Exposed</a></li>
-                                <li><a href="https://cms.botble.com/20-ways-to-sell-your-product-faster"
-                                       title="20 Ways To Sell Your Product Faster" data-number-line="2">20 Ways To Sell Your
-                                        Product Faster</a></li>
+                                @foreach($posts as $post)
+                                <li><a href="{{ $post->url }}"
+                                       title="The Top 2020 Handbag Trends to Know" data-number-line="2">{{ $post->name }}</a></li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
