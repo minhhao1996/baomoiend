@@ -563,8 +563,8 @@ abstract class TableAbstract extends DataTable
 
         $requestFilters = [];
 
-        if ($request->has('filter_columns') && ($request->input('filter_table_id') == $this->getOption('id'))) {
-            foreach ($request->input('filter_columns') as $key => $item) {
+        if (($request->input('filter_table_id') == $this->getOption('id'))) {
+            foreach ($this->getFilterColumns() as $key => $item) {
                 $operator = $request->input('filter_operators.' . $key);
 
                 $value = $request->input('filter_values.' . $key);
@@ -593,6 +593,16 @@ abstract class TableAbstract extends DataTable
         }
 
         return parent::applyScopes(apply_filters(BASE_FILTER_TABLE_QUERY, $query));
+    }
+
+    public function getFilterColumns(): array
+    {
+        $columns = $this->getFilters();
+        $columnKeys = array_keys($columns);
+
+        return Arr::where((array) $this->request->input('filter_columns', []), function ($item) use ($columnKeys) {
+            return in_array($item, $columnKeys);
+        });
     }
 
     public function applyFilterCondition(EloquentBuilder|QueryBuilder|EloquentRelation $query, string $key, string $operator, ?string $value)
@@ -707,7 +717,7 @@ abstract class TableAbstract extends DataTable
 
     public function saveBulkChanges(array $ids, string $inputKey, ?string $inputValue): bool
     {
-        if (! in_array($inputKey, array_keys($this->getFilters()))) {
+        if (! in_array($inputKey, array_keys($this->getBulkChanges()))) {
             return false;
         }
 
@@ -761,9 +771,11 @@ abstract class TableAbstract extends DataTable
             ],
         ];
 
-        if ($request->input('filter_columns')) {
+        $filterColumns = $this->getFilterColumns();
+
+        if ($filterColumns) {
             $requestFilters = [];
-            foreach ($request->input('filter_columns', []) as $key => $item) {
+            foreach ($filterColumns as $key => $item) {
                 $operator = $request->input('filter_operators.' . $key);
 
                 $value = $request->input('filter_values.' . $key);

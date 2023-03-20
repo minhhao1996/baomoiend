@@ -761,11 +761,7 @@ class EcommerceHelper
     {
         $digitalProducts = $this->countDigitalProducts($products);
 
-        if (! $digitalProducts) {
-            return false;
-        }
-
-        if (! auth('customer')->check() && ! $this->allowGuestCheckoutForDigitalProducts()) {
+        if ($digitalProducts && ! auth('customer')->check() && ! $this->allowGuestCheckoutForDigitalProducts()) {
             return false;
         }
 

@@ -805,7 +805,7 @@ class OrderHelper
             return;
         }
 
-        if (EcommerceHelperFacade::canCheckoutForDigitalProducts($order->products)) {
+        if (EcommerceHelperFacade::isEnabledSupportDigitalProducts() && EcommerceHelperFacade::countDigitalProducts($order->products)) {
             $mailer = EmailHandler::setModule(ECOMMERCE_MODULE_SCREEN_NAME);
             $view = view('plugins/ecommerce::emails.partials.digital-product-list', compact('order'))->render();
             $mailer->setVariableValues([

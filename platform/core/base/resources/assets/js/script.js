@@ -570,7 +570,7 @@ class Botble {
         });
 
         $(document).on('submit', '.js-base-form', (event) => {
-            $(event.currentTarget).find('button[type=submit]').prop('disabled', true);
+            $(event.currentTarget).find('button[type=submit]').addClass('disabled');
         })
 
         document.dispatchEvent(new CustomEvent('core-init-resources'));

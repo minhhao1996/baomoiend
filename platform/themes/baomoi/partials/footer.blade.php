@@ -1,12 +1,10 @@
     {!! dynamic_sidebar('top_footer_sidebar') !!}
-    <footer class="footer ps-container">
-        <footer class="footer ps-container">
-            <div class="footer-contact ">
-                <p class="footer-contact-tittle">
-                    <a href="{{ route('public.index') }}"><img style="max-width: 150px"
-                                                               src="{{ RvMedia::getImageUrl(theme_option('logo')) }}"
-                                                               alt="{{ theme_option('site_title') }}"></a>
-                </p>
+    <footer class="footer  ps-container">
+        <div class="footer-contact  ">
+            <div class="container">
+                <div class="row">
+                    {!! dynamic_sidebar('footer_sidebar') !!}
+                </div>
                 <form class="newsletter-form contact-email"  action="{{ route('public.search') }}" method="GET" >
                     @csrf
                     <div class="sg-input-line-container position-relative">
@@ -22,16 +20,15 @@
                         </button>
                     </div>
                 </form>
-
             </div>
-            {{--            {!! dynamic_sidebar('footer_sidebar') !!}--}}
 
-            <div class="footer-Copyright ">
+
+        </div>
+        <div class="footer-Copyright ">
                 <span class="copyright">
                     {{ theme_option('copyright') }}
                 </span>
-            </div>
-        </footer>
+        </div>
     </footer>
     <!-- Quick view -->
     <div class="modal fade custom-modal" id="quick-view-modal" tabindex="-1" aria-labelledby="quick-view-modal-label" aria-hidden="true">

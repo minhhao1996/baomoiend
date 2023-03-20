@@ -107,7 +107,7 @@ class PublicCheckoutController
             }
         }
 
-        if (! EcommerceHelper::canCheckoutForDigitalProducts($products)) {
+        if (EcommerceHelper::isEnabledSupportDigitalProducts() && ! EcommerceHelper::canCheckoutForDigitalProducts($products)) {
             return $response
                 ->setError()
                 ->setNextUrl(route('customer.login'))
@@ -537,7 +537,7 @@ class PublicCheckoutController
 
         $products = Cart::instance('cart')->products();
 
-        if (! EcommerceHelper::canCheckoutForDigitalProducts($products)) {
+        if (EcommerceHelper::isEnabledSupportDigitalProducts() && ! EcommerceHelper::canCheckoutForDigitalProducts($products)) {
             return $response
                 ->setError()
                 ->setNextUrl(route('customer.login'))

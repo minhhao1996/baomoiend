@@ -10,6 +10,8 @@ mix.options({
     manifest: false
 });
 
+mix.disableSuccessNotifications();
+
 // Run all webpack.mix.js in app
 glob.sync('./platform/*/*/webpack.mix.js').forEach(item => require(item));
 
