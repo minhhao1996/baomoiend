@@ -210,7 +210,9 @@ a {
 }
 
 ul {
-    list-style: none
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 .page-404{
     margin-top: 60px;
@@ -998,7 +1000,8 @@ span.has-dot {
 .footer-contact {
     background-color: #fff;
     border-top: .5px solid #d7d7d8;
-    margin-top: 70px
+    margin-top: 50px;
+    padding-top: 20px;
 }
 
 .page-item.active .page-link {
@@ -1593,4 +1596,35 @@ button.submit, button[type=submit] {
     .navbar-nav li:first-child {
         display: none
     }
+}
+.logo.logo-width-1 a img {
+    width: 150px;
+}
+.footer-list li, .widget__content li {
+    display: block;
+    margin: 0 0 13px;
+    transition-duration: .3s;
+}
+.footer-list li a, .widget__content li a {
+    color: #111111;
+    display: block;
+    font-size: 14px;
+}
+.footer-list li:hover , .widget__content li:hover {
+    padding-left: 5px;
+    transition-duration: .3s;
+}
+.footer-list li a:hover, .widget__content li a:hover {
+    color: #000000;
+    font-weight: bold;
+}
+p {
+    color: #111111;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    margin-bottom: 5px;
+}
+.fw-600, strong {
+    font-weight: 600;
 }
