@@ -8,7 +8,7 @@
                 $posts = get_recent_posts($config['number_display']);
             @endphp
             @if ($posts->count())
-                <div class="col-md-4 col-12">
+                <div class="col-md-6 col-12">
                     <div class="widget widget--transparent widget__footer">
                         <div class="widget__header"><h3 class="widget__title">Recent Posts</h3></div>
                         <div class="widget__content">
