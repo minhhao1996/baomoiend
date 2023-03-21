@@ -34,8 +34,6 @@ Route::group(['namespace' => 'Theme\baomoi\Http\Controllers', 'middleware' => 'w
         Route::get('ajax/quick-view/{id}', 'BaoMoiController@getQuickView')
             ->name('public.ajax.quick-view');
 
-        Route::get('ajax/load-main/{status}', 'BaoMoiController@LoadMain')
-            ->name('public.ajax.load-main');
     });
 });
 

@@ -7,10 +7,12 @@ use Botble\Base\Http\Responses\BaseHttpResponse;
 use Botble\Blog\Repositories\Interfaces\PostInterface;
 use Botble\Ecommerce\Repositories\Interfaces\FlashSaleInterface;
 use Botble\Ecommerce\Repositories\Interfaces\ProductInterface;
+use Botble\Shortcode\View\View;
 use Botble\Theme\Http\Controllers\PublicController;
 use Cart;
 use EcommerceHelper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Theme;
 use Theme\baomoi\Http\Resources\BrandResource;
 use Theme\BaoMoi\Http\Resources\PostResource;
@@ -308,14 +310,5 @@ class BaoMoiController extends PublicController
         return $response->setData(Theme::partial('quick-view', compact('product', 'selectedAttrs', 'productImages')));
     }
 
-    public function LoadMain(Request $request, BaseHttpResponse $response){
-        $post =[];
-        if ($request->status == 'hot'){
-            $post = get_featured_posts(16);
-        }else{
-            $post = get_recent_posts(16);
-        }
-        return $response->setData(Theme::partial('main-post', compact('post')));
 
-    }
 }

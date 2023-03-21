@@ -8,31 +8,31 @@ $(document).ready(function () {
         }
     });
 
-    let url = $("#navbarText .item-cat.active").attr('url-load');
-    loadContentMain(url)
-    $(".btn-hot").click(function (){
-        $(".navbar-nav  ").find(".active").removeClass('active')
-        $(this).addClass("active")
-        let urlHot = $("#navbarText .item-cat.active").attr('url-load');
-        loadContentMain(urlHot)
-    })
-    $(".btn-new").click(function (){
-        $(".navbar-nav  ").find(".active").removeClass('active')
-        $(this).addClass("active")
-        let urlHot = $("#navbarText .item-cat.active").attr('url-load');
-        loadContentMain(urlHot)
-    })
+    // let url = $("#navbarText .item-cat.active").attr('url-load');
+    // loadContentMain(url)
+    // $(".btn-hot").click(function (){
+    //     $(".navbar-nav  ").find(".active").removeClass('active')
+    //     $(this).addClass("active")
+    //     let urlHot = $("#navbarText .item-cat.active").attr('url-load');
+    //     loadContentMain(urlHot)
+    // })
+    // $(".btn-new").click(function (){
+    //     $(".navbar-nav  ").find(".active").removeClass('active')
+    //     $(this).addClass("active")
+    //     let urlHot = $("#navbarText .item-cat.active").attr('url-load');
+    //     loadContentMain(urlHot)
+    // })
 
 });
 
-function loadContentMain(url) {
-
-    $.ajax({
-        type: 'GET',
-        url: url,
-        success: function (data) {
-            $(".list-main-post").html(data.data)
-        }
-    });
-
-}
+// function loadContentMain(url) {
+//
+//     $.ajax({
+//         type: 'GET',
+//         url: url,
+//         success: function (data) {
+//             $(".list-main-post").html(data.data)
+//         }
+//     });
+//
+// }
