@@ -31,7 +31,6 @@ function loadContentMain(url) {
         type: 'GET',
         url: url,
         success: function (data) {
-            console.log(data)
             $(".list-main-post").html(data.data)
         }
     });
