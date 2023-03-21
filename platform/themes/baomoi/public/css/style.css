@@ -383,6 +383,14 @@ textarea {
     border-left: 1px solid hsla(0, 0%, 100%, .2);
     padding: 0 5px
 }
+.h-content-bottom .item-cat.active{
+    background: #2b94a5;
+    font-weight: 500;
+}
+.h-content-bottom .btn-hot,
+.h-content-bottom .btn-new{
+    cursor: pointer;
+}
 
 .h-content-bottom .item-cat:hover {
     background: #2b94a5
@@ -640,11 +648,11 @@ textarea {
 }
 
 .post_item .thumb-art {
-    width: 30%
+    width: 20%
 }
 
 .post_item .description {
-    width: 70%;
+    width: 80%;
     padding: 15px
 }
 
@@ -1574,7 +1582,8 @@ button.submit, button[type=submit] {
     }
 
     .post_item .description {
-        padding-top: 0
+        padding-top: 0;
+        padding-bottom: 0;
     }
     .most-new {
         margin-left: 0px;

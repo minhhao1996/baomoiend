@@ -307,4 +307,15 @@ class BaoMoiController extends PublicController
 
         return $response->setData(Theme::partial('quick-view', compact('product', 'selectedAttrs', 'productImages')));
     }
+
+    public function LoadMain(Request $request, BaseHttpResponse $response){
+        $post =[];
+        if ($request->status == 'hot'){
+            $post = get_featured_posts(16);
+        }else{
+            $post = get_recent_posts(16);
+        }
+        return $response->setData(Theme::partial('main-post', compact('post')));
+
+    }
 }

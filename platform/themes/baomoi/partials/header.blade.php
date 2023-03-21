@@ -77,10 +77,19 @@
                         <nav class="navbar navbar-expand-lg ">
                             <div class="collapse navbar-collapse container" id="navbarText">
                                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                    @if(request()->is('/'))
+                                        <li class="nav-item item-cat active btn-hot"  url-load="{{route("public.ajax.load-main",'hot')}}">
+                                            <div class="nav-link" >HOT</div>
+                                        </li>
+                                        <li class="nav-item item-cat btn-new"  url-load="{{route("public.ajax.load-main",'new')}}">
+                                            <div class="nav-link" >NEW</div>
+                                        </li>
+                                    @else
+                                        <li class="nav-item item-cat ">
+                                            <a class="nav-link" href="{{url("/")}}" title="Home" >HOME</a>
+                                        </li>
+                                    @endif
 
-                                    <li class="nav-item item-cat">
-                                        <a class="nav-link" href="#">TOPIC</a>
-                                    </li>
                                     @foreach (get_popular_tags(3) as $tag)
                                         <li class="nav-item tag">
                                             <a class="nav-link " href="{{ route('public.tag', $tag->slug) }}">
