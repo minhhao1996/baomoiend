@@ -99,7 +99,9 @@
                                 <div class="description">
                                     <div class="description-title">
                                         <h4>
-                                            {{$post1->name}}
+                                            <a href="{{$post1->url}}" title="{{$post1->name}}">
+                                                {{$post1->name}}
+                                            </a>
                                         </h4>
                                     </div>
                                     <div class="meta-news">
@@ -176,7 +178,9 @@
                                 <div class="description">
                                     <div class="description-title">
                                         <h4>
-                                            {{$post2->name}}
+                                            <a href="{{$post2->url}}" title="{{$post2->name}}">
+                                                {{$post2->name}}
+                                            </a>
                                         </h4>
                                     </div>
                                     <div class="meta-news">
