@@ -6,7 +6,7 @@
                 <div class=" main-content col-md-8 col-12">
                     @php
                         if(Request::is('/')) {
-                              $post_content =get_featured_posts(16);
+                              $post_content =get_featured_posts(20);
                     }else{
                          $post_content = get_recent_posts(16);
                     }
@@ -130,61 +130,7 @@
                         </section>
                     @endif
 
-                    @foreach (get_featured_categories(5) as $category)
-                        <section class="post-slider">
-                            <div class="row">
-                                <div class="col-12">
-                                    <h3 class="most-new-title">
-                                        <a href="{{$category->url}}" title="{{$category->name}}">
-                                            {{$category->name}}
-                                        </a>
-                                    </h3>
-                                    <div id="news-{{$category->id}}" class="owl-carousel">
-                                        @foreach ($category->posts()->limit(10)->get() as $post)
-                                            <div class="post-slide">
-                                                <div class="post-img">
-                                                    <img src="{{ get_object_image($post->image, 'medium') }}"
-                                                         alt="{{ $post->name }}">
-                                                </div>
-                                                <div class="post-content">
-                                                    <h3 class="post-title">
-                                                        <a href="{{ $post->url }}" title="{{ $post->url }}">
-                                                            {{ $post->name }}
-                                                        </a>
-                                                    </h3>
-                                                    <p class="post-description">{{ $post->description }}</p>
-                                                    <span class="post-date"><i class="far fa-clock"></i>{{ date_from_database($post->created_at, 'M d, Y') }}</span>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                        <script>
-                            $("#news-{{$category->id}}").owlCarousel({
-                                responsive: {
-                                    0: {
-                                        items: 2,
-                                        stagePadding: 30
-                                    },
-                                    600: {
-                                        items: 2,
-                                        stagePadding: 50
-                                    },
-                                    1000: {
-                                        items: 3,
-                                        stagePadding: 80
-                                    }
-                                },
-                                dots: false,
-                                autoPlay: true,
-                                loop: false,
-                                margin: 5,
-                                responsiveClass: true,
-                            });
-                        </script>
-                    @endforeach
+
                 </div>
                 <div class="right-sidebar col-md-4 col-12">
                     <div class="most-new ">
@@ -352,6 +298,63 @@
                         @endif
                     </div>
                 </div>
+            </div>
+            <div class="row">
+                @foreach (get_featured_categories(5) as $category)
+                    <section class="post-slider">
+                        <div class="row">
+                            <div class="col-12">
+                                <h3 class="most-new-title">
+                                    <a href="{{$category->url}}" title="{{$category->name}}">
+                                        {{$category->name}}
+                                    </a>
+                                </h3>
+                                <div id="news-{{$category->id}}" class="owl-carousel">
+                                    @foreach ($category->posts()->limit(10)->get() as $post)
+                                        <div class="post-slide">
+                                            <div class="post-img">
+                                                <img src="{{ get_object_image($post->image, 'medium') }}"
+                                                     alt="{{ $post->name }}">
+                                            </div>
+                                            <div class="post-content">
+                                                <h3 class="post-title">
+                                                    <a href="{{ $post->url }}" title="{{ $post->url }}">
+                                                        {{ $post->name }}
+                                                    </a>
+                                                </h3>
+                                                <p class="post-description">{{ $post->description }}</p>
+                                                <span class="post-date"><i class="far fa-clock"></i>{{ date_from_database($post->created_at, 'M d, Y') }}</span>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <script>
+                        $("#news-{{$category->id}}").owlCarousel({
+                            responsive: {
+                                0: {
+                                    items: 2,
+                                    stagePadding: 30
+                                },
+                                600: {
+                                    items: 3,
+                                    stagePadding: 50
+                                },
+                                1000: {
+                                    items: 4,
+                                    stagePadding: 80
+                                }
+                            },
+                            dots: false,
+                            autoPlay: true,
+                            loop: false,
+                            margin: 5,
+                            responsiveClass: true,
+                        });
+                    </script>
+                @endforeach
             </div>
         </div>
     </section>
