@@ -38,16 +38,17 @@
             </div>
             <div class="single-content">
                 {!! BaseHelper::clean($post->content) !!}
+                <!-- baiviet -->
+                    <ins class="adsbygoogle"
+                         style="display:block; text-align:center;"
+                         data-ad-layout="in-article"
+                         data-ad-format="fluid"
+                         data-ad-client="ca-pub-9816197781903117"
+                         data-ad-slot="5442161619"></ins>
                 <br>
                 {!! apply_filters(BASE_FILTER_PUBLIC_COMMENT_AREA, theme_option('facebook_comment_enabled_in_post', 'yes') == 'yes' ? Theme::partial('comments') : null) !!}
 
-            <!-- baiviet -->
-                <ins class="adsbygoogle"
-                     style="display:block; text-align:center;"
-                     data-ad-layout="in-article"
-                     data-ad-format="fluid"
-                     data-ad-client="ca-pub-9816197781903117"
-                     data-ad-slot="5442161619"></ins>
+
 
             </div>
         </div>
