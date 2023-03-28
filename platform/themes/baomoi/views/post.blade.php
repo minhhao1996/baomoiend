@@ -43,11 +43,11 @@
 
             <!-- baiviet -->
                 <ins class="adsbygoogle"
-                     style="display:block"
+                     style="display:block; text-align:center;"
+                     data-ad-layout="in-article"
+                     data-ad-format="fluid"
                      data-ad-client="ca-pub-9816197781903117"
-                     data-ad-slot="9591792632"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
+                     data-ad-slot="5442161619"></ins>
 
             </div>
         </div>
@@ -132,6 +132,12 @@
                 @endif
             @endif
         </div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-9816197781903117"
+             data-ad-slot="9591792632"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
         <div class="most-new mt-5">
             <h3 class="most-new-title">Popular Posts</h3>
             @if (is_plugin_active('blog'))

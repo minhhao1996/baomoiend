@@ -266,6 +266,13 @@
                             @endif
                         @endif
                     </div>
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-9816197781903117"
+                         data-ad-slot="9591792632"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+
                     <div class="most-new mt-5">
                         <h3 class="most-new-title">Recent Posts</h3>
                         @if (is_plugin_active('blog'))
