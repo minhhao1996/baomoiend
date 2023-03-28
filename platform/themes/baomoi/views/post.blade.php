@@ -40,6 +40,15 @@
                 {!! BaseHelper::clean($post->content) !!}
                 <br>
                 {!! apply_filters(BASE_FILTER_PUBLIC_COMMENT_AREA, theme_option('facebook_comment_enabled_in_post', 'yes') == 'yes' ? Theme::partial('comments') : null) !!}
+
+            <!-- baiviet -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-9816197781903117"
+                     data-ad-slot="9591792632"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+
             </div>
         </div>
     </div>
