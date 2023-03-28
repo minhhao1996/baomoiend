@@ -6,7 +6,7 @@
                 <div class=" main-content col-md-8 col-12">
                     @php
                         if(Request::is('/')) {
-                              $post_content =get_featured_posts(20);
+                              $post_content =get_featured_posts(19);
                     }else{
                          $post_content = get_recent_posts(16);
                     }
