@@ -10,9 +10,7 @@
                     }else{
                          $post_content = get_recent_posts(16);
                     }
-
                     @endphp
-
                     @if (!empty($post_content))
                         <section class="featured">
                             <div class="row">
