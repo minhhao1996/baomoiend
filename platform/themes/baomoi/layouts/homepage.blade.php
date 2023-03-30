@@ -315,7 +315,7 @@
                                     @foreach ($category->posts()->limit(10)->get() as $post)
                                         <div class="post-slide">
                                             <div class="post-img">
-                                                <img src="{{ get_object_image($post->image, 'medium') }}"
+                                                <img src="{{ get_object_image($post->image, 'product-thumb') }}"
                                                      alt="{{ $post->name }}">
                                             </div>
                                             <div class="post-content">

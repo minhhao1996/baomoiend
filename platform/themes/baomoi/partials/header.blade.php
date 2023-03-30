@@ -7,7 +7,7 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    {!! BaseHelper::googleFonts('https://fonts.googleapis.com/css2?family=' . urlencode(theme_option('font_text', 'Poppins')) . ':ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap') !!}
+{{--    {!! BaseHelper::googleFonts('https://fonts.googleapis.com/css2?family=' . urlencode(theme_option('font_text', 'Poppins')) . ':ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap') !!}--}}
 
     <style>
         :root {
@@ -77,7 +77,7 @@
             <div class="h-content-bottom">
                 <nav class="navbar navbar-expand-lg ">
                     <div class="collapse navbar-collapse container" id="navbarText">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <ul class="navbar-nav me-auto  mb-lg-0">
                             <li class="nav-item item-cat {{ Request::is('/') ? "active":""}}">
                                 <a class="nav-link" href="{{url("/")}}" title="Home">Hot</a>
                             </li>
@@ -103,26 +103,6 @@
                                     <ul>
                                         @if (is_plugin_active('language'))
                                             {!! Theme::partial('language-switcher') !!}
-                                        @endif
-
-                                        @if (is_plugin_active('ecommerce'))
-                                            @if (count($currencies) > 1)
-                                                <li>
-                                                    <a class="language-dropdown-active" href="#"> <i
-                                                            class="fa fa-coins"></i> {{ get_application_currency()->title }}
-                                                        <i class="fa fa-chevron-down"></i></a>
-                                                    <ul class="language-dropdown">
-                                                        @foreach ($currencies as $currency)
-                                                            @if ($currency->id !== get_application_currency_id())
-                                                                <li>
-                                                                    <a href="{{ route('public.change-currency', $currency->title) }}">{{ $currency->title }}</a>
-                                                                </li>
-                                                            @endif
-                                                        @endforeach
-                                                    </ul>
-                                                </li>
-                                            @endif
-
                                         @endif
                                     </ul>
                                 </div>
@@ -165,3 +145,4 @@
         </div>
     </div>
 </header>
+

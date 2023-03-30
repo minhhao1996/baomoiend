@@ -3,6 +3,7 @@
 return [
     'sizes' => [
         'thumb' => '150x150',
+        'medium'   => '540x360',
     ],
     'permissions' => [
         'folders.create',

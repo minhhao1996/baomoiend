@@ -132,7 +132,7 @@
                     @endif
                 </div>
                 <div class="most-new mt-5">
-                    <h3 class="most-new-title">Popular Posts</h3>
+                    <h3 class="most-new-title">{{ __('Popular posts') }}</h3>
                     @if (is_plugin_active('blog'))
                         @php
                             $recentPosts = get_popular_posts(8);

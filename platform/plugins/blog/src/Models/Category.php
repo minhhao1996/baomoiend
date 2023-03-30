@@ -38,8 +38,8 @@ class Category extends BaseModel
 
     public function posts(): BelongsToMany
     {
-        return $this->belongsToMany(Post::class, 'post_categories')->with('slugable')->orderBy('views',"DESC")
-            ->orderBy('id',"DESC");
+        return $this->belongsToMany(Post::class, 'post_categories')->with('slugable')
+            ->orderBy('id',"DESC")->orderBy('views',"DESC");
     }
 
     public function parent(): BelongsTo

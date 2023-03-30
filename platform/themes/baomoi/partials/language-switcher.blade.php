@@ -17,7 +17,8 @@
     @endphp
     @if (setting('language_switcher_display', 'dropdown') == 'dropdown')
         <li>
-            <a class="language-dropdown-active" href="#"> @if (Arr::get($options, 'lang_flag', true) && ($languageDisplay == 'all' || $languageDisplay == 'flag'))
+            <a class="language-dropdown-active" href="#">
+                @if (Arr::get($options, 'lang_flag', true) && ($languageDisplay == 'all' || $languageDisplay == 'flag'))
                     {!! language_flag(Language::getCurrentLocaleFlag(), Language::getCurrentLocaleName()) !!}
                 @endif
                 @if (Arr::get($options, 'lang_name', true) && ($languageDisplay == 'all' || $languageDisplay == 'name'))

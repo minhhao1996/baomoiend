@@ -19,7 +19,6 @@
                     </div>
                     <div class="social-icons social-icons-colored-hover">
                         <ul class="text-grey-5 ">
-                            <li><strong class="mr-10">{{ __('Share this') }}:</strong></li>
                             <li class="social-facebook">
                                 <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($post->url) }}" title="facebook" target="_blgiank"><i class="fab fa-facebook-f"></i></a>
                             </li>
@@ -54,7 +53,7 @@
     </div>
     <div class="right-sidebar col-md-4 col-12">
         <div class="most-new">
-{{--            <h3 class="most-new-title">{{ __('Recent posts) }}</h3>--}}
+            <h3 class="most-new-title">{{ __('Recent posts') }}</h3>
 
             @if (is_plugin_active('blog'))
                 @php
