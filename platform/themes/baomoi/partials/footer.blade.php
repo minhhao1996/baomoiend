@@ -16,7 +16,7 @@
                     </div>
                     <div class="contact-subscribe">
                         <button type="submit" class="sg-button-primary">
-                            Search
+                            {{ __('Search') }}
                         </button>
                     </div>
                 </form>

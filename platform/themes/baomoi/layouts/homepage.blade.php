@@ -132,7 +132,7 @@
                 </div>
                 <div class="right-sidebar col-md-4 col-12">
                     <div class="most-new ">
-                        <h3 class="most-new-title">Popular Posts</h3>
+                        <h3 class="most-new-title">{{ __('Popular posts') }}</h3>
                         @if (is_plugin_active('blog'))
                             @php
                                 $recentPosts = get_popular_posts(12);
@@ -194,6 +194,8 @@
                                                 <div class="meta-news">
                                                     <time datetime="{{$post->created_at}}"><i class="far fa-clock"></i>
                                                         &nbsp;{{ date_from_database($post->created_at, 'M d, Y') }}
+                                                        <span
+                                                            class="hit-count has-dot">  {{ __(':count Views', ['count' => number_format($post->views)]) }}</span>
                                                     </time>
                                                     @if ($post->first_category->name)
                                                         <div class="entry-meta">
@@ -218,7 +220,7 @@
                          data-full-width-responsive="true"></ins>
 
                     <div class="most-new mt-5">
-                        <h3 class="most-new-title">Recent Posts</h3>
+                        <h3 class="most-new-title">{{ __('Recent posts') }}</h3>
                         @if (is_plugin_active('blog'))
                             @php
                                 $recentPosts = get_recent_posts(12);
@@ -280,6 +282,8 @@
                                                 <div class="meta-news">
                                                     <time datetime="{{$post->created_at}}"><i class="far fa-clock"></i>
                                                         &nbsp;{{ date_from_database($post->created_at, 'M d, Y') }}
+                                                        <span
+                                                            class="hit-count has-dot">  {{ __(':count Views', ['count' => number_format($post->views)]) }}</span>
                                                     </time>
                                                     @if ($post->first_category->name)
                                                         <div class="entry-meta">

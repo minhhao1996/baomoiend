@@ -94,10 +94,39 @@
                                 </li>
                             @endforeach
 
-
                         </ul>
 
                         <div class="d-flex ">
+
+                            @if (is_plugin_active('ecommerce') || is_plugin_active('language'))
+                                <div class="header-info header-info-right">
+                                    <ul>
+                                        @if (is_plugin_active('language'))
+                                            {!! Theme::partial('language-switcher') !!}
+                                        @endif
+
+                                        @if (is_plugin_active('ecommerce'))
+                                            @if (count($currencies) > 1)
+                                                <li>
+                                                    <a class="language-dropdown-active" href="#"> <i
+                                                            class="fa fa-coins"></i> {{ get_application_currency()->title }}
+                                                        <i class="fa fa-chevron-down"></i></a>
+                                                    <ul class="language-dropdown">
+                                                        @foreach ($currencies as $currency)
+                                                            @if ($currency->id !== get_application_currency_id())
+                                                                <li>
+                                                                    <a href="{{ route('public.change-currency', $currency->title) }}">{{ $currency->title }}</a>
+                                                                </li>
+                                                            @endif
+                                                        @endforeach
+                                                    </ul>
+                                                </li>
+                                            @endif
+
+                                        @endif
+                                    </ul>
+                                </div>
+                            @endif
                             <div class="icon-menu">
                                 <button class="" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#navbarToggleExternalContent"

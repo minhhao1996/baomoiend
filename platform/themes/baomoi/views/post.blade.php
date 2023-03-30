@@ -44,18 +44,18 @@
                          data-ad-layout="in-article"
                          data-ad-format="fluid"
                          data-ad-client="ca-pub-9816197781903117"
-                         data-ad-slot="5442161619"></ins>
+                         data-ad-slot="5442161619">
+                    </ins>
                 <br>
                 {!! apply_filters(BASE_FILTER_PUBLIC_COMMENT_AREA, theme_option('facebook_comment_enabled_in_post', 'yes') == 'yes' ? Theme::partial('comments') : null) !!}
-
-
 
             </div>
         </div>
     </div>
     <div class="right-sidebar col-md-4 col-12">
         <div class="most-new">
-            <h3 class="most-new-title">Recent Posts</h3>
+
+            <h3 class="most-new-title">{{ __('Recent posts) }}</h3>
             @if (is_plugin_active('blog'))
                 @php
                     $recentPosts = get_recent_posts(8);
@@ -117,6 +117,8 @@
                                     <div class="meta-news">
                                         <time datetime="{{$post1->created_at}}"><i class="far fa-clock"></i>
                                             &nbsp;{{ date_from_database($post1->created_at, 'M d, Y') }}
+                                            <span
+                                                class="hit-count has-dot">  {{ __(':count Views', ['count' => number_format($post1->views)]) }}</span>
                                         </time>
                                         @if ($post1->first_category->name)
                                             <div class="entry-meta">
@@ -140,7 +142,7 @@
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
         <div class="most-new mt-5">
-            <h3 class="most-new-title">Popular Posts</h3>
+            <h3 class="most-new-title">{{ __('Popular posts') }}</h3>
             @if (is_plugin_active('blog'))
                 @php
                     $recentPosts = get_popular_posts(8);
@@ -202,6 +204,8 @@
                                     <div class="meta-news">
                                         <time datetime="{{$post2->created_at}}"><i class="far fa-clock"></i>
                                             &nbsp;{{ date_from_database($post2->created_at, 'M d, Y') }}
+                                            <span
+                                                class="hit-count has-dot">  {{ __(':count Views', ['count' => number_format($post2->views)]) }}</span>
                                         </time>
                                         @if ($post2->first_category->name)
                                             <div class="entry-meta">
