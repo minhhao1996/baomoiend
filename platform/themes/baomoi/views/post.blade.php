@@ -54,8 +54,8 @@
     </div>
     <div class="right-sidebar col-md-4 col-12">
         <div class="most-new">
+{{--            <h3 class="most-new-title">{{ __('Recent posts) }}</h3>--}}
 
-            <h3 class="most-new-title">{{ __('Recent posts) }}</h3>
             @if (is_plugin_active('blog'))
                 @php
                     $recentPosts = get_recent_posts(8);
