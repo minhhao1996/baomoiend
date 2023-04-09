@@ -17,7 +17,7 @@
                             <div class="thumb-art">
                                 <a href="{{ $post->url }}" title="{{ $post->name }}">
                                     <figure class="bm_Bh">
-                                        <img src="{{ RvMedia::getImageUrl($post->image, 'medium', false, RvMedia::getDefaultImage()) }}" alt="{{ $post->name }}">
+                                        <img src="{{ RvMedia::getImageUrl($post->image, 'thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $post->name }}">
                                     </figure>
                                 </a>
                             </div>
@@ -66,9 +66,9 @@
                                     <div class="new-first">
                                         <div class="thumb-art">
                                             <a href="{{$post->url}}" title="{{$post->name}}">
-                                                <figure class="bm_Bh"><img
-                                                        src="{{ get_object_image($post->image, 'product-thumb') }}"
-                                                        alt="{{$post->name}}"></figure>
+                                                <figure class="bm_Bh">
+                                                    <img src="{{ RvMedia::getImageUrl($post->image, 'product-thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $post->name }}">
+                                                </figure>
                                             </a>
                                         </div>
                                         <div class="description">
@@ -102,8 +102,8 @@
                                         <div class="thumb-art">
                                             <a href="{{$post->url}}" title="{{$post->name}}">
                                                 <figure class="bm_Bh">
-                                                    <img src="{{ get_object_image($post->image, 'thumb') }}"
-                                                         alt="{{$post->name}}"></figure>
+                                                    <img src="{{ RvMedia::getImageUrl($post->image, 'thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $post->name }}">
+                                                </figure>
                                             </a>
                                         </div>
                                         <div class="description">
@@ -131,6 +131,7 @@
                         @endif
                     @endif
                 </div>
+
                 <div class="most-new mt-5">
                     <h3 class="most-new-title">{{ __('Popular posts') }}</h3>
                     @if (is_plugin_active('blog'))
@@ -143,9 +144,9 @@
                                     <div class="new-first">
                                         <div class="thumb-art">
                                             <a href="{{$post->url}}" title="{{$post->name}}">
-                                                <figure class="bm_Bh"><img
-                                                        src="{{ get_object_image($post->image, 'product-thumb') }}"
-                                                        alt="{{$post->name}}"></figure>
+                                                <figure class="bm_Bh">
+                                                    <img src="{{ RvMedia::getImageUrl($post->image, 'product-thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $post->name }}">
+                                                </figure>
                                             </a>
                                         </div>
                                         <div class="description">
@@ -179,8 +180,8 @@
                                         <div class="thumb-art">
                                             <a href="{{$post->url}}" title="{{$post->name}}">
                                                 <figure class="bm_Bh">
-                                                    <img src="{{ get_object_image($post->image, 'thumb') }}"
-                                                         alt="{{$post->name}}"></figure>
+                                                    <img src="{{ RvMedia::getImageUrl($post->image, 'thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $post->name }}">
+                                                </figure>
                                             </a>
                                         </div>
                                         <div class="description">

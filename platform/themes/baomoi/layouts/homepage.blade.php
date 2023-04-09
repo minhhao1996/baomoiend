@@ -20,9 +20,10 @@
                                             <div class="thumb-art">
                                                 <a href="{{ $post_item->url }}"
                                                    title="{{ $post_item->name }}">
-                                                    <figure class="bm_Bh"><img
-                                                            src="{{ get_object_image($post_item->image, 'featured') }}"
-                                                            alt="{{ $post_item->name }}"></figure>
+                                                    <figure class="bm_Bh">
+                                                        <img src="{{ RvMedia::getImageUrl($post_item->image, null, false, RvMedia::getDefaultImage()) }}" alt="{{ $post_item->name }}">
+                                                    </figure>
+
                                                 </a>
                                             </div>
                                             <div class="description">
@@ -56,9 +57,9 @@
                                         <div class="second_featured col-sm-4 col-6">
                                             <div class="thumb-art">
                                                 <a href="{{ $post_item->url }}" title="{{ $post_item->name }}">
-                                                    <figure class="bm_Bh"><img
-                                                            src="{{ get_object_image($post_item->image, 'product-thumb') }}"
-                                                            alt="{{ $post_item->name }}"></figure>
+                                                    <figure class="bm_Bh">
+                                                        <img src="{{ RvMedia::getImageUrl($post_item->image, 'product-thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $post_item->name }}">
+                                                    </figure>
                                                 </a>
                                             </div>
                                             <div class="description">
@@ -91,9 +92,9 @@
                                         <article class="post_item">
                                             <div class="thumb-art">
                                                 <a href="{{ $post_item->url }}" title="{{ $post_item->name }}">
-                                                    <figure class="bm_Bh"><img
-                                                            src="{{ get_object_image($post_item->image, 'product-thumb') }}"
-                                                            alt="{{ $post_item->name }}"></figure>
+                                                    <figure class="bm_Bh">
+                                                        <img src="{{ RvMedia::getImageUrl($post_item->image, 'product-thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $post_item->name }}">
+                                                    </figure>
                                                 </a>
                                             </div>
                                             <div class="description">
@@ -143,9 +144,10 @@
                                         <div class="new-first">
                                             <div class="thumb-art">
                                                 <a href="{{$post->url}}" title="{{$post->name}}">
-                                                    <figure class="bm_Bh"><img
-                                                            src="{{ get_object_image($post->image, 'product-thumb') }}"
-                                                            alt="{{$post->name}}"></figure>
+                                                    <figure class="bm_Bh">
+                                                        <img src="{{ RvMedia::getImageUrl($post->image, 'product-thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $post->name }}">
+
+                                                    </figure>
                                                 </a>
                                             </div>
                                             <div class="description">
@@ -179,8 +181,8 @@
                                             <div class="thumb-art">
                                                 <a href="{{$post->url}}" title="{{$post->name}}">
                                                     <figure class="bm_Bh">
-                                                        <img src="{{ get_object_image($post->image, 'thumb') }}"
-                                                             alt="{{$post->name}}"></figure>
+                                                        <img src="{{ RvMedia::getImageUrl($post->image, 'thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $post->name }}">
+                                                    </figure>
                                                 </a>
                                             </div>
                                             <div class="description">
@@ -231,9 +233,10 @@
                                         <div class="new-first">
                                             <div class="thumb-art">
                                                 <a href="{{$post->url}}" title="{{$post->name}}">
-                                                    <figure class="bm_Bh"><img
-                                                            src="{{ get_object_image($post->image, 'product-thumb') }}"
-                                                            alt="{{$post->name}}"></figure>
+                                                    <figure class="bm_Bh">
+                                                        <img src="{{ RvMedia::getImageUrl($post->image, 'product-thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $post->name }}">
+
+                                                    </figure>
                                                 </a>
                                             </div>
                                             <div class="description">
@@ -267,8 +270,8 @@
                                             <div class="thumb-art">
                                                 <a href="{{$post->url}}" title="{{$post->name}}">
                                                     <figure class="bm_Bh">
-                                                        <img src="{{ get_object_image($post->image, 'thumb') }}"
-                                                             alt="{{$post->name}}"></figure>
+                                                        <img src="{{ RvMedia::getImageUrl($post->image, 'thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $post->name }}">
+                                                    </figure>
                                                 </a>
                                             </div>
                                             <div class="description">
@@ -315,8 +318,7 @@
                                     @foreach ($category->posts()->limit(10)->get() as $post)
                                         <div class="post-slide">
                                             <div class="post-img">
-                                                <img src="{{ get_object_image($post->image, 'product-thumb') }}"
-                                                     alt="{{ $post->name }}">
+                                                <img src="{{ RvMedia::getImageUrl($post->image, 'product-thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $post->name }}">
                                             </div>
                                             <div class="post-content">
                                                 <h3 class="post-title">

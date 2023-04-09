@@ -6,6 +6,7 @@
             !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
         </script>
     </div>
+
     <div class="main-content col-md-8 col-12">
         <div class="single-page">
             <div class="single-header style-2">
@@ -65,9 +66,9 @@
                             <div class="new-first">
                                 <div class="thumb-art">
                                     <a href="{{$post1->url}}" title="{{$post1->name}}">
-                                        <figure class="bm_Bh"><img
-                                                src="{{ get_object_image($post1->image, 'product-thumb') }}"
-                                                alt="{{$post1->name}}"></figure>
+                                        <figure class="bm_Bh">
+                                            <img src="{{ RvMedia::getImageUrl($post1->image, 'product-thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $post1->name }}">
+                                        </figure>
                                     </a>
                                 </div>
                                 <div class="description">
@@ -101,8 +102,8 @@
                                 <div class="thumb-art">
                                     <a href="{{$post1->url}}" title="{{$post1->name}}">
                                         <figure class="bm_Bh">
-                                            <img src="{{ get_object_image($post1->image, 'thumb') }}"
-                                                 alt="{{$post1->name}}"></figure>
+                                            <img src="{{ RvMedia::getImageUrl($post1->image, 'thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $post1->name }}">
+                                        </figure>
                                     </a>
                                 </div>
                                 <div class="description">
@@ -152,9 +153,9 @@
                             <div class="new-first">
                                 <div class="thumb-art">
                                     <a href="{{$post2->url}}" title="{{$post2->name}}">
-                                        <figure class="bm_Bh"><img
-                                                src="{{ get_object_image($post2->image, 'product-thumb') }}"
-                                                alt="{{$post2->name}}"></figure>
+                                        <figure class="bm_Bh">
+                                            <img src="{{ RvMedia::getImageUrl($post2->image, 'product-thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $post2->name }}">
+                                        </figure>
                                     </a>
                                 </div>
                                 <div class="description">
@@ -188,8 +189,8 @@
                                 <div class="thumb-art">
                                     <a href="{{$post2->url}}" title="{{$post2->name}}">
                                         <figure class="bm_Bh">
-                                            <img src="{{ get_object_image($post2->image, 'thumb') }}"
-                                                 alt="{{$post2->name}}"></figure>
+                                            <img src="{{ RvMedia::getImageUrl($post2->image, 'thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $post2->name }}">
+                                        </figure>
                                     </a>
                                 </div>
                                 <div class="description">
