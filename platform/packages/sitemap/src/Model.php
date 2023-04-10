@@ -29,7 +29,7 @@ class Model
 
     protected bool $useLimitSize = false;
 
-    protected bool |null $maxSize = null;
+    protected bool|int|null $maxSize = null;
 
     protected bool $useGzip = false;
 
@@ -86,7 +86,7 @@ class Model
 
     public function getCacheKey(): string
     {
-        return $this->cacheKey;
+        return $this->cacheKey . route('public.index');
     }
 
     public function getCacheDuration(): int|string
